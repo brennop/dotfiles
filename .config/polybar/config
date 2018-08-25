@@ -19,7 +19,8 @@
 ;alert = #bd2c40
 
 [colors]
-background = ${xrdb:color0:#222}
+;background = ${xrdb:color0:#222}
+background = #00000000 
 background-alt = ${xrdb:color8:#222}
 foreground = ${xrdb:color7:#222}
 foreground-alt = ${xrdb:color7:#222}
@@ -62,9 +63,9 @@ font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
 font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
 font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
-modules-left = 
+modules-left = mpd 
 modules-center = 
-modules-right = volume xbacklight wlan eth battery date 
+modules-right = volume xbacklight wlan eth bat date 
 
 tray-position = right
 tray-padding = 2
@@ -76,6 +77,25 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[module/mpd]
+type = internal/mpd
+host = 127.0.0.1
+port = 6600
+
+format-online = <label-song> <label-time>
+format-playing = <label-song> <label-time>
+format-paused = <label-song> [paused]
+
+label-song =  %artist% - %title%
+
+[module/bat]
+type = custom/script
+exec = ~/.config/polybar/bat.sh
+interval = 30
+
+scroll-up = xbacklight -inc 5
+scroll-down = xbacklight -dec 5
 
 [module/i3]
 type = internal/i3
@@ -123,6 +143,9 @@ format-charging-underline = #ffb52a
 
 format-discharging =  <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
+
+scroll-up = xbacklight -inc 5
+scroll-down = xbacklight -dec 5
 
 format-full-prefix = 
 format-full-prefix-foreground = ${colors.foreground-alt}
