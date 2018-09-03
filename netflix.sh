@@ -1,5 +1,7 @@
 #!/bin/sh
-hdmi_active="$(cat /sys/class/drm/card0/*HDMI*/status |grep '^connected')"
+
+#hdmi_active="$(cat /sys/class/drm/card0/*HDMI*/status |grep '^connected')"
+hdmi_active="$(xrandr |grep ' connected' |grep 'HDMI')"
 
 if [ ! -z "$hdmi_active" ]; then
 
