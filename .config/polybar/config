@@ -19,10 +19,10 @@
 ;alert = #bd2c40
 
 [colors]
-background = ${xrdb:color0:#222}
-;background = #00000000 
+;background = ${xrdb:color0:#222}
+background = #00000000 
 background-alt = ${xrdb:color8:#222}
-foreground = ${xrdb:color7:#222}
+foreground = ${xrdb:color0:#222}
 foreground-alt = ${xrdb:color7:#222}
 primary = ${xrdb:color1:#222}
 secondary = ${xrdb:color2:#222}
@@ -31,11 +31,11 @@ alert = ${xrdb:color3:#222}
 [bar/barra]
 monitor = LVDS1
 width = 100%
-height = 24
-offset-x = 68%
-offset-y = 80%
+height = 16
+offset-x = 0%
+offset-y = 0%
 radius = 0.0
-fixed-center = false
+fixed-center = true
 override-redirect = false 
 ;wm-restack = i3 
 
@@ -51,21 +51,20 @@ border-color = #00000000
 padding-left = 2
 padding-right = 2
 
-module-margin-left = 2
-module-margin-right = 2
+module-margin-left = 0.5
+module-margin-right = 1 
 
-;font-0 = fixed:pixelsize=10;1
-font-0 = Inconsolata:pixelsize=10;1
+font-0 = Tewi:pixelsize=9;1
+;font-0 = Inconsolata:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-;font-2 = FontAwesome:size=12:antialias=true:autohint=false;3
+font-2 = siji:pixelsize=8;1
 font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
 font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
 font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
 modules-left = mpd 
 modules-center = 
-modules-right = volume wlan eth bat date 
+modules-right = bat date
 
 tray-position = left 
 tray-padding = 2
@@ -138,10 +137,10 @@ battery = BAT0
 adapter = AC0
 full-at = 100 
 
-format-charging =  <label-charging>
+format-charging = <label-charging>
 format-charging-underline = #ffb52a
 
-format-discharging =  <label-discharging>
+format-discharging =<label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
 scroll-up = xbacklight -inc 5
@@ -190,7 +189,7 @@ type = internal/network
 interface = wlp2s0
 interval = 3.0
 
-format-connected =  <label-connected>
+format-connected = <label-connected>
 format-connected-underline = #9f78e1
 label-connected = %essid%
 
@@ -233,7 +232,8 @@ time-alt = %H:%M:%S
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
-label =  %time%
+;label =  %time%
+label = %time%
 
 [module/volume]
 type = internal/pulseaudio
@@ -242,7 +242,7 @@ format-volume = <label-volume>
 label-volume =  %percentage%%
 label-volume-foreground = ${colors.foreground}
 
-format-muted-prefix =  
+format-muted-prefix = muted  
 format-muted-foreground = ${colors.foreground-alt}
 
 

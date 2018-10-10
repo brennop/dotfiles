@@ -33,7 +33,8 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 #exec a few tools
 exec --no-startup-id wal -R
-exec ~/walp
+#exec ~/walp
+exec ~/netflix.sh
 exec --no-startup-id compton 
 exec --no-startup-id setxkbmap br 
 exec --no-startup-id redshift 
@@ -41,7 +42,7 @@ exec --no-startup-id udiskie
 
 
 #Set the gaps
-gaps inner 10
+gaps inner 15
 gaps outer 0
 
 #Window borders
@@ -54,6 +55,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 
 # start a terminal (floating)
 for_window [class="Termite_Floating"] floating enable
+for_window [class="Termite_Floating"] resize set 400 280
 bindsym $mod+Shift+Return exec termite --class Termite_Floating
 
 # start browser
@@ -71,7 +73,10 @@ bindsym $mod+d exec rofi -show run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 #Locking
-bindsym $mod+o exec i3lock -i ~/wal/dear.png
+bindsym $mod+o exec i3lock -i ~/wal/dear_resize.png
+
+# HDMI switch
+bindsym $mod+p exec ~/./netflix.sh
 
 # change focus
 bindsym $mod+j focus left

@@ -23,5 +23,5 @@ fi
 
 # fix wallpaper
 walp="$(cat ~/.cache/wal/wal)"
-feh --bg-scale $walp
+feh --bg-fill $walp
 
