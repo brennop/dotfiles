@@ -1,0 +1,7 @@
+@import url('file:///home/pst/.cache/wal/colors.css');
+
+@-moz-document url-prefix("about:newtab") {
+  body{
+    background-color: var(--color0) !important;
+  }
+}
