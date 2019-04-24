@@ -19,17 +19,17 @@
 ;alert = #bd2c40
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #00000000 
+background = ${xrdb:color0:#222}
+;background = #000000ff 
 background-alt = ${xrdb:color8:#222}
-foreground = ${xrdb:color0:#222}
+foreground = ${xrdb:color1:#222}
 foreground-alt = ${xrdb:color7:#222}
 primary = ${xrdb:color1:#222}
 secondary = ${xrdb:color2:#222}
 alert = ${xrdb:color3:#222}
 
 [bar/barra]
-monitor = LVDS1
+monitor = LVDS-1
 width = 100%
 height = 16
 offset-x = 0%
@@ -51,20 +51,17 @@ border-color = #00000000
 padding-left = 2
 padding-right = 2
 
-module-margin-left = 0.5
-module-margin-right = 1 
+module-margin-left = 1 
+module-margin-right = 2 
 
-font-0 = Tewi:pixelsize=9;1
-;font-0 = Inconsolata:pixelsize=10;1
+;font-0 = Source Code Pro:pixelsize=9;1
+font-0 = Tewi:pixelsize=9
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=8;1
-font-3 = "Font Awesome 5 Free:style=Regular:pixelsize=8;1"
-font-4 = "Font Awesome 5 Free:style=Solid:pixelsize=8;1"
-font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
-modules-left = mpd 
-modules-center = 
-modules-right = bat date
+modules-left = 
+modules-center = date 
+modules-right = wlan volume bat
 
 tray-position = left 
 tray-padding = 2
@@ -95,6 +92,11 @@ interval = 30
 
 scroll-up = xbacklight -inc 5
 scroll-down = xbacklight -dec 5
+
+[module/vol]
+type = custom/script
+exec = ~/.config/polybar/vol.sh
+interval = 1
 
 [module/i3]
 type = internal/i3
@@ -226,7 +228,7 @@ date =
 date-alt = " %Y-%m-%d"
 
 time = %H:%M
-time-alt = %H:%M:%S
+time-alt = "%Y-%m-%d"
 
 #format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
@@ -239,11 +241,11 @@ label = %time%
 type = internal/pulseaudio
 
 format-volume = <label-volume> 
-label-volume =  %percentage%%
+label-volume =  %percentage%%
 label-volume-foreground = ${colors.foreground}
 
-format-muted-prefix = muted  
-format-muted-foreground = ${colors.foreground-alt}
+format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground}
 
 
 [module/temperature]

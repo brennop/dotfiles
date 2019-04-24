@@ -1,32 +1,49 @@
 @import url('file:///home/pst/.cache/wal/colors.css');
-
+/*
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
-@namespace html url("http://www.w3.org/1999/xhtml");
+@namespace html url("http://www.w3.org/1999/xhtml");*/
+
+toolbar#TabsToolbar{
+	-moz-appearance: none !important;
+	background-color: #1a1a1a !important;
+}
 
 /* hides the native tabs */
-/*
 #TabsToolbar {
+/*** TABS TOOLBAR ***/
+  background: transparent !important;
+  margin-bottom: 0 !important;
+}
+
+#TabsToolbar .tabbrowser-tab[selected]{
+  /*visibility: collapse;*/
+  background: var(--color0) !important;
   color: var(--color7) !important;
-  visibility: collapse;
-}*/
-
-/* changes the background color of active tab */
-.tab-background[selected="true"] {
-	background-attachment: none!important;
-	background-color: var(--color0)!important;
-	background-image: none!important;
-	background-position: none!important;
-	background-repeat: none!important;
-	background-size: none!important;
 }
 
-/* makes blue line over tab transparent */
+
+         #TabsToolbar .tabbrowser-tab {
+            background: #1a1a1a !important;
+            background-clip: padding-box !important;
+            color: #b6b6b6 !important;
+            padding: 0px 0px !important;
+            transition: all 0.3s ease-in-out;
+            margin-left: 0px !important;
+        }
+        #TabsToolbar .tabbrowser-tab:after,
+        #TabsToolbar .tabbrowser-tab:before,
+        #TabsToolbar .tab-background {
+            display: none !important;
+        }
+
 .tab-line[selected="true"] {
-  opacity: 0 !important;
+ /*background-color : red; /* this sets the color of the line above the tab */
+ visibility: collapse;
 }
+
 
 .urlbar-history-dropmarker,#pageActionButton,.pocket-button,#star-button,.urlbar-icon,#identity-box {
- visibility: collapse;
+  visibility: collapse;
 }
 
 #navigator-toolbox > toolbar:not(#TabsToolbar):not(#toolbar-menubar), .browserContainer > findbar, #browser-bottombox {
@@ -37,9 +54,11 @@
     border-bottom: 0px !important;
 }
 
-#main-window[windowtype="navigator:browser"] {
-background-color: transparent !important;
+/*
+#navigator-toolbox {
+  background-color: var(--color0) !important;;
 }
+*/
 
 #urlbar{
  font-align: center !important;
@@ -48,4 +67,9 @@ background-color: transparent !important;
  border: none !important;
  box-shadow: none !important;
  margin: 0 !important;
+}
+
+@-moz-document url(chrome://browser/content/browser.xul) {
+#fullscreen-warning {
+  display: none !important;
 }
