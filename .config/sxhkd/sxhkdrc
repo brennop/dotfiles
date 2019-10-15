@@ -8,7 +8,8 @@ super + Return
 
 # program launcher
 super + d
-	rofi -show run
+#	rofi -show combi
+ rofi -run-command "zsh -c -i '\{cmd\}'" -show combi
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -17,6 +18,14 @@ super + Escape
 # open a browser
 super + q
 	firefox
+
+# enables hdmi
+super + p
+	~/./netflix.sh
+
+# snip
+super + Print
+  flameshot gui
 
 ## fn Keys
 

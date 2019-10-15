@@ -22,7 +22,7 @@
 background = ${xrdb:color0:#222}
 ;background = #000000ff 
 background-alt = ${xrdb:color8:#222}
-foreground = ${xrdb:color1:#222}
+foreground = ${xrdb:color7:#222}
 foreground-alt = ${xrdb:color7:#222}
 primary = ${xrdb:color1:#222}
 secondary = ${xrdb:color2:#222}
@@ -36,7 +36,7 @@ offset-x = 1286px
 offset-y = 8px 
 radius = 3.0
 fixed-center = true
-override-redirect = false 
+override-redirect = true 
 ;wm-restack = i3 
 
 background = ${colors.background}
@@ -61,7 +61,7 @@ modules-left =
 modules-center = date bat
 modules-right = 
 
-tray-position = left 
+tray-position = 
 tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff

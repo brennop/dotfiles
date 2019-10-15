@@ -5,7 +5,7 @@
 
 toolbar#TabsToolbar{
 	-moz-appearance: none !important;
-	background-color: #1a1a1a !important;
+	background-color: var(--color0)  !important;
 }
 
 /* hides the native tabs */
@@ -17,13 +17,13 @@ toolbar#TabsToolbar{
 
 #TabsToolbar .tabbrowser-tab[selected]{
   /*visibility: collapse;*/
-  background: var(--color0) !important;
+  background: #2d2d2d !important;
   color: var(--color7) !important;
 }
 
 
          #TabsToolbar .tabbrowser-tab {
-            background: #1a1a1a !important;
+            background: var(--color0) !important;
             background-clip: padding-box !important;
             color: #b6b6b6 !important;
             padding: 0px 0px !important;
@@ -47,11 +47,18 @@ toolbar#TabsToolbar{
 }
 
 #navigator-toolbox > toolbar:not(#TabsToolbar):not(#toolbar-menubar), .browserContainer > findbar, #browser-bottombox {
-  background-color: var(--color0) !important;
+  background-color: #2d2d2d !important;
+  border-bottom: 0px !important;
+  margin-bottom: -1px !important;
 }
 
 #navigator-toolbox::after {
     border-bottom: 0px !important;
+}
+
+#nav-bar {
+  box-shadow: none !important;
+  border-top: none !important;
 }
 
 /*
