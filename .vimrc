@@ -15,22 +15,30 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-commentary'
+Plugin 'dense-analysis/ale'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'styled-components/vim-styled-components'
+
+Plugin 'vim-ruby/vim-ruby'
 
 " Plugin 'honza/vim-snippets'
 " Plugin 'SirVer/ultisnips'
-" Plugin 'mattn/emmet-vim'
+Plugin 'mattn/emmet-vim'
 
 Plugin 'raimondi/delimitmate'
 
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'junegunn/goyo.vim'
 
-Plugin 'prettier/vim-prettier', {'do': 'yarn install'}
+Plugin 'prettier/vim-prettier'
+
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+
+Plugin 'chriskempson/base16-vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -43,17 +51,8 @@ filetype plugin indent on
 
 " let mapleader = "alt"
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_javascript_checkers = ['eslint']
+" autocomplete preview window
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " nerdtree
 " Map ctrl+i to nerdtree 
@@ -66,17 +65,14 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " dies when alone
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" ultisnips
-" TODO FIX THIS
-let g:UltiSnipsExpandTrigger="<=>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" close on open
+let g:NERDTreeQuitOnOpen = 1
 
 " Security
 set modelines=0
 
 " Show line numbers
-set number
+" set number
 
 " Show file stats
 set ruler
@@ -147,11 +143,18 @@ set listchars=tab:▸\ ,eol:¬
 " Or use your leader key + l to toggle on/off
 map <leader>l :set list!<CR> " Toggle tabs and EOL
 
+" clipboard
+" set clipboard=unnamedplus
+
 " Color scheme (terminal)
 set t_Co=256
 set background=dark
-let g:solarized_termcolors=256
-let g:solarized_termtrans=1
+" let g:solarized_termcolors=256
+" let g:solarized_termtrans=1
 " put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 " in ~/.vim/colors/ and uncomment:
 " colorscheme solarized
+
+" base16
+" colorscheme base16-default-dark 
+
