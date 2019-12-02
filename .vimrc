@@ -19,14 +19,15 @@ Plugin 'tpope/vim-commentary'
 Plugin 'dense-analysis/ale'
 
 Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
+Plugin 'maxmellon/vim-jsx-pretty'
 Plugin 'styled-components/vim-styled-components'
+Plugin 'mattn/emmet-vim'
 
 Plugin 'vim-ruby/vim-ruby'
 
 " Plugin 'honza/vim-snippets'
 " Plugin 'SirVer/ultisnips'
-Plugin 'mattn/emmet-vim'
+" Plugin 'mattn/emmet-vim'
 
 Plugin 'raimondi/delimitmate'
 
@@ -39,6 +40,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 
 Plugin 'chriskempson/base16-vim'
+Plugin 'dylanaraps/wal.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -103,6 +105,9 @@ runtime! macros/matchit.vim
 nnoremap j gj
 nnoremap k gk
 
+" esc with j
+inoremap jj <ESC>
+
 " Allow hidden buffers
 set hidden
 
@@ -157,4 +162,4 @@ set background=dark
 
 " base16
 " colorscheme base16-default-dark 
-
+colorscheme wal
