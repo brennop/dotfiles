@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + Return
-	termite
+	kitty
 
 # program launcher
 super + d
@@ -21,7 +21,7 @@ super + q
 
 # enables hdmi
 super + p
-	~/./netflix.sh
+	~/./bin/netflix.sh
 
 # snip
 super + Print
@@ -39,10 +39,10 @@ XF86AudioMute
     pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 XF86MonBrightnessUp
-    xbacklight -inc 10
+    light -A 10
 
 XF86MonBrightnessDown
-    xbacklight -dec 10
+    light -U 10
 
 #
 # bspwm hotkeys

@@ -34,6 +34,7 @@ Plugin 'vim-ruby/vim-ruby'
 
 " tmux
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'benmills/vimux'
 
 Plugin 'raimondi/delimitmate'
 
@@ -68,6 +69,9 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 " nerdtree
 " Map ctrl+i to nerdtree 
 map <C-n> :NERDTreeToggle<CR>
+
+" love2d
+map <leader>r :w<CR> :VimuxRunCommand("love .")<CR>
 
 " start automatically with just vim
 autocmd StdinReadPre * let s:std_in=1
@@ -161,7 +165,7 @@ set listchars=tab:▸\ ,eol:¬
 map <leader>l :set list!<CR> " Toggle tabs and EOL
 
 " clipboard
-" set clipboard=unnamedplus
+set clipboard=unnamedplus
 
 " Color scheme (terminal)
 set t_Co=256
