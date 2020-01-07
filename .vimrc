@@ -17,6 +17,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'dense-analysis/ale'
+Plugin 'vim-airline/vim-airline'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/vim-emoji'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'maxmellon/vim-jsx-pretty'
@@ -28,6 +31,9 @@ Plugin 'vim-ruby/vim-ruby'
 " Plugin 'honza/vim-snippets'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'mattn/emmet-vim'
+
+" tmux
+Plugin 'christoomey/vim-tmux-navigator'
 
 Plugin 'raimondi/delimitmate'
 
@@ -50,6 +56,9 @@ syntax on
 
 " For plugins to load correctly
 filetype plugin indent on
+
+" emojis
+set completefunc=emoji#complete
 
 " let mapleader = "alt"
 
@@ -118,8 +127,11 @@ set ttyfast
 set laststatus=0
 
 " Last line
-set showmode
-set showcmd
+"set showmode
+"set showcmd
+
+" airline
+let g:airline_powerline_fonts = 1
 
 " Searching
 nnoremap / /\v
