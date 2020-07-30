@@ -8,8 +8,7 @@ super + Return
 
 # program launcher
 super + d
-#	rofi -show combi
- rofi -run-command "zsh -c -i '\{cmd\}'" -show combi
+  rofi -show combi
 
 # make sxhkd reload its configuration files:
 super + Escape

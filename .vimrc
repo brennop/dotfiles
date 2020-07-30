@@ -1,7 +1,3 @@
-" Don't try to be vi compatible
-set nocompatible
-
-" Helps force plugins to load correctly when it is turned back on below
 filetype off
 
 " set the runtime path to include Vundle and initialize
@@ -42,6 +38,7 @@ Plugin 'ycm-core/YouCompleteMe'
 Plugin 'junegunn/goyo.vim'
 
 Plugin 'prettier/vim-prettier'
+Plugin 'Chiel92/vim-autoformat'
 
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
@@ -50,28 +47,33 @@ Plugin 'chriskempson/base16-vim'
 Plugin 'dylanaraps/wal.vim'
 
 call vundle#end()            " required
-filetype plugin indent on    " required
+filetype plugin indent on
 
 " Turn on syntax highlighting
 syntax on
 
-" For plugins to load correctly
-filetype plugin indent on
-
-" emojis
-set completefunc=emoji#complete
+" mouse
+set ttymouse=xterm2
+set mouse+=a
 
 " let mapleader = "alt"
 
 " autocomplete preview window
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
+" c extra conf
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.global_extra_conf.py' 
+
 " nerdtree
 " Map ctrl+i to nerdtree 
-map <C-n> :NERDTreeToggle<CR>
+map <C-i> :NERDTreeToggle<CR>
 
-" love2d
-map <leader>r :w<CR> :VimuxRunCommand("love .")<CR>
+" run current file/project on tmux
+autocmd FileType lua map <leader>r :w<CR> :VimuxRunCommand("love .")<CR>
+autocmd FileType c map <leader>r :w<CR> :VimuxRunCommand("gcc main.c -o /tmp/main && /./tmp/main")<CR>
+
+" folding
+set nofoldenable    " disable folding
 
 " start automatically with just vim
 autocmd StdinReadPre * let s:std_in=1
@@ -87,7 +89,9 @@ let g:NERDTreeQuitOnOpen = 1
 set modelines=0
 
 " Show line numbers
-" set number
+set number
+nmap <C-n> :set invrelativenumber<CR>
+" inoremap <F3> <C-O>:set invrelativenumber<CR>
 
 " Show file stats
 set ruler
@@ -111,7 +115,7 @@ set noshiftround
 " Cursor motion
 set scrolloff=3
 set backspace=indent,eol,start
-set matchpairs+=<:> " use % to jump between pairs
+" set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
 
 " Move up/down editor lines
@@ -136,6 +140,7 @@ set laststatus=0
 
 " airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#ale#enabled = 1
 
 " Searching
 nnoremap / /\v
@@ -156,6 +161,8 @@ vnoremap <F1> :set invfullscreen<CR>
 
 " Formatting
 map <leader>q gqip
+
+noremap <F3> :Autoformat<CR>
 
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
