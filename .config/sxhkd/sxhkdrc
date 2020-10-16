@@ -4,11 +4,11 @@
 
 # terminal emulator
 super + Return
-	kitty
+	termite
 
 # program launcher
 super + d
-  rofi -show combi
+  	rofi -show combi
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -24,7 +24,7 @@ super + p
 
 # snip
 super + Print
-  flameshot gui
+  	flameshot gui
 
 ## fn Keys
 
