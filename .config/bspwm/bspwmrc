@@ -2,7 +2,8 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 pgrep -x redshift > /dev/null || redshift &
-wal -Rn &
+picom &
+wal -R &
 xsetroot -cursor_name left_ptr
 
 bspc monitor -d I II III IV V VI VII VIII IX X
