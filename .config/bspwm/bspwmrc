@@ -1,9 +1,10 @@
 #! /bin/sh
 
-pgrep -x sxhkd > /dev/null || sxhkd &
+pgrep -x sxhkd > /dev/null || sxhkd -m 1 &
 pgrep -x redshift > /dev/null || redshift &
 picom &
 wal -R &
+exec ~/.config/polybar/launch.sh &
 xsetroot -cursor_name left_ptr
 
 bspc monitor -d I II III IV V VI VII VIII IX X

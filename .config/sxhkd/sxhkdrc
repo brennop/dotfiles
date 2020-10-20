@@ -26,6 +26,16 @@ super + p
 super + Print
   	flameshot gui
 
+#
+# change layouts
+#
+
+super + Scroll_Lock
+  setxkbmap br
+
+super + space
+  setxkbmap us
+
 ## fn Keys
 
 XF86AudioRaiseVolume

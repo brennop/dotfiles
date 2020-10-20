@@ -1,315 +1,418 @@
-;=====================================================
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/jaagr/polybar
-;
-;   The README contains alot of information
-;
-;=====================================================
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;
+;;	    ____        __      __              
+;;	   / __ \____  / /_  __/ /_  ____ ______
+;;	  / /_/ / __ \/ / / / / __ \/ __ `/ ___/
+;;	 / ____/ /_/ / / /_/ / /_/ / /_/ / /    
+;;	/_/    \____/_/\__, /_.___/\__,_/_/     
+;;	              /____/                    
+;;
+;; Created By Aditya Shakya @adi1090x
+;;
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-;[colors]
-;background = ${xrdb:color0:#222}
-;background = #222
-;background-alt = #444
-;foreground = ${xrdb:color7:#222}
-;foreground = #dfdfdf
-;foreground-alt = #555
-;primary = #ffb52a
-;secondary = #e60053
-;alert = #bd2c40
+;; Global WM Settings
+[global/wm]
 
-[colors]
-background = ${xrdb:color0:#222}
-;background = #000000ff 
-background-alt = ${xrdb:color8:#222}
-foreground = ${xrdb:color7:#222}
-foreground-alt = ${xrdb:color7:#222}
-primary = ${xrdb:color1:#222}
-secondary = ${xrdb:color2:#222}
-alert = ${xrdb:color3:#222}
+margin-bottom = 0
+margin-top = 0
 
-[bar/barra]
-monitor = LVDS1
-width = 70px
-height = 16
-offset-x = 1286px
-offset-y = 8px 
-radius = 3.0
+;; Bar Settings
+[bar/main]
+
+monitor = LVDS-1
+monitor-fallback =
+monitor-strict = false
+override-redirect = true
+wm-restack = bspwm
+
+bottom = false
 fixed-center = true
-override-redirect = true 
-;wm-restack = i3 
 
-background = ${colors.background}
-foreground = ${colors.foreground}
+width = 100%
+height = 20px
+offset-x = 0
+offset-y = 0
 
-line-size = 0
-line-color = #f00
+background = ${color.bg}
+foreground = ${color.fg}
 
-border-size = 0
-border-color = #00000000
 
-padding-left = 2
-padding-right = 2
+;;radius-top = 0.0
+;;radius-bottom = 0.0
 
-module-margin-left = 0
-module-margin-right = 0
+;;overline-size = 2
+;;overline-color = ${color.ac}
 
-font-0 = scientifica;1
-font-1 = siji;1
+;;border-size = 2
+;;border-color = ${color.ac}
 
-modules-left = 
-modules-center = date bat
-modules-right = 
+padding = 2
+module-margin-left = 1
+module-margin-right = 1
 
-tray-position = 
-tray-padding = 2
-;tray-transparent = true
-;tray-background = #0063ff
+font-0 = "Noto Sans Mono:size=8:style=Medium;1"
+font-1 = "DejaVuSansMono Nerd Font:size=10;2"
 
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+modules-left = bspwm
+;;modules-center = 
+;;modules-center = title
+modules-center = date
+modules-right = pa network battery
 
-cursor-click = pointer
-cursor-scroll = ns-resize
+separator =
+spacing = 0
+dim-value = 1.0
+wm-name = bspwm 
+locale = 
 
-[module/mpd]
-type = internal/mpd
-host = 127.0.0.1
-port = 6600
+tray-position = none
+tray-detached = false
+tray-maxsize = 16
+tray-transparent = false
+tray-background = ${color.bg}
+tray-offset-x = 0
+tray-offset-y = 0
+tray-padding = 0
+tray-scale = 1.0
 
-format-online = <label-song> <label-time>
-format-playing = <label-song> <label-time>
-format-paused = <label-song> [paused]
+enable-ipc = true
 
-label-song =  %artist% - %title%
+click-left = 
+click-middle = 
+click-right =
+scroll-up =
+scroll-down =
+double-click-left =
+double-click-middle =
+double-click-right =
 
-[module/bat]
-type = custom/script
-exec = ~/.config/polybar/bat.sh
-interval = 30
+cursor-click = 
+cursor-scroll = 
 
-scroll-up = xbacklight -inc 5
-scroll-down = xbacklight -dec 5
+;; Application Settings
+[settings]
 
-[module/vol]
-type = custom/script
-exec = ~/.config/polybar/vol.sh
-interval = 1
+throttle-output = 5
+throttle-output-for = 10
+throttle-input-for = 30
+screenchange-reload = false
 
-[module/i3]
-type = internal/i3
-format = <label-state> <label-mode>
-index-sort = true
-wrapping-scroll = false
+compositing-background = source
+compositing-foreground = over
+compositing-overline = over
+compositing-underline = over
+compositing-border = over
 
-; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+format-foreground = 
+format-background = 
+format-underline =
+format-overline =
+format-spacing =
+format-padding =
+format-margin =
+format-offset =
 
-label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
+pseudo-transparency = false
 
-; focused = Active workspace on focused monitor
-label-focused = "x "
-label-focused-foreground = ${colors.foreground}
-;label-focused-underline = ${module/bspwm.label-focused-underline}
-;label-focused-padding = ${module/bspwm.label-focused-padding}
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;
+;;	   ______      __               
+;;	  / ____/___  / /___  __________
+;;	 / /   / __ \/ / __ \/ ___/ ___/
+;;	/ /___/ /_/ / / /_/ / /  (__  ) 
+;;	\____/\____/_/\____/_/  /____/  
+;;
+;; Created By Aditya Shakya @adi1090x
+;;
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-; unfocused = Inactive workspace on any monitor
-label-unfocused = ∙
-label-unfocused-foreground = ${colors.background}
-;label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+[color]
 
-; visible = Active workspace on unfocused monitor
-label-visible = .
-;label-visible-background = ${self.label-focused-background}
-;label-visible-underline = ${self.label-focused-underline}
-;label-visible-padding = ${self.label-focused-padding}
+;; Active Colors
+;bg = #5966BA
+;fg = #f2f2f2
+;fg-alt = #D0D0D0
+bg = ${xrdb:color0:#222}
+fg = ${xrdb:color7:#222}
+fg-alt = ${xrdb:color1:#222}
 
-; urgent = Workspace with urgency hint set
-label-urgent = %index%
-label-urgent-foreground = ${colors.primary}
-;label-urgent-padding = ${module/bspwm.label-urgent-padding}
+trans = #00000000
+white = #FFFFFF
+black = #000000
+
+;; BG Colors
+
+red = #E75955
+pink = #E84B84
+purple = #974EAA
+deep-purple = #753CE8
+indigo = #5966BA
+blue = #327BBC
+cyan = #00acc1
+teal = #00897b
+green = #67B16B
+lime = #ADB44F
+yellow = #C8AD35
+
+amber = #E6AE29
+
+orange = #F99E2B
+deep-orange = #F3663A
+brown = #B16E58
+grey = #757575
+blue-gray = #546e7a
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;
+;;	    __  ___          __      __         
+;;	   /  |/  /___  ____/ /_  __/ /__  _____
+;;	  / /|_/ / __ \/ __  / / / / / _ \/ ___/
+;;	 / /  / / /_/ / /_/ / /_/ / /  __(__  ) 
+;;	/_/  /_/\____/\__,_/\__,_/_/\___/____/  
+;;
+;; Created By Aditya Shakya @adi1090x
+;;
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/alsa]
+type = internal/alsa
+
+format-volume = <ramp-volume>
+
+label-muted = ﱝ
+label-muted-foreground = ${color.fg-alt}
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+
+;label-muted = "婢"
+;label-muted-foreground = ${color.ac}
+
+; Only applies if <ramp-volume> is used
+;ramp-volume-0 = 奄
+;ramp-volume-1 = 奔
+;ramp-volume-2 = 墳
+;ramp-volume-3 = 墳
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/pa]
+type = internal/pulseaudio
+
+format-volume = <ramp-volume> <label-volume>
+label-muted = ﱝ
+label-muted-foreground = ${color.fg-alt}
+label-volume = %percentage%%
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/backlight]
+type = internal/xbacklight
+
+card = intel_backlight
+format = <ramp>
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 [module/battery]
 type = internal/battery
+
+full-at = 99
+
 battery = BAT0
-adapter = AC0
-full-at = 100 
+adapter = ACAD
 
-format-charging = <label-charging>
-format-charging-underline = #ffb52a
+poll-interval = 2
+time-format = %H:%M
 
-format-discharging =<label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
 
-scroll-up = xbacklight -inc 5
-scroll-down = xbacklight -dec 5
+label-full = ﮤ
 
-format-full-prefix = 
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
 
-
-[module/xbacklight]
-type = internal/xbacklight
-
-format = <label> 
-label =  %percentage%% 
-
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #ff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
-[module/backlight-acpi]
-inherit = module/xbacklight
-type = internal/backlight
-card = intel_backlight
-
-[module/wlan]
-type = internal/network
-interface = wlp2s0
-interval = 3.0
-
-format-connected = <label-connected>
-format-connected-underline = #9f78e1
-label-connected = %essid%
-
-format-disconnected =
-
-;ramp-signal-0 = 
-;ramp-signal-1 = '
-;ramp-signal-2 = 
-;ramp-signal-3 = 
-;ramp-signal-4 = 
-;ramp-signal-foreground = ${colors.foreground-alt}
-
-[module/eth]
-type = internal/network
-interface = enp3s0
-interval = 3.0
-
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 [module/date]
 type = internal/date
-interval = 5
 
-date =
-date-alt = " %Y-%m-%d"
+interval = 1.0
 
-time =%H:%M
-time-alt = "%Y-%m-%d"
+time = %H:%M %p
+date = %d/%m/%y
 
-#format-prefix = 
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
+format = <label>
 
-;label =  %time%
-label = %time%
+label = %time% 
 
-[module/volume]
-type = internal/pulseaudio
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-format-volume = <label-volume> 
-label-volume =  %percentage%%
-label-volume-foreground = ${colors.foreground}
+[module/i3]
+type = internal/i3
 
-format-muted-prefix = " "
-format-muted-foreground = ${colors.foreground}
+pin-workspaces = true
+strip-wsnumbers = true
+index-sort = true
 
+enable-click = true
+enable-scroll = true
 
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
+wrapping-scroll = false
+reverse-scroll = false
 
-format = <ramp> <label>
-format-underline = #f50a4d
-format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
+fuzzy-match = true
+ws-icon-0 = 1;❶
+ws-icon-1 = 2;❷
+ws-icon-2 = 3;❸
+ws-icon-3 = 4;❹
+ws-icon-4 = 5;❺
+ws-icon-5 = 6;❻
+ws-icon-6 = 7;❼
+ws-icon-7 = 8;❽
+ws-icon-8 = 9;❾
+ws-icon-9 = 10;❿
+ws-icon-default = 
 
-label = %temperature%
-label-warn = %temperature%
-label-warn-foreground = ${colors.secondary}
+format = <label-state> <label-mode>
+label-focused = %icon%
+label-focused-foreground = ${color.fg}
+label-focused-background = ${color.bg}
+label-focused-padding = 1
 
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
+label-unfocused = %icon%
+label-unfocused-foreground = ${color.fg-alt}
+label-unfocused-background = ${color.bg}
+label-unfocused-padding = 0
 
-[module/powermenu]
-type = custom/menu
+label-urgent = %icon%
+label-urgent-foreground = ${color.red}
+label-urgent-background = ${color.bg}
+label-urgent-padding = 0
 
-expand-right = true
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-format-spacing = 1
+[module/mpd]
+type = internal/mpd
 
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
+interval = 2
 
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-menu-0-2 = hibernate 
-menu-0-2-exec = menu-open-3
+format-online = <toggle> <label-song>
 
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+label-song =  %title%
+label-song-maxlen = 20
+label-song-ellipsis = true
 
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
+label-offline = Offline
 
-menu-3-0 = hibernate
-menu-3-0-exec = sudo hibernate 
-menu-3-1 = cancel
-menu-3-1-exec = menu-open-0
+icon-play = 喇
+icon-pause = 
+icon-stop = ﭥ
+icon-prev = ﭢ
+icon-next =  ﭠ
 
-[settings]
-screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-[global/wm]
-margin-top = 5
-margin-bottom = 5
+[module/network]
+type = internal/network
+interface = wlp2s0
 
-; vim:ft=dosini
+interval = 1.0
+accumulate-stats = true
+unknown-as-up = true
+
+format-connected = <ramp-signal> <label-connected> 
+format-disconnected = <label-disconnected>
+
+label-connected = %essid%
+label-disconnected = 睊
+label-disconnected-foreground = ${color.fg-alt}
+
+ramp-signal-0 = 直
+ramp-signal-1 = 直
+ramp-signal-2 = 直
+ramp-signal-3 = 直
+ramp-signal-4 = 直
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/title]
+type = internal/xwindow
+
+format = <label>
+
+label = %title%
+label-maxlen = 25
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/workspaces]
+type = internal/xworkspaces
+
+pin-workspaces = false
+enable-click = true
+enable-scroll = true
+
+format = <label-state>
+format-background = ${color.bg}
+
+label-active = 
+label-urgent = 
+label-occupied = 
+label-empty = 
+icon-default = 
+
+label-empty-padding = 0
+label-active-padding = 1
+label-urgent-padding = 0
+label-occupied-padding = 0
+
+label-empty-foreground = ${color.fg-alt}
+label-active-foreground = ${color.fg}
+label-urgent-foreground = ${color.red}
+label-occupied-foreground = ${color.fg}
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/colors-switch]
+type = custom/text
+content = 
+
+click-left = ~/.config/polybar/scripts/color-switch.sh &
+click-right = ~/.config/polybar/scripts/color-switch.sh &
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;	    __________  ______
+;;	   / ____/ __ \/ ____/
+;;	  / __/ / / / / /_    
+;;	 / /___/ /_/ / __/    
+;;	/_____/\____/_/       
+;;
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
