@@ -3,9 +3,11 @@
 pgrep -x sxhkd > /dev/null || sxhkd -m 1 &
 pgrep -x redshift > /dev/null || redshift &
 picom &
-wal -R &
+feh --bg-fill $(cat ~/.cache/wal/wal) &
 exec ~/.config/polybar/launch.sh &
 xsetroot -cursor_name left_ptr
+xsetxkbmap -option ctrl:nocaps
+wal -R &
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 

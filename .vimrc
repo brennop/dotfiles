@@ -1,5 +1,9 @@
 call plug#begin('~/.vim/plugged')
 
+" Autocomplete / lint
+Plug 'ycm-core/YouCompleteMe'
+Plug 'dense-analysis/ale'
+
 " Javascript / Typescript / React
 Plug 'HerringtonDarkholme/yats.vim'
 
@@ -12,9 +16,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-unimpaired'
 
 " tmux
 Plug 'christoomey/vim-tmux-navigator'
+
+" markdown
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 
 " misc
 Plug 'chriskempson/base16-vim'
@@ -64,6 +73,12 @@ nmap <silent> <C-p> :Files<CR>
 nmap <leader>w :w!<cr>
 :command! W w
 
+" change cursor in insert mode (vim)
+
+let &t_SI = "\<Esc>[5 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[1 q"
+
 " live substitution
 " set inccommand=split
 
@@ -93,4 +108,11 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let g:NERDTreeIgnore = ['^node_modules$']
 
+" ALE
+let g:ale_fixers = {
+\   'javascript': ['eslint', 'prettier'],
+\}
+let g:ale_fix_on_save = 1
 
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme base16-seti

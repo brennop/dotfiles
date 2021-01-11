@@ -1,13 +1,12 @@
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.nvim/plugged')
 
-" Completion
+" Autocomplete / lint
+" Plug 'ycm-core/YouCompleteMe'
+" Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Javascript / Typescript / React
-Plug 'yuezk/vim-js'
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'styled-components/vim-styled-components', {'branch': 'main'}
-Plug 'maxmellon/vim-jsx-pretty'
 
 " Files
 Plug 'scrooloose/nerdtree'
@@ -18,18 +17,30 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-unimpaired'
 
 " tmux
 Plug 'christoomey/vim-tmux-navigator'
+
+" markdown
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'vimwiki/vimwiki'
 
 " misc
 Plug 'chriskempson/base16-vim'
 Plug 'psliwka/vim-smoothie'
 
+
 call plug#end()
 
 filetype plugin indent on
 syntax on
+
+set tw=80
+
+" YCM LSPs
+" source /home/pst/.nvim/lsp-examples/vimrc.generated
 
 " Remap jj to esc
 inoremap jj <ESC>
@@ -47,7 +58,7 @@ set whichwrap+=<,>,h,l
 set hid
 
 " cliboard
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
@@ -65,7 +76,7 @@ map <leader><space> :let @/=''<cr> " clear search
 
 " ctrlp / fzf
 nmap <silent> <C-p> :Files<CR>
-nmap <silent> <C-f> :Ag<CR>
+nmap <silent> <C-S-f> :Ag<CR>
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -100,72 +111,25 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let g:NERDTreeIgnore = ['^node_modules$']
 
-let g:coc_global_extensions = [
-  \ 'coc-pairs',
-  \ 'coc-tsserver',
-  \ 'coc-eslint', 
-  \ 'coc-prettier', 
-  \ 'coc-json', 
-  \ 'coc-solargraph',
-  \ ]
+" ALE
+" let g:ale_fixers = {
+" \   'javascript': ['eslint', 'prettier'],
+" \}
+" let g:ale_fix_on_save = 1
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" coc
+source ~/.config/nvim/coc.vim
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+" husky / lint-staged
+let g:fugitive_pty = 0 
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" vimwiki
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
+" colorscheme
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
 
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" colorscheme
-colorscheme base16-seti 
