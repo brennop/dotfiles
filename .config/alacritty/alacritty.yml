@@ -1,0 +1,9 @@
+window:
+  padding:
+    x: 16
+    y: 16
+
+font:
+  normal:
+    family: Fantasque Sans Mono Nerd Font
+  size: 10.0
