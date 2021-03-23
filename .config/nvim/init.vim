@@ -1,8 +1,6 @@
 call plug#begin('~/.nvim/plugged')
 
 " Autocomplete / lint
-" Plug 'ycm-core/YouCompleteMe'
-" Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Javascript / Typescript / React
@@ -11,6 +9,7 @@ Plug 'HerringtonDarkholme/yats.vim'
 " Files
 Plug 'scrooloose/nerdtree'
 Plug 'ryanoasis/vim-devicons'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " tpope
@@ -29,8 +28,9 @@ Plug 'vimwiki/vimwiki'
 
 " misc
 Plug 'chriskempson/base16-vim'
+Plug 'itchyny/lightline.vim'
 Plug 'psliwka/vim-smoothie'
-
+Plug 'dylanaraps/wal.vim'
 
 call plug#end()
 
@@ -38,9 +38,6 @@ filetype plugin indent on
 syntax on
 
 set tw=80
-
-" YCM LSPs
-" source /home/pst/.nvim/lsp-examples/vimrc.generated
 
 " Remap jj to esc
 inoremap jj <ESC>
@@ -76,7 +73,6 @@ map <leader><space> :let @/=''<cr> " clear search
 
 " ctrlp / fzf
 nmap <silent> <C-p> :Files<CR>
-nmap <silent> <C-S-f> :Ag<CR>
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -111,12 +107,6 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let g:NERDTreeIgnore = ['^node_modules$']
 
-" ALE
-" let g:ale_fixers = {
-" \   'javascript': ['eslint', 'prettier'],
-" \}
-" let g:ale_fix_on_save = 1
-
 " coc
 source ~/.config/nvim/coc.vim
 
@@ -133,3 +123,4 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
+colorscheme wal

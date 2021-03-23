@@ -1,0 +1,8 @@
+configuration {
+	modi: "window,run,drun,combi";
+	font: "FantasqueSansMono Nerd Font Mono 12";
+}
+
+@import "~/.cache/wal/colors-rofi-dark"
+
+
