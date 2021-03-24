@@ -31,6 +31,7 @@ Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'psliwka/vim-smoothie'
 Plug 'dylanaraps/wal.vim'
+Plug 'andreypopp/vim-colors-plain'
 
 call plug#end()
 
@@ -123,4 +124,5 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
-colorscheme wal
+set background=light " Set to dark for a dark variant
+colorscheme plain

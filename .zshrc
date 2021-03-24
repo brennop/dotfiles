@@ -34,7 +34,21 @@ fi
 . "${HOME}/.cache/wal/colors.sh"
 
 # nvm
-source /usr/share/nvm/init-nvm.sh
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f'
+
+# ruby
+eval "$(rbenv init -)"
+
+# android
+export PATH=$HOME/Android/Sdk/emulator:$PATH
+
+# local scripts
+export PATH=$HOME/bin:$PATH
+
+# yarn
+export PATH=$HOME/.yarn/bin:$PATH
+
