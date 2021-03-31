@@ -28,10 +28,10 @@ Plug 'vimwiki/vimwiki'
 
 " misc
 Plug 'chriskempson/base16-vim'
-Plug 'itchyny/lightline.vim'
 Plug 'psliwka/vim-smoothie'
 Plug 'dylanaraps/wal.vim'
 Plug 'andreypopp/vim-colors-plain'
+Plug 'vimsence/vimsence'
 
 call plug#end()
 
@@ -63,6 +63,15 @@ set guioptions-=r
 set guioptions-=R
 set guioptions-=l
 set guioptions-=L
+
+" statusbar
+set laststatus=0
+
+" clear last : command
+augroup cmdline
+    autocmd!
+    autocmd CmdlineLeave : echo ''
+augroup end
 
 " Searching
 set hlsearch
@@ -125,4 +134,7 @@ if filereadable(expand("~/.vimrc_background"))
 endif
 
 set background=light " Set to dark for a dark variant
-colorscheme plain
+colorscheme wal
+
+" hide ~
+highlight EndOfBuffer ctermfg=black ctermbg=black

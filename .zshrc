@@ -4,7 +4,6 @@
 #
 #----------------------
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
@@ -12,6 +11,7 @@ DISABLE_AUTO_UPDATE="true"
 
 plugins=(
   git
+  zsh-z
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -45,9 +45,10 @@ eval "$(rbenv init -)"
 
 # android
 export PATH=$HOME/Android/Sdk/emulator:$PATH
+alias android="emulator @Pixel_3a_API_30_x86 -dns-server 8.8.8.8 -no-audio"
 
 # local scripts
-export PATH=$HOME/bin:$PATH
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # yarn
 export PATH=$HOME/.yarn/bin:$PATH

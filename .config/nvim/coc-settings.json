@@ -1,3 +1,4 @@
 {
-  "eslint.autoFixOnSave": true
+  "eslint.autoFixOnSave": true,
+  "solargraph.commandPath": "~/.rbenv/shims/solargraph"
 }
