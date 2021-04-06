@@ -20,6 +20,7 @@ Plug 'tpope/vim-unimpaired'
 
 " tmux
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'preservim/vimux'
 
 " markdown
 Plug 'junegunn/goyo.vim'
@@ -133,7 +134,6 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
-set background=light " Set to dark for a dark variant
 colorscheme wal
 
 " hide ~

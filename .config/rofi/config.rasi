@@ -1,6 +1,7 @@
 configuration {
 	modi: "window,run,drun,combi";
 	font: "FantasqueSansMono Nerd Font Mono 12";
+  run-command: "zsh -i -c '{cmd}'";
 }
 
 @import "~/.cache/wal/colors-rofi-dark"

@@ -12,6 +12,8 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(
   git
   zsh-z
+  zsh-nvm
+  evalcache
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -23,8 +25,19 @@ else
   export EDITOR='nvim'
 fi
 
-alias py="python3"
 
+# android
+export PATH=$HOME/Android/Sdk/emulator:$PATH
+alias android="emulator @Pixel_3a_API_30_x86 -dns-server 8.8.8.8 -no-audio"
+
+# ytfzf
+export YTFZF_EXTMENU=' rofi -dmenu -fuzzy -width 800'
+alias yt="ytfzf -D"
+
+# rofi emoji
+alias emoji="rofi -show emoji"
+
+# automatically start x
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
@@ -34,21 +47,19 @@ fi
 . "${HOME}/.cache/wal/colors.sh"
 
 # nvm
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# if this doesn't work make sure zsh-nvm is installed
+# https://github.com/lukechilds/zsh-nvm#as-an-oh-my-zsh-custom-plugin
+export NVM_LAZY_LOAD=true
+export NVM_LAZY_LOAD_EXTRA_COMMANDS=('nvim')
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f'
 
 # ruby
-eval "$(rbenv init -)"
-
-# android
-export PATH=$HOME/Android/Sdk/emulator:$PATH
-alias android="emulator @Pixel_3a_API_30_x86 -dns-server 8.8.8.8 -no-audio"
+_evalcache rbenv init -
 
 # local scripts
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # yarn
 export PATH=$HOME/.yarn/bin:$PATH
