@@ -28,7 +28,7 @@ fi
 
 # android
 export PATH=$HOME/Android/Sdk/emulator:$PATH
-alias android="emulator @Pixel_3a_API_30_x86 -dns-server 8.8.8.8 -no-audio"
+alias android="emulator @default -dns-server 8.8.8.8 -no-audio"
 
 # ytfzf
 export YTFZF_EXTMENU=' rofi -dmenu -fuzzy -width 800'
@@ -61,6 +61,7 @@ _evalcache rbenv init -
 # local scripts
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
-# yarn
+# path
 export PATH=$HOME/.yarn/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
 

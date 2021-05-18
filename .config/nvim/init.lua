@@ -23,9 +23,6 @@ end
 cmd [[packadd packer.nvim]]
 cmd 'autocmd BufWritePost plugins.lua PackerCompile'
 
-local base16 = require "base16"
-local colors = base16.themes["black-metal"]
-
 require('packer').startup(function()
   -- Packer can manage itself
   use {"wbthomason/packer.nvim", opt = true}
@@ -39,40 +36,68 @@ require('packer').startup(function()
   use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
   use 'romgrk/barbar.nvim'
 
+  -- git
+  use 'TimUntersberger/neogit'
 
   -- utils 🧰
   use 'windwp/nvim-autopairs'
-  use 'windwp/nvim-ts-autotag'
-  use 'b3nj5m1n/kommentary'
+  use 'nacro90/numb.nvim'
 
   -- language tools 🔠
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
+  use 'kosayoda/nvim-lightbulb' 
 
   -- colors 🎨
   use 'norcalli/nvim-colorizer.lua'
-  use "norcalli/nvim-base16.lua"
+  use { 'Th3Whit3Wolf/onebuddy', requires =  'tjdevries/colorbuddy.vim' }
+  use 'folke/tokyonight.nvim'
 
   -- misc
   use 'andweeb/presence.nvim'
-  use "karb94/neoscroll.nvim"
+  use 'karb94/neoscroll.nvim'
+  use 'hoob3rt/lualine.nvim'
+
+  -- vimscript 🙄
+  use 'tpope/vim-commentary'
+  use 'tpope/vim-surround'
 end)
 -- end plugins
+
+cmd "syntax enable"
+cmd "syntax on"
 
 -- setup plugins
 o.termguicolors = true
 
-require 'colorizer'.setup()
-require 'nvim-autopairs'.setup()
-require 'neoscroll'.setup()
+g.nvim_tree_gitignore = 1
+
+require 'colorizer'.setup {}
+require 'neoscroll'.setup {}
+require 'numb'.setup {}
+require 'neogit'.setup {}
+require 'colorbuddy'.colorscheme('onebuddy')
+require 'which-key'.setup {}
+
+require 'lualine'.setup {
+  options = {
+    theme = 'onedark',
+    section_separators = '', 
+    component_separators = ''
+  }
+}
+
+require 'nvim-autopairs'.setup {
+  check_ts = true
+} 
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -91,20 +116,21 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<leader>qf', '<cmd>lua require\'telescope.builtin\'.lsp_code_actions()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
   elseif client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
   end
 
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=#]]..colors.base02..[[ 
-      hi LspReferenceText cterm=bold ctermbg=red guibg=#]]..colors.base02..[[ 
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=#]]..colors.base02..[[ 
+      hi LspReferenceRead cterm=bold ctermbg=red guibg=ColorYellow
+      hi LspReferenceText cterm=bold ctermbg=red guibg=ColorYellow
+      hi LspReferenceWrite cterm=bold ctermbg=red guibg=ColorYellow
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
@@ -115,7 +141,7 @@ local on_attach = function(client, bufnr)
 end
 
 
-local servers = { "tsserver", "clangd", "solargraph", "rust_analyzer", "vuels" }
+local servers = { "tsserver", "clangd", "solargraph", "rust_analyzer", "vuels", "svelte", "pyright" }
 for _, server in ipairs(servers) do
   nvim_lsp[server].setup { on_attach = on_attach }
 end
@@ -142,45 +168,55 @@ require'compe'.setup {
     calc = true;
     nvim_lsp = true;
     nvim_lua = true;
-    vsnip = true;
   };
 }
 
-
-require 'nvim-ts-autotag'.setup()
+cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
 
 -- end setup plugins
 
 -- options
 
-o.shiftwidth = 2                             -- Size of an indent
-bo.tabstop = 2                                -- Number of spaces tabs count for
-bo.expandtab = true                           -- Use spaces instead of tabs
-bo.smartindent = true                         -- Insert indents automatically
-o.hidden = true                               -- Enable modified buffers in background
+bo.shiftwidth = 2           -- Size of an indent
+o.shiftwidth = 2            -- Size of an indent
+bo.tabstop = 2              -- Number of spaces tabs count for
+o.tabstop = 2               -- Number of spaces tabs count for
+bo.expandtab = true         -- Use spaces instead of tabs
+o.expandtab = true          -- Use spaces instead of tabs
+bo.smartindent = true       -- Insert indents automatically
+o.smartindent = true        -- Insert indents automatically
+wo.signcolumn = 'yes'
 
-o.ignorecase = true                           -- Ignore case
-o.smartcase = true                            -- Don't ignore case with capitals
+o.hidden = true             -- Enable modified buffers in background
+wo.number = true            -- show line numbers
+wo.wrap = false             -- turn off wrapping 
+o.showmode = false          -- let status plugin handle mode
+bo.swapfile = false         -- playing on hard mode
+o.swapfile = false          -- playing on hard mode
+
+o.ignorecase = true         -- Ignore case
+o.smartcase = true          -- Don't ignore case with capitals
 o.laststatus = 2
 o.hlsearch = true
-o.incsearch = true
+o.incsearch = true          -- live search
+o.inccommand = 'split'      -- live substitution
 
-o.joinspaces = false                          -- No double spaces with join after a dot
-o.scrolloff = 4                               -- Lines of context
-o.shiftround = true                           -- Round indent
-o.sidescrolloff = 8                           -- Columns of context
+o.joinspaces = false        -- No double spaces with join after a dot
+o.scrolloff = 4             -- Lines of context
+o.shiftround = true         -- Round indent
+o.sidescrolloff = 8         -- Columns of context
 
-o.splitbelow = true                           -- Put new windows below current
-o.splitright = true                           -- Put new windows right of current
+o.splitbelow = true         -- Put new windows below current
+o.splitright = true         -- Put new windows right of current
 
-cmd "syntax enable"
-cmd "syntax on"
-
-base16(colors, true)
+-- LSP Sign Column
+vim.fn.sign_define("LspDiagnosticsSignError", { text = "" })
+vim.fn.sign_define("LspDiagnosticsSignWarning", { text = "" })
+vim.fn.sign_define("LspDiagnosticsSignInformation", { text = "" })
+vim.fn.sign_define("LspDiagnosticsSignHint", { text = "" })
 
 -- highlights
-cmd "hi SignColumn guibg=NONE"
-cmd("hi VertSplit guibg=NONE guifg=#"..colors.base01)
+-- cmd "hi SignColumn guibg=NONE"
 
 o.clipboard = 'unnamedplus'
 o.mouse = 'a'
@@ -190,9 +226,37 @@ o.mouse = 'a'
 map('n', '<Space>', '', {})
 g.mapleader = ' '
 
-local options = { noremap = true }
+local options = { noremap = true, silent = true }
 map('n', '<C-n>', ':NvimTreeToggle<CR>', options)
+
+-- telescope
 map('n', '<C-p>', ':Telescope find_files<CR>', options)
+map('n', '<leader>ff', '<cmd>Telescope find_files<cr>', options)
+map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', options)
+map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', options)
+map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', options)
+
+-- barbar
+map('n', '<C-s>', ':BufferPick<CR>',          options) -- magic buffer selection
+map('n', '<A-,>', ':BufferPrevious<CR>',      options) -- previous
+map('n', '<A-.>', ':BufferNext<CR>',          options) -- next
+map('n', '<A-<>', ':BufferMovePrevious<CR>',  options) -- reoder
+map('n', '<A->>', ':BufferMoveNext<CR>',      options) -- reoder
+map('n', '<A-1>', ':BufferGoto 1<CR>',        options)
+map('n', '<A-2>', ':BufferGoto 2<CR>',        options)
+map('n', '<A-3>', ':BufferGoto 3<CR>',        options)
+map('n', '<A-4>', ':BufferGoto 4<CR>',        options)
+map('n', '<A-5>', ':BufferGoto 5<CR>',        options)
+map('n', '<A-6>', ':BufferGoto 6<CR>',        options)
+map('n', '<A-7>', ':BufferGoto 7<CR>',        options)
+map('n', '<A-8>', ':BufferGoto 8<CR>',        options)
+map('n', '<A-9>', ':BufferLast<CR>',          options)
+map('n', '<A-c>', ':BufferClose<CR>',         options) -- close buffer
+
+
+local compe_options = { noremap = true, silent = true, expr = true }
+map('i', '<C-Space>', 'compe#complete()', compe_options)
+map('i', '<CR>', "compe#confirm('<CR>')", compe_options)
 
 -- end mappings
 
