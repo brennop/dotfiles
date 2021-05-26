@@ -78,7 +78,6 @@ require 'neoscroll'.setup {}
 require 'numb'.setup {}
 require 'neogit'.setup {}
 require 'colorbuddy'.colorscheme('onebuddy')
-require 'which-key'.setup {}
 
 require 'lualine'.setup {
   options = {
