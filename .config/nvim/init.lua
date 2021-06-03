@@ -23,7 +23,7 @@ end
 cmd [[packadd packer.nvim]]
 cmd 'autocmd BufWritePost plugins.lua PackerCompile'
 
-require('packer').startup(function()
+require('packer').startup(function(use)
   -- Packer can manage itself
   use {"wbthomason/packer.nvim", opt = true}
 
@@ -37,27 +37,32 @@ require('packer').startup(function()
   use 'romgrk/barbar.nvim'
 
   -- git
-  use 'TimUntersberger/neogit'
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 
   -- utils 🧰
-  use 'windwp/nvim-autopairs'
   use 'nacro90/numb.nvim'
 
   -- language tools 🔠
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
-  use 'kosayoda/nvim-lightbulb' 
 
   -- colors 🎨
   use 'norcalli/nvim-colorizer.lua'
   use { 'Th3Whit3Wolf/onebuddy', requires =  'tjdevries/colorbuddy.vim' }
   use 'folke/tokyonight.nvim'
+  use 'p00f/nvim-ts-rainbow' -- color
 
   -- misc
   use 'andweeb/presence.nvim'
-  use 'karb94/neoscroll.nvim'
   use 'hoob3rt/lualine.nvim'
+  use { "rcarriga/vim-ultest", requires = { "vim-test/vim-test" }, run = ":UpdateRemotePlugins" }
+  use "Pocco81/TrueZen.nvim"
+  use {
+    "ahmedkhalf/lsp-rooter.nvim",
+    config = function() require("lsp-rooter").setup {} end
+  }
 
   -- vimscript 🙄
   use 'tpope/vim-commentary'
@@ -74,7 +79,6 @@ o.termguicolors = true
 g.nvim_tree_gitignore = 1
 
 require 'colorizer'.setup {}
-require 'neoscroll'.setup {}
 require 'numb'.setup {}
 require 'neogit'.setup {}
 require 'colorbuddy'.colorscheme('onebuddy')
@@ -82,21 +86,18 @@ require 'colorbuddy'.colorscheme('onebuddy')
 require 'lualine'.setup {
   options = {
     theme = 'onedark',
-    section_separators = '', 
-    component_separators = ''
   }
 }
 
-require 'nvim-autopairs'.setup {
-  check_ts = true
-} 
+require 'nvim-treesitter.configs'.setup {
+  rainbow = {
+    enable = true,
+  }
+}
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -139,15 +140,42 @@ local on_attach = function(client, bufnr)
   end
 end
 
-
 local servers = { "tsserver", "clangd", "solargraph", "rust_analyzer", "vuels", "svelte", "pyright" }
 for _, server in ipairs(servers) do
   nvim_lsp[server].setup { on_attach = on_attach }
 end
 
+-- lua lsp
+local sumneko_root_path = '/home/brn/clone/lua-language-server'
+local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
+
+nvim_lsp.sumneko_lua.setup {
+  cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+        path = vim.split(package.path, ';'),
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+        },
+      },
+    }
+  }
+}
+
 o.completeopt = "menuone,noselect"
 
-require'compe'.setup {
+require 'compe'.setup {
   enabled = true;
   autocomplete = true;
   debug = false;
@@ -170,8 +198,6 @@ require'compe'.setup {
   };
 }
 
-cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-
 -- end setup plugins
 
 -- options
@@ -188,7 +214,7 @@ wo.signcolumn = 'yes'
 
 o.hidden = true             -- Enable modified buffers in background
 wo.number = true            -- show line numbers
-wo.wrap = false             -- turn off wrapping 
+wo.wrap = false             -- turn off wrapping
 o.showmode = false          -- let status plugin handle mode
 bo.swapfile = false         -- playing on hard mode
 o.swapfile = false          -- playing on hard mode
@@ -208,14 +234,13 @@ o.sidescrolloff = 8         -- Columns of context
 o.splitbelow = true         -- Put new windows below current
 o.splitright = true         -- Put new windows right of current
 
+o.guifont = 'Iosevka Term:h15'
+
 -- LSP Sign Column
 vim.fn.sign_define("LspDiagnosticsSignError", { text = "" })
 vim.fn.sign_define("LspDiagnosticsSignWarning", { text = "" })
 vim.fn.sign_define("LspDiagnosticsSignInformation", { text = "" })
 vim.fn.sign_define("LspDiagnosticsSignHint", { text = "" })
-
--- highlights
--- cmd "hi SignColumn guibg=NONE"
 
 o.clipboard = 'unnamedplus'
 o.mouse = 'a'
@@ -228,12 +253,15 @@ g.mapleader = ' '
 local options = { noremap = true, silent = true }
 map('n', '<C-n>', ':NvimTreeToggle<CR>', options)
 
+map('n', '<leader>n', ':nohlsearch<CR>', options)
+map('n', '<leader>,', ':e ~/.config/nvim/init.lua<CR>', options)
+
 -- telescope
 map('n', '<C-p>', ':Telescope find_files<CR>', options)
 map('n', '<leader>ff', '<cmd>Telescope find_files<cr>', options)
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', options)
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', options)
-map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', options)
+map('n', '<leader>fh', '<cmd>Telescope oldfiles<cr>', options)
 
 -- barbar
 map('n', '<C-s>', ':BufferPick<CR>',          options) -- magic buffer selection
@@ -251,7 +279,6 @@ map('n', '<A-7>', ':BufferGoto 7<CR>',        options)
 map('n', '<A-8>', ':BufferGoto 8<CR>',        options)
 map('n', '<A-9>', ':BufferLast<CR>',          options)
 map('n', '<A-c>', ':BufferClose<CR>',         options) -- close buffer
-
 
 local compe_options = { noremap = true, silent = true, expr = true }
 map('i', '<C-Space>', 'compe#complete()', compe_options)
