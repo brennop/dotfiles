@@ -1,3 +1,6 @@
+env:
+  WINIT_X11_SCALE_FACTOR: '1'
+
 window:
   padding:
     x: 16
@@ -6,4 +9,4 @@ window:
 font:
   normal:
     family: Fantasque Sans Mono Nerd Font
-  size: 10.0
+  size: 12.0
