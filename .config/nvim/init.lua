@@ -41,6 +41,7 @@ require('packer').startup(function(use)
 
   -- utils 🧰
   use 'nacro90/numb.nvim'
+  use '/windwp/nvim-autopairs'
 
   -- language tools 🔠
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -58,7 +59,8 @@ require('packer').startup(function(use)
   use 'andweeb/presence.nvim'
   use 'hoob3rt/lualine.nvim'
   use { "rcarriga/vim-ultest", requires = { "vim-test/vim-test" }, run = ":UpdateRemotePlugins" }
-  use "Pocco81/TrueZen.nvim"
+  use 'Pocco81/TrueZen.nvim'
+  use 'karb94/neoscroll.nvim'
   use {
     "ahmedkhalf/lsp-rooter.nvim",
     config = function() require("lsp-rooter").setup {} end
@@ -82,10 +84,13 @@ require 'colorizer'.setup {}
 require 'numb'.setup {}
 require 'neogit'.setup {}
 require 'colorbuddy'.colorscheme('onebuddy')
+require 'nvim-autopairs'.setup {}
 
 require 'lualine'.setup {
   options = {
     theme = 'onedark',
+    section_separators = '',
+    component_separators = ''
   }
 }
 
@@ -93,6 +98,10 @@ require 'nvim-treesitter.configs'.setup {
   rainbow = {
     enable = true,
   }
+}
+
+require 'neoscroll'.setup {
+  easing_function = "quadratic"
 }
 
 local nvim_lsp = require('lspconfig')
