@@ -51,7 +51,7 @@ require('packer').startup(function(use)
 
   -- colors 🎨
   use 'norcalli/nvim-colorizer.lua'
-  use { 'Th3Whit3Wolf/onebuddy', requires =  'tjdevries/colorbuddy.vim' }
+  use({ 'rose-pine/neovim', as = 'rose-pine' })
   use 'folke/tokyonight.nvim'
   use 'p00f/nvim-ts-rainbow' -- color
 
@@ -83,16 +83,10 @@ g.nvim_tree_gitignore = 1
 require 'colorizer'.setup {}
 require 'numb'.setup {}
 require 'neogit'.setup {}
-require 'colorbuddy'.colorscheme('onebuddy')
 require 'nvim-autopairs'.setup {}
 
-require 'lualine'.setup {
-  options = {
-    theme = 'onedark',
-    section_separators = '',
-    component_separators = ''
-  }
-}
+vim.g.rose_pine_variant = 'dawn'
+require 'rose-pine'.set {}
 
 require 'nvim-treesitter.configs'.setup {
   rainbow = {
