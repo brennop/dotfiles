@@ -41,34 +41,29 @@ require('packer').startup(function(use)
 
   -- utils 🧰
   use 'nacro90/numb.nvim'
-  use '/windwp/nvim-autopairs'
+  use 'windwp/nvim-autopairs'
+  use 'RRethy/nvim-treesitter-textsubjects'
 
   -- language tools 🔠
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
 
   -- colors 🎨
-  use 'norcalli/nvim-colorizer.lua'
-  use({ 'rose-pine/neovim', as = 'rose-pine' })
-  use 'folke/tokyonight.nvim'
-  use 'p00f/nvim-ts-rainbow' -- color
+  use { 'rose-pine/neovim', as = 'rose-pine' }
+  use 'p00f/nvim-ts-rainbow' 
 
   -- misc
   use 'andweeb/presence.nvim'
-  use 'hoob3rt/lualine.nvim'
-  use { "rcarriga/vim-ultest", requires = { "vim-test/vim-test" }, run = ":UpdateRemotePlugins" }
   use 'Pocco81/TrueZen.nvim'
   use 'karb94/neoscroll.nvim'
-  use {
-    "ahmedkhalf/lsp-rooter.nvim",
-    config = function() require("lsp-rooter").setup {} end
-  }
+  use 'ahmedkhalf/lsp-rooter.nvim'
 
   -- vimscript 🙄
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
+  use 'tpope/vim-repeat'
+
 end)
 -- end plugins
 
@@ -80,22 +75,35 @@ o.termguicolors = true
 
 g.nvim_tree_gitignore = 1
 
-require 'colorizer'.setup {}
 require 'numb'.setup {}
 require 'neogit'.setup {}
 require 'nvim-autopairs'.setup {}
+require 'lsp-rooter'.setup {}
 
 vim.g.rose_pine_variant = 'dawn'
 require 'rose-pine'.set {}
 
 require 'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
   rainbow = {
     enable = true,
-  }
+  },
+  textsubjects = {
+    enable = true,
+    keymaps = {
+        ['.'] = 'textsubjects-smart',
+        [';'] = 'textsubjects-big',
+    }
+  },
 }
 
 require 'neoscroll'.setup {
-  easing_function = "quadratic"
+  easing_function = 'cubic'
 }
 
 local nvim_lsp = require('lspconfig')

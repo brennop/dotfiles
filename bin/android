@@ -1,0 +1,4 @@
+#!/bin/bash
+
+nohup emulator @default -dns-server 8.8.8.8 -no-audio >/dev/null 2>&1 &
+sleep 3; adb reverse tcp:3000 tcp:3000
