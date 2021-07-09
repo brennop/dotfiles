@@ -16,7 +16,7 @@ super + Escape
 
 # emoji
 super + period
-  rofi -show emoji
+  rofimoji
 
 # snip
 super + p

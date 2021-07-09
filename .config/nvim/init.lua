@@ -3,9 +3,7 @@ local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
 local fn = vim.fn    -- to call Vim functions e.g. fn.bufnr()
 local g = vim.g      -- a table to access global variables
 
-local o = vim.o
-local wo = vim.wo
-local bo = vim.bo
+local opt = vim.opt
 
 local execute = vim.api.nvim_command
 local map = vim.api.nvim_set_keymap
@@ -28,11 +26,7 @@ require('packer').startup(function(use)
   use {"wbthomason/packer.nvim", opt = true}
 
   -- navigation 🧭
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-  }
-
+  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
   use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
   use 'romgrk/barbar.nvim'
 
@@ -50,14 +44,12 @@ require('packer').startup(function(use)
   use 'hrsh7th/nvim-compe'
 
   -- colors 🎨
-  use { 'rose-pine/neovim', as = 'rose-pine' }
-  use 'p00f/nvim-ts-rainbow' 
+  use 'folke/tokyonight.nvim'
+  use 'norcalli/nvim-colorizer.lua'
 
   -- misc
-  use 'andweeb/presence.nvim'
   use 'Pocco81/TrueZen.nvim'
   use 'karb94/neoscroll.nvim'
-  use 'ahmedkhalf/lsp-rooter.nvim'
 
   -- vimscript 🙄
   use 'tpope/vim-commentary'
@@ -71,28 +63,19 @@ cmd "syntax enable"
 cmd "syntax on"
 
 -- setup plugins
-o.termguicolors = true
+opt.termguicolors = true
 
 g.nvim_tree_gitignore = 1
 
 require 'numb'.setup {}
 require 'neogit'.setup {}
 require 'nvim-autopairs'.setup {}
-require 'lsp-rooter'.setup {}
-
-vim.g.rose_pine_variant = 'dawn'
-require 'rose-pine'.set {}
+require 'colorizer'.setup {}
 
 require 'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
-  },
-  rainbow = {
-    enable = true,
-  },
+  highlight = { enable = true },
+  indent = { enable = true },
+  autopairs = { enable = true },
   textsubjects = {
     enable = true,
     keymaps = {
@@ -184,7 +167,7 @@ nvim_lsp.sumneko_lua.setup {
   }
 }
 
-o.completeopt = "menuone,noselect"
+opt.completeopt = "menuone,noselect"
 
 require 'compe'.setup {
   enabled = true;
@@ -213,39 +196,27 @@ require 'compe'.setup {
 
 -- options
 
-bo.shiftwidth = 2           -- Size of an indent
-o.shiftwidth = 2            -- Size of an indent
-bo.tabstop = 2              -- Number of spaces tabs count for
-o.tabstop = 2               -- Number of spaces tabs count for
-bo.expandtab = true         -- Use spaces instead of tabs
-o.expandtab = true          -- Use spaces instead of tabs
-bo.smartindent = true       -- Insert indents automatically
-o.smartindent = true        -- Insert indents automatically
-wo.signcolumn = 'yes'
+opt.shiftwidth = 2            -- Size of an indent
+opt.tabstop = 2               -- Number of spaces tabs count for
+opt.expandtab = true          -- Use spaces instead of tabs
+opt.smartindent = true        -- Insert indents automatically
+opt.signcolumn = 'no'
 
-o.hidden = true             -- Enable modified buffers in background
-wo.number = true            -- show line numbers
-wo.wrap = false             -- turn off wrapping
-o.showmode = false          -- let status plugin handle mode
-bo.swapfile = false         -- playing on hard mode
-o.swapfile = false          -- playing on hard mode
+opt.hidden = true             -- Enable modified buffers in background
+opt.wrap = false             -- turn off wrapping
+opt.swapfile = false         -- playing on hard mode
 
-o.ignorecase = true         -- Ignore case
-o.smartcase = true          -- Don't ignore case with capitals
-o.laststatus = 2
-o.hlsearch = true
-o.incsearch = true          -- live search
-o.inccommand = 'split'      -- live substitution
+opt.ignorecase = true         -- Ignore case
+opt.smartcase = true          -- Don't ignore case with capitals
+opt.laststatus = 2
+opt.hlsearch = true
+opt.incsearch = true          -- live search
+opt.inccommand = 'split'      -- live substitution
 
-o.joinspaces = false        -- No double spaces with join after a dot
-o.scrolloff = 4             -- Lines of context
-o.shiftround = true         -- Round indent
-o.sidescrolloff = 8         -- Columns of context
-
-o.splitbelow = true         -- Put new windows below current
-o.splitright = true         -- Put new windows right of current
-
-o.guifont = 'Iosevka Term:h15'
+opt.joinspaces = false        -- No double spaces with join after a dot
+opt.scrolloff = 4             -- Lines of context
+opt.shiftround = true         -- Round indent
+opt.sidescrolloff = 8         -- Columns of context
 
 -- LSP Sign Column
 vim.fn.sign_define("LspDiagnosticsSignError", { text = "" })
@@ -253,9 +224,15 @@ vim.fn.sign_define("LspDiagnosticsSignWarning", { text = "" })
 vim.fn.sign_define("LspDiagnosticsSignInformation", { text = "" })
 vim.fn.sign_define("LspDiagnosticsSignHint", { text = "" })
 
-o.clipboard = 'unnamedplus'
-o.mouse = 'a'
+opt.clipboard = 'unnamedplus'
+opt.mouse = 'a'
 -- end options
+
+-- colors
+cmd "hi! EndOfBuffer guibg=bg guifg=bg" -- tilde characters
+cmd "hi StatusLine guibg=bg"
+cmd "colorscheme tokyonight"
+--
 
 -- mappings
 map('n', '<Space>', '', {})
