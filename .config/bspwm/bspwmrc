@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 
 pgrep -x sxhkd > /dev/null || sxhkd -m 1 &
 ~/bin/start.sh

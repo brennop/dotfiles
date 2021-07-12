@@ -37,6 +37,7 @@ require('packer').startup(function(use)
   use 'nacro90/numb.nvim'
   use 'windwp/nvim-autopairs'
   use 'RRethy/nvim-treesitter-textsubjects'
+  use 'sbdchd/neoformat'
 
   -- language tools 🔠
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -113,11 +114,11 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>qf', '<cmd>lua require\'telescope.builtin\'.lsp_code_actions()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  elseif client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
+  -- if client.resolved_capabilities.document_formatting then
+  --   buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  -- elseif client.resolved_capabilities.document_range_formatting then
+  --   buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  -- end
 
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
@@ -243,6 +244,9 @@ map('n', '<C-n>', ':NvimTreeToggle<CR>', options)
 
 map('n', '<leader>n', ':nohlsearch<CR>', options)
 map('n', '<leader>,', ':e ~/.config/nvim/init.lua<CR>', options)
+
+-- format
+map('n', '<leader>p', ':Neoformat<CR>', options)
 
 -- telescope
 map('n', '<C-p>', ':Telescope find_files<CR>', options)
