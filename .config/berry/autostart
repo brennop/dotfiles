@@ -1,6 +1,7 @@
 #!/bin/bash
 
-pgrep -x sxhkd > /dev/null || sxhkd -m 1 -c $HOME/.config/berry/sxhkdrc &
+# pgrep -x sxhkd > /dev/null || sxhkd -m 1 -c $HOME/.config/berry/sxhkdrc &
+sxhkd -c $HOME/.config/berry/sxhkdrc &
 ~/bin/start.sh
 
 # Set decoration geometry

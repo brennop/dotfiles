@@ -1,8 +1,8 @@
 configuration {
-	modi: "window,run,drun,combi";
-	font: "Iosevka Nerd Font Mono 12";
+	modi: "run,drun,combi";
+	font: "FiraCode Nerd Font Mono 12";
 }
 
-@import "~/.config/rofi/colors-rofi-dark"
+@import "~/.cache/wal/colors-rofi-dark.rasi"
 
 

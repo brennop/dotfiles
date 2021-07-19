@@ -23,11 +23,11 @@ cmd 'autocmd BufWritePost plugins.lua PackerCompile'
 
 require('packer').startup(function(use)
   -- Packer can manage itself
-  use {"wbthomason/packer.nvim", opt = true}
+  use { "wbthomason/packer.nvim", opt = true }
 
   -- navigation 🧭
-  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
-  use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
+  use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
+  use { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons' }
   use 'romgrk/barbar.nvim'
 
   -- git
@@ -37,7 +37,7 @@ require('packer').startup(function(use)
   use 'nacro90/numb.nvim'
   use 'windwp/nvim-autopairs'
   use 'RRethy/nvim-treesitter-textsubjects'
-  use 'sbdchd/neoformat'
+  use 'sunjon/shade.nvim'
 
   -- language tools 🔠
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -47,15 +47,17 @@ require('packer').startup(function(use)
   -- colors 🎨
   use 'folke/tokyonight.nvim'
   use 'norcalli/nvim-colorizer.lua'
+  use 'nikolvs/vim-sunbather'
 
   -- misc
   use 'Pocco81/TrueZen.nvim'
   use 'karb94/neoscroll.nvim'
 
-  -- vimscript 🙄
+  -- tpope 🙏 
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
   use 'tpope/vim-repeat'
+  use 'tpope/vim-fugitive'
 
 end)
 -- end plugins
@@ -72,6 +74,10 @@ require 'numb'.setup {}
 require 'neogit'.setup {}
 require 'nvim-autopairs'.setup {}
 require 'colorizer'.setup {}
+
+require 'telescope'.setup {
+  scroll_strategy = nil
+}
 
 require 'nvim-treesitter.configs'.setup {
   highlight = { enable = true },
@@ -113,13 +119,6 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '<leader>qf', '<cmd>lua require\'telescope.builtin\'.lsp_code_actions()<CR>', opts)
 
-  -- Set some keybinds conditional on server capabilities
-  -- if client.resolved_capabilities.document_formatting then
-  --   buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  -- elseif client.resolved_capabilities.document_range_formatting then
-  --   buf_set_keymap("n", "<leader>p", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  -- end
-
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
@@ -136,6 +135,7 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = { "tsserver", "clangd", "solargraph", "rust_analyzer", "vuels", "svelte", "pyright" }
+
 for _, server in ipairs(servers) do
   nvim_lsp[server].setup { on_attach = on_attach }
 end
@@ -167,6 +167,46 @@ nvim_lsp.sumneko_lua.setup {
     }
   }
 }
+
+-- efm
+local eslint = {
+  lintCommand = 'eslint_d -f unix --stdin --stdin-filename ${INPUT}',
+  lintIgnoreExitCode = true,
+  lintStdin = true,
+  lintFormats = { '%f:%l:%c: %m' },
+  formatCommand = 'eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}',
+  formatStdin = true,
+}
+
+local prettier = {
+  formatCommand = 'prettier --stdin-filepath ${INPUT}',
+  formatStdin = true,
+}
+
+nvim_lsp.efm.setup {
+  on_attach = function(client)
+    client.resolved_capabilities.document_formatting = true
+    client.resolved_capabilities.goto_definition = false
+  end,
+  root_dir = function()
+    return vim.fn.getcwd()
+  end,
+  settings = {
+    languages = {
+      css = { prettier },
+      html = { prettier },
+      javascript = { prettier, eslint },
+      javascriptreact = { prettier, eslint },
+      json = { prettier },
+      markdown = { prettier },
+      scss = { prettier },
+      typescript = { prettier, eslint },
+      typescriptreact = { prettier, eslint },
+      yaml = { prettier },
+    }
+  },
+}
+
 
 opt.completeopt = "menuone,noselect"
 
@@ -232,7 +272,7 @@ opt.mouse = 'a'
 -- colors
 cmd "hi! EndOfBuffer guibg=bg guifg=bg" -- tilde characters
 cmd "hi StatusLine guibg=bg"
-cmd "colorscheme tokyonight"
+cmd "colorscheme sunbather"
 --
 
 -- mappings
@@ -245,8 +285,8 @@ map('n', '<C-n>', ':NvimTreeToggle<CR>', options)
 map('n', '<leader>n', ':nohlsearch<CR>', options)
 map('n', '<leader>,', ':e ~/.config/nvim/init.lua<CR>', options)
 
--- format
-map('n', '<leader>p', ':Neoformat<CR>', options)
+-- try to format
+map('n', '<leader>p', '<cmd>lua vim.lsp.buf.formatting()<CR>', options)
 
 -- telescope
 map('n', '<C-p>', ':Telescope find_files<CR>', options)
@@ -254,12 +294,14 @@ map('n', '<leader>ff', '<cmd>Telescope find_files<cr>', options)
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', options)
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', options)
 map('n', '<leader>fh', '<cmd>Telescope oldfiles<cr>', options)
+map('n', '<leader>fq', '<cmd>Telescope quickfix<cr>', options)
+map('n', '<leader>fp', '<cmd>Telescope registers<cr>', options)
 
 -- barbar
 map('n', '<C-s>', ':BufferPick<CR>',          options) -- magic buffer selection
 map('n', '<A-,>', ':BufferPrevious<CR>',      options) -- previous
 map('n', '<A-.>', ':BufferNext<CR>',          options) -- next
-map('n', '<A-<>', ':BufferMovePrevious<CR>',  options) -- reoder
+map('n', '<A-<>', ':BufferPrevious<CR>',      options) -- reoder
 map('n', '<A->>', ':BufferMoveNext<CR>',      options) -- reoder
 map('n', '<A-1>', ':BufferGoto 1<CR>',        options)
 map('n', '<A-2>', ':BufferGoto 2<CR>',        options)
