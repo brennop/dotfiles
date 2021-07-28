@@ -28,16 +28,16 @@ require('packer').startup(function(use)
   -- navigation 🧭
   use { 'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}} }
   use { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons' }
-  use 'romgrk/barbar.nvim'
-
-  -- git
-  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
+  use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons'}
+  -- use 'romgrk/barbar.nvim'
 
   -- utils 🧰
   use 'nacro90/numb.nvim'
   use 'windwp/nvim-autopairs'
   use 'RRethy/nvim-treesitter-textsubjects'
   use 'sunjon/shade.nvim'
+  use 'windwp/nvim-ts-autotag'
+  use 'hoob3rt/lualine.nvim'
 
   -- language tools 🔠
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -45,9 +45,8 @@ require('packer').startup(function(use)
   use 'hrsh7th/nvim-compe'
 
   -- colors 🎨
-  use 'folke/tokyonight.nvim'
   use 'norcalli/nvim-colorizer.lua'
-  use 'nikolvs/vim-sunbather'
+  use 'arcticicestudio/nord-vim'
 
   -- misc
   use 'Pocco81/TrueZen.nvim'
@@ -69,20 +68,73 @@ cmd "syntax on"
 opt.termguicolors = true
 
 g.nvim_tree_gitignore = 1
+g.nvim_tree_tab_open = 1
+g.nvim_tree_quit_on_open = 1
 
 require 'numb'.setup {}
-require 'neogit'.setup {}
 require 'nvim-autopairs'.setup {}
 require 'colorizer'.setup {}
+require 'shade'.setup {}
 
+local bg = "#2e3440"
+local bg2 = "#3b4252"
+local bg3 = "#282c34"
+local fg = "#CACed6"
+local accent = "#81a1c1"
+
+require("bufferline").setup{
+  options = {
+    offsets = {{ filetype = "NvimTree" }},
+    show_close_icon = false,
+    show_buffer_close_icons = false,
+    separator_style = { '', '' },
+  },
+}
+
+require'lualine'.setup {
+  options = {
+    icons_enabled = false,
+    theme = 'nord',
+    component_separators = {'', ''},
+    section_separators = {'', ''},
+    disabled_filetypes = {'NvimTree'}
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+
+local actions = require('telescope.actions')
 require 'telescope'.setup {
-  scroll_strategy = nil
+  defaults = {
+    mappings = {
+      i = {
+          ["<esc>"] = actions.close,
+        }
+      }
+    }
 }
 
 require 'nvim-treesitter.configs'.setup {
   highlight = { enable = true },
   indent = { enable = true },
   autopairs = { enable = true },
+  autotag = { enable = true },
   textsubjects = {
     enable = true,
     keymaps = {
@@ -134,7 +186,7 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local servers = { "tsserver", "clangd", "solargraph", "rust_analyzer", "vuels", "svelte", "pyright" }
+local servers = { "tsserver", "clangd", "solargraph", "rust_analyzer", "vuels", "svelte", "pyright", "hls" }
 
 for _, server in ipairs(servers) do
   nvim_lsp[server].setup { on_attach = on_attach }
@@ -145,7 +197,7 @@ local sumneko_root_path = '/home/brn/clone/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
 
 nvim_lsp.sumneko_lua.setup {
-  cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+  cmd = { sumneko_binary, "-E", sumneko_root_path .. "./main.lua"},
   on_attach = on_attach,
   settings = {
     Lua = {
@@ -259,6 +311,8 @@ opt.scrolloff = 4             -- Lines of context
 opt.shiftround = true         -- Round indent
 opt.sidescrolloff = 8         -- Columns of context
 
+opt.showmode = false          -- hide Insert, Replace or Visual (lualine)
+
 -- LSP Sign Column
 vim.fn.sign_define("LspDiagnosticsSignError", { text = "" })
 vim.fn.sign_define("LspDiagnosticsSignWarning", { text = "" })
@@ -270,9 +324,10 @@ opt.mouse = 'a'
 -- end options
 
 -- colors
-cmd "hi! EndOfBuffer guibg=bg guifg=bg" -- tilde characters
-cmd "hi StatusLine guibg=bg"
-cmd "colorscheme sunbather"
+g.nord_italic = 1
+g.nord_italic_comments = 1
+g.nord_underline = 1
+cmd "colorscheme nord"
 --
 
 -- mappings
@@ -299,20 +354,11 @@ map('n', '<leader>fp', '<cmd>Telescope registers<cr>', options)
 
 -- barbar
 map('n', '<C-s>', ':BufferPick<CR>',          options) -- magic buffer selection
-map('n', '<A-,>', ':BufferPrevious<CR>',      options) -- previous
-map('n', '<A-.>', ':BufferNext<CR>',          options) -- next
-map('n', '<A-<>', ':BufferPrevious<CR>',      options) -- reoder
-map('n', '<A->>', ':BufferMoveNext<CR>',      options) -- reoder
-map('n', '<A-1>', ':BufferGoto 1<CR>',        options)
-map('n', '<A-2>', ':BufferGoto 2<CR>',        options)
-map('n', '<A-3>', ':BufferGoto 3<CR>',        options)
-map('n', '<A-4>', ':BufferGoto 4<CR>',        options)
-map('n', '<A-5>', ':BufferGoto 5<CR>',        options)
-map('n', '<A-6>', ':BufferGoto 6<CR>',        options)
-map('n', '<A-7>', ':BufferGoto 7<CR>',        options)
-map('n', '<A-8>', ':BufferGoto 8<CR>',        options)
-map('n', '<A-9>', ':BufferLast<CR>',          options)
+map('n', '<A-,>', ':BufferLineCyclePrev<CR>',      options) -- previous
+map('n', '<A-.>', ':BufferLineCycleNext<CR>',          options) -- next
 map('n', '<A-c>', ':BufferClose<CR>',         options) -- close buffer
+
+-- tree
 
 local compe_options = { noremap = true, silent = true, expr = true }
 map('i', '<C-Space>', 'compe#complete()', compe_options)
