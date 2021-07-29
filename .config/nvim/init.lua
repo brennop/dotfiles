@@ -8,6 +8,14 @@ local opt = vim.opt
 local execute = vim.api.nvim_command
 local map = vim.api.nvim_set_keymap
 
+local options = { noremap = true, silent = true }
+
+map('n', '<Space>', '', {})
+g.mapleader = ' '
+
+-- edit configs
+map('n', '<leader>,', ':e ~/.config/nvim/init.lua<CR>', options)
+
 -- Bootstrap packer if cloning dotfiles
 local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
@@ -35,7 +43,7 @@ require('packer').startup(function(use)
   use 'nacro90/numb.nvim'
   use 'windwp/nvim-autopairs'
   use 'RRethy/nvim-treesitter-textsubjects'
-  use 'sunjon/shade.nvim'
+  -- use 'sunjon/shade.nvim'
   use 'windwp/nvim-ts-autotag'
   use 'hoob3rt/lualine.nvim'
 
@@ -51,6 +59,11 @@ require('packer').startup(function(use)
   -- misc
   use 'Pocco81/TrueZen.nvim'
   use 'karb94/neoscroll.nvim'
+
+  -- wiki/md
+  use 'vimwiki/vimwiki'
+  use 'folke/zen-mode.nvim'
+  use 'npxbr/glow.nvim'
 
   -- tpope 🙏 
   use 'tpope/vim-commentary'
@@ -74,7 +87,13 @@ g.nvim_tree_quit_on_open = 1
 require 'numb'.setup {}
 require 'nvim-autopairs'.setup {}
 require 'colorizer'.setup {}
-require 'shade'.setup {}
+-- require 'shade'.setup {}
+
+require 'zen-mode'.setup {
+  window = {
+    width = 80
+  },
+}
 
 local bg = "#2e3440"
 local bg2 = "#3b4252"
@@ -145,7 +164,8 @@ require 'nvim-treesitter.configs'.setup {
 }
 
 require 'neoscroll'.setup {
-  easing_function = 'cubic'
+  easing_function = 'quadratic',
+  use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
 }
 
 local nvim_lsp = require('lspconfig')
@@ -280,9 +300,27 @@ require 'compe'.setup {
     path = true;
     buffer = true;
     calc = true;
+    spell = true;
     nvim_lsp = true;
     nvim_lua = true;
+    omni = true;
   };
+}
+
+-- vimwiki
+g.vimwiki_list = {{
+  path = '~/notes/unb',
+  syntax = 'markdown',
+  ext = '.md'
+}}
+g.vimwiki_create_link = 0
+
+require 'true-zen'.setup {
+	modes = {
+		ataraxis = {
+			ideal_writing_area_width = {0},
+    }
+  }
 }
 
 -- end setup plugins
@@ -307,11 +345,12 @@ opt.incsearch = true          -- live search
 opt.inccommand = 'split'      -- live substitution
 
 opt.joinspaces = false        -- No double spaces with join after a dot
-opt.scrolloff = 4             -- Lines of context
+opt.scrolloff = 8             -- Lines of context
 opt.shiftround = true         -- Round indent
 opt.sidescrolloff = 8         -- Columns of context
 
 opt.showmode = false          -- hide Insert, Replace or Visual (lualine)
+opt.textwidth = 80
 
 -- LSP Sign Column
 vim.fn.sign_define("LspDiagnosticsSignError", { text = "" })
@@ -331,14 +370,9 @@ cmd "colorscheme nord"
 --
 
 -- mappings
-map('n', '<Space>', '', {})
-g.mapleader = ' '
-
-local options = { noremap = true, silent = true }
 map('n', '<C-n>', ':NvimTreeToggle<CR>', options)
 
 map('n', '<leader>n', ':nohlsearch<CR>', options)
-map('n', '<leader>,', ':e ~/.config/nvim/init.lua<CR>', options)
 
 -- try to format
 map('n', '<leader>p', '<cmd>lua vim.lsp.buf.formatting()<CR>', options)
@@ -347,10 +381,9 @@ map('n', '<leader>p', '<cmd>lua vim.lsp.buf.formatting()<CR>', options)
 map('n', '<C-p>', ':Telescope find_files<CR>', options)
 map('n', '<leader>ff', '<cmd>Telescope find_files<cr>', options)
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', options)
-map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', options)
 map('n', '<leader>fh', '<cmd>Telescope oldfiles<cr>', options)
 map('n', '<leader>fq', '<cmd>Telescope quickfix<cr>', options)
-map('n', '<leader>fp', '<cmd>Telescope registers<cr>', options)
+map('n', '<leader>fs', '<cmd>Telescope spell_suggest<cr>', options)
 
 -- barbar
 map('n', '<C-s>', ':BufferPick<CR>',          options) -- magic buffer selection
@@ -365,4 +398,10 @@ map('i', '<C-Space>', 'compe#complete()', compe_options)
 map('i', '<CR>', "compe#confirm('<CR>')", compe_options)
 
 -- end mappings
+
+-- spell
+opt.spelllang = 'pt_br'
+cmd [[autocmd BufRead,BufNewFile *.md setlocal spell]]
+cmd [[autocmd FileType gitcommit setlocal spell]]
+--
 

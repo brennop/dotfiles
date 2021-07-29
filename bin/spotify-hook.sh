@@ -2,13 +2,17 @@
 
 if [ "$PLAYER_EVENT" = "start" ] || [ "$PLAYER_EVENT" = "change" ];
 then
-  trackName=$(playerctl metadata title)
-  artistAndAlbumName=$(playerctl metadata --format "{{ artist }} ({{ album }})")
+  meta=$(playerctl -p spotifyd metadata)
 
-  notify-send -u low "$trackName" "$artistAndAlbumName "
-fi
+  title=$(echo "$meta" | awk '$2=="xesam:title"{print $3}')
+  artist=$(echo "$meta" | awk '$2=="xesam:artist"{print $3}' | sed -z 's/\n/, /g;s/, $/\n/' )
+  album=$(echo "$meta" | awk '$2=="xesam:album"{print $3}')
+  artUrl=$(echo "$meta" | awk '$2=="mpris:artUrl"{print $3}')
 
-if [ "$PLAYER_EVENT" = "change" ];
-then
-  wget $(playerctl metadata mpris:artUrl) -O ~/.cache/art.png
+  if [ "$artUrl" != "$(cat ~/.cache/artUrl)" ]; then
+    wget "$artUrl" -O ~/.cache/art.png
+    echo "$artUrl" > ~/.cache/artUrl
+  fi
+
+  notify-send -u low "$title" "$artist ($album)" -i "~/.cache/art.png"
 fi

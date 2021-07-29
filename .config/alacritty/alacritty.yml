@@ -5,8 +5,11 @@ window:
   padding:
     x: 32
     y: 32
+  dimensions:
+    columns: 104
+    lines: 36
 
 font:
   normal:
-    family: FiraCode Nerd Font Mono
+    family: Fira Code
   size: 12.0

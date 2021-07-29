@@ -1,6 +1,6 @@
 configuration {
-	modi: "run,drun,combi";
-	font: "FiraCode Nerd Font Mono 12";
+	modi: "run,drun,file-browser,combi";
+	font: "Fira Code 12";
 }
 
 @import "~/.cache/wal/colors-rofi-dark.rasi"
