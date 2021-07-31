@@ -7,21 +7,64 @@
   {autoload {treesitter nvim-treesitter.configs}
    require-macros [macros]})
 
+
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
+;;  🌈 rainbow
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
+
 (local parsers (require "nvim-treesitter.parsers"))
 
 (def- languages [:fennel :clojure :commonlisp :query])
 
-;; config
-(treesitter.setup
-  {:highlight {:enable true}
-   :indent {:enable true}
-   :rainbow {:enable true
+(def- rainbow {:enable true
              :disable (vim.tbl_filter 
                         (fn [parser] (not (vim.tbl_contains languages parser)))
                         (parsers.available_parsers))
-             :colors [:#cc6666 :#de935f :#f0c674 :#b5bd68 :#8abeb7 :#81a2be :#b294bb]}})
+             :colors [:#cc6666 :#de935f :#f0c674 :#b5bd68 :#8abeb7 :#81a2be :#b294bb]})
 
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
+;;  textobjects
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
 
-;; folding
+(def- textobjects 
+  {:select {:enable true
+            :lookahead false
+            :keymaps {:af "@function.outer"
+                      :if "@function.inner"
+                      :ac "@class.outer"
+                      :ic "@class.inner"
+                      :ia "@parameter.inner"
+                      :aa "@parameter.outer"}}
+   :swap {:enable true
+          :swap_next {:<leader>a "@parameter.inner"}
+          :swap_previous {:<leader>A "@parameter.inner"}}})
+
+;; ░▒▓▓▓▓▓▓▓▓▒░
+;;  📂 folding
+;; ░▒▓▓▓▓▓▓▓▓▒░
+
 (set! :foldmethod "expr")
 (set! :foldexpr "nvim_treesitter#foldexpr()")
+
+
+;; ░▒▓▓▓▓▓▓▓▓▒░
+;;  incremental
+;; ░▒▓▓▓▓▓▓▓▓▒░
+
+(def- incremental 
+  {:enable true
+   :keymaps {:init_selection    "<C-i>"
+             :node_incremental  "."
+             :scope_incremental "s"
+             :node_decremental  ","}})
+
+;; ░▒▓▓▓▓▓▓▓▒░
+;;  🔧 setup
+;; ░▒▓▓▓▓▓▓▓▒░
+
+(treesitter.setup
+  {:highlight {:enable true}
+   :indent {:enable true}
+   :incremental_selection incremental
+   :rainbow rainbow
+   :textobjects textobjects})
