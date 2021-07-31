@@ -23,6 +23,7 @@
                 :<C-k>      :buf.signature_help
                 :<leader>rn :buf.rename
                 :<leader>D  :buf.type_definition
+                :<leader>p  :buf.formatting
                 :<leader>e  :diagnostic.show_line_diagnostics
                 "[d"        :diagnostic.goto_prev
                 "]d"        :diagnostic.goto_next
@@ -38,9 +39,19 @@
 ;;  defaults
 ;; ░▒▓▓▓▓▓▓▓▒░
 
-(each [_ server (ipairs [:tsserver :hls])] 
+(each [_ server (ipairs [:hls])] 
   (let [s (. plugin server)] 
     (s.setup {:on_attach on-attach})))
+
+;; ░▒▓▓▓▓▓▓▓▓▒░
+;;   tsserver
+;; ░▒▓▓▓▓▓▓▓▓▒░
+
+(plugin.tsserver.setup 
+  {:on_attach (fn [client buffer] 
+                (do
+                  (set client.resolved_capabilities.document_formatting false)
+                  (on-attach client buffer)))})
 
 ;; ░▒▓▓▓▓▓▓▓▓▓▓▓▓▒░
 ;;  🌅 solargraph
@@ -64,9 +75,10 @@
                 :formatStdin true})
 
 (plugin.efm.setup 
-  {:on_attach (fn [client] (do
-                             (set client.resolved_capabilities.document_formatting true)
-                             (set client.resolved_capabilities.goto_definition false)))
+  {:on_attach (fn [client] 
+                (do
+                  (set client.resolved_capabilities.document_formatting true)
+                  (set client.resolved_capabilities.goto_definition false)))
    :settings 
    {:languages 
     {:css [prettier]

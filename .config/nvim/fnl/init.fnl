@@ -4,7 +4,7 @@
    require-macros [macros]})
 
 (let! :mapleader " ")
-(let! :maplocalleader "\\")
+(let! :maplocalleader :\\)
 
 (include :plugin)
 
@@ -22,11 +22,13 @@
 (set! :expandtab true)          ; Use spaces instead of tabs
 (set! :smartindent true)        ; Insert indents automatically
 (set! :textwidth 80)
-(set! :number true)
+(set! :number false)
 
 (set! :signcolumn "no")         ; no sign column
-(set! :laststatus 2)            ; hide something
-(set! :showmode false)          ; hide Insert, Replace or Visual (lualine)
+(set! :laststatus 0)            ; statusline (2 = show, 0 = hidden)
+(set! :showmode false)          ; Insert, Replace or Visual
+(set! :showcmd false)           ; last key typed
+(set! :rulerformat "%=%l,%v")   ; right align, then row, virtual column
 
 (set! :hidden true)             ; Enable modified buffers in background
 (set! :wrap false)              ; turn off wrapping
@@ -46,12 +48,22 @@
 (set! :clipboard "unnamedplus")
 (set! :mouse "a")
 
+(vim.opt.shortmess:append {:c true})
+(set! :foldlevelstart 99)
+
 ;
 ; mappings
 ;
 
-(utils.map :n "<Space>" "")
+(utils.map :n :<Space> "")
 
-(utils.noremap! "," "e ~/.config/nvim/fnl/init.fnl")    ; edit config file 
+(utils.noremap! "," "e ~/.config/nvim/fnl/init.fnl")  ; edit config file 
+(utils.noremap! :p "lua vim.lsp.buf.formatting()")    ; try to format
 
-(utils.map :n :<localleader>n ::nohlsearch<cr>) ; Clear search
+(utils.noremap! :l :noh) ; Clear search
+
+;; navigating cmdline without arrow keys
+;; see cmdline-editing
+(utils.map :c :<C-a> :<Home>)
+(utils.map :c :<C-f> :<Right>)
+(utils.map :c :<C-b> :<Left>)

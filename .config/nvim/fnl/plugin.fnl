@@ -24,15 +24,16 @@
 
   ;; dependencies
   :kyazdani42/nvim-web-devicons {}
-  :moll/vim-bbye {}
-  :nvim-lua/popup.nvim {}
   :nvim-lua/plenary.nvim {}
+  :nvim-lua/popup.nvim {}
+  :moll/vim-bbye {}
 
   ;; colorscheme
   :andreypopp/vim-colors-plain {:config (vim.cmd "colorscheme plain")}
 
   ;; utils
   :Olical/conjure {}
+  :nacro90/numb.nvim {}
 
   ;; cosmetic
   :akinsho/nvim-bufferline.lua {:config (req :bufferline)}
@@ -43,8 +44,14 @@
 
   ;; language tools
   :neovim/nvim-lspconfig {:config (req :lsp)}
-  :nvim-treesitter/nvim-treesitter {:run ::TSUpdate}
-  :hrsh7th/nvim-compe {}
+  :hrsh7th/nvim-compe {:config (req :completion)}
+
+  ;; 🌲 tree-sitter
+  :nvim-treesitter/nvim-treesitter {:config (req :treesitter) 
+                                    :branch "0.5-compat"
+                                    :run ":TSUpdate"}
+  :nvim-treesitter/nvim-treesitter-textobjects {:branch "0.5-compat"}
+  :p00f/nvim-ts-rainbow {}
 
   ;; tpope
   :tpope/vim-commentary {}
