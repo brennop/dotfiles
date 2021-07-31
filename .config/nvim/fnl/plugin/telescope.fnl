@@ -15,7 +15,7 @@
 (map :ff :find_files)
 (map :fg :live_grep)
 (map :fb :buffers)
-(map :fh :history)
+(map :fh :oldfiles)
 (map :fc :lsp_code_actions)
 (map :fz :spell_suggest)
 
