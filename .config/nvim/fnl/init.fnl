@@ -51,6 +51,7 @@
 ;
 
 (utils.map :n "<Space>" "")
-(utils.map :n "<C-,>" ":e ~/.config/nvim/fnl/init.fnl<CR>")
 
-(utils.noremap! :n :nohlsearch)
+(utils.noremap! "," "e ~/.config/nvim/fnl/init.fnl")    ; edit config file 
+
+(utils.map :n :<localleader>n ::nohlsearch<cr>) ; Clear search

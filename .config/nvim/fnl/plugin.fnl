@@ -14,7 +14,7 @@
         (for [i 1 (a.count pkgs) 2]
           (let [name (. pkgs i)
                 opts (. pkgs (+ i 1))]
-            ; (-?> (. opts :mod) (safe-require-plugin-config))
+            ; (-?> (. opts :mod) (req))
             (use (a.assoc opts 1 name))))))))
 
 (use
@@ -24,6 +24,9 @@
 
   ;; dependencies
   :kyazdani42/nvim-web-devicons {}
+  :moll/vim-bbye {}
+  :nvim-lua/popup.nvim {}
+  :nvim-lua/plenary.nvim {}
 
   ;; colorscheme
   :andreypopp/vim-colors-plain {:config (vim.cmd "colorscheme plain")}
@@ -32,17 +35,16 @@
   :Olical/conjure {}
 
   ;; cosmetic
-  :akinsho/nvim-bufferline.lua {:as :bufferline
-                                :config (req :bufferline)
-                                :requires [:moll/vim-bbye]}
-
-  :hoob3rt/lualine.nvim {:as :statusline
-                         :config (req :statusline)}
+  :akinsho/nvim-bufferline.lua {:config (req :bufferline)}
 
   ;; navigation
-  :nvim-telescope/telescope.nvim {:config (req :telescope)
-                                  :requires [:nvim-lua/popup.nvim
-                                             :nvim-lua/plenary.nvim]}
+  :nvim-telescope/telescope.nvim {:config (req :telescope)}
+  :kyazdani42/nvim-tree.lua {:config (req :tree)}
+
+  ;; language tools
+  :neovim/nvim-lspconfig {:config (req :lsp)}
+  :nvim-treesitter/nvim-treesitter {:run ::TSUpdate}
+  :hrsh7th/nvim-compe {}
 
   ;; tpope
   :tpope/vim-commentary {}

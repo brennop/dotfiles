@@ -15,10 +15,11 @@
 (map :ff :find_files)
 (map :fg :live_grep)
 (map :fb :buffers)
-(map :fh :file_browser)
+(map :fh :history)
+(map :fc :lsp_code_actions)
+(map :fz :spell_suggest)
 
 ;; spelling
-;; (noremap! [n] "zf" "<cmd>lua require'telescope.builtin'.spell_suggest{}" :silent)
 
 ;; config
 (plugin.setup {:defaults 
