@@ -18,8 +18,9 @@
             (use (a.assoc opts 1 name))))))))
 
 (defn- setup [name config]
-  (let [plugin (require name)] 
-    (plugin.setup config)))
+  (let [(ok? plugin) (pcall require name)] 
+    (when ok?
+      (plugin.setup config))))
 
 (use
   ;; required
@@ -34,19 +35,16 @@
 
   ;; colorscheme
   :andreypopp/vim-colors-plain {:config (vim.cmd "colorscheme plain")}
-  :folke/lsp-colors.nvim
+  :folke/lsp-colors.nvim {}
 
   ;; utils
   :Olical/conjure {}
-  ; :nacro90/numb.nvim {:config (setup :numb {})}
-  :nacro90/numb.nvim {}
+  :nacro90/numb.nvim {:config (setup :numb {})}
 
   ;; cosmetic
   :akinsho/nvim-bufferline.lua {:config (req :bufferline)}
-  ; :karb94/neoscroll.nvim {:config (setup :neoscroll {:easing_function "quadratic"})}
-  :karb94/neoscroll.nvim {}
-  ; :sunjon/shade.nvim {:config (setup :shade {})}
-  :sunjon/shade.nvim {}
+  :karb94/neoscroll.nvim {:config (setup :neoscroll {:easing_function "quadratic"})}
+  :sunjon/shade.nvim {:config (setup :shade {})}
 
   ;; navigation
   :nvim-telescope/telescope.nvim {:config (req :telescope)}

@@ -7,6 +7,7 @@
              utils utils}
    require-macros [macros]})
 
+(include :mappings)
 (include :plugin)
 
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
@@ -53,29 +54,11 @@
 (set! :foldlevelstart 99)
 
 ;; vimwiki
-(let! vimwiki_list [{:path "~/notes/unb" :syntax "markdown" :ext ".md"}])
-(let! vimwiki_create_link 0)
+(let! :vimwiki_list [{:path "~/notes/unb" :syntax "markdown" :ext ".md"}])
+(let! :vimwiki_create_link 0)
 
 ;; professor pasquale
 (set! :spelllang "pt_br")
 (cmd! "autocmd BufRead,BufNewFile *.md setlocal spell")
 (cmd! "autocmd FileType gitcommit setlocal spell")
 
-;; ░▒▓▓▓▓▓▓▓▓▓▒░
-;;  ⌨️ mappings
-;; ░▒▓▓▓▓▓▓▓▓▓▒░
-
-(let! :mapleader " ")
-(let! :maplocalleader :\\\\)
-
-(utils.map :n :<Space> "")
-
-(utils.noremap! "," "e ~/.config/nvim/fnl/init.fnl")  ; edit config file 
-(utils.noremap! :p "lua vim.lsp.buf.formatting()")    ; try to format
-
-(utils.noremap! :l :noh) ; Clear search
-
-;; navigating cmdline without arrow keys (cmdline-editing)
-(utils.map :c :<C-a> :<Home>)
-(utils.map :c :<C-f> :<Right>)
-(utils.map :c :<C-b> :<Left>)

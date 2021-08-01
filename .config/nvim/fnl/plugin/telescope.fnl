@@ -4,12 +4,15 @@
 
 (module plugin.telescope
   {autoload {plugin telescope
-             actions telescope.actions
-             utils utils}
+             actions telescope.actions}
    require-macros [macros]})
 
 (defn- map [mapping cmd]
-  (utils.map :n (.. :<leader> mapping) (.. ":Telescope " cmd "<CR>")))
+  (vim.api.nvim_set_keymap 
+    :n 
+    (.. :<leader> mapping)
+    (.. ":Telescope " cmd "<CR>")
+    {:silent true}))
 
 ;; mappings
 (map :ff :find_files)
