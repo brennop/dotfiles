@@ -1,16 +1,17 @@
+;; -========================-
+;;    vim, sabor erva-doce
+;; -========================-
+
 (module init
   {autoload {a aniseed.core
              utils utils}
    require-macros [macros]})
 
-(let! :mapleader " ")
-(let! :maplocalleader :\\)
-
 (include :plugin)
 
-;
-; options
-;
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
+;;  ⚙ Settings
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
 
 (cmd! "syntax enable")
 (cmd! "syntax on")
@@ -48,12 +49,24 @@
 (set! :clipboard "unnamedplus")
 (set! :mouse "a")
 
-(vim.opt.shortmess:append {:c true})
+(vim.opt.shortmess:append {:c true}) ; compe pare de mostrar coisa la em baixo
 (set! :foldlevelstart 99)
 
-;
-; mappings
-;
+;; vimwiki
+(let! vimwiki_list [{:path "~/notes/unb" :syntax "markdown" :ext ".md"}])
+(let! vimwiki_create_link 0)
+
+;; professor pasquale
+(set! :spelllang "pt_br")
+(cmd! "autocmd BufRead,BufNewFile *.md setlocal spell")
+(cmd! "autocmd FileType gitcommit setlocal spell")
+
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
+;;  ⌨️ mappings
+;; ░▒▓▓▓▓▓▓▓▓▓▒░
+
+(let! :mapleader " ")
+(let! :maplocalleader :\\\\)
 
 (utils.map :n :<Space> "")
 
@@ -62,8 +75,7 @@
 
 (utils.noremap! :l :noh) ; Clear search
 
-;; navigating cmdline without arrow keys
-;; see cmdline-editing
+;; navigating cmdline without arrow keys (cmdline-editing)
 (utils.map :c :<C-a> :<Home>)
 (utils.map :c :<C-f> :<Right>)
 (utils.map :c :<C-b> :<Left>)

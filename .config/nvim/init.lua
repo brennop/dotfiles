@@ -22,3 +22,6 @@ bootstrap("Olical/aniseed")
 
 -- load fnl/init.fnl
 vim.g["aniseed#env"] = true
+
+-- cadê todo mundo? ლ(ಠ_ಠლ) - você
+-- na pasta fnl/ o((*^▽^*))o

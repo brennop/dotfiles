@@ -20,7 +20,15 @@
              :disable (vim.tbl_filter 
                         (fn [parser] (not (vim.tbl_contains languages parser)))
                         (parsers.available_parsers))
-             :colors [:#cc6666 :#de935f :#f0c674 :#b5bd68 :#8abeb7 :#81a2be :#b294bb]})
+             :colors ["#f2777a"
+                      "#f99157"
+                      "#ffcc66"
+                      "#99cc99"
+                      "#66cccc"
+                      "#6699cc"
+                      "#cc99cc"]})
+
+
 
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
 ;;  textobjects

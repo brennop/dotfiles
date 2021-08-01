@@ -8,4 +8,14 @@
 
  :cmd!
  (fn [cmd]
-   `(vim.cmd ,cmd))}
+   `(vim.cmd ,cmd))
+
+ ;; Create an augroup for your autocmds.
+ ;; author: Olical
+ :augroup
+ (fn [name ...]
+   `(do
+      (vim.cmd (.. "augroup " ,(tostring name) "\nautocmd!"))
+      ,...
+      (vim.cmd "augroup END")
+      nil))}

@@ -17,6 +17,10 @@
             ; (-?> (. opts :mod) (req))
             (use (a.assoc opts 1 name))))))))
 
+(defn- setup [name config]
+  (let [plugin (require name)] 
+    (plugin.setup config)))
+
 (use
   ;; required
   :wbthomason/packer.nvim {}
@@ -30,13 +34,19 @@
 
   ;; colorscheme
   :andreypopp/vim-colors-plain {:config (vim.cmd "colorscheme plain")}
+  :folke/lsp-colors.nvim
 
   ;; utils
   :Olical/conjure {}
+  ; :nacro90/numb.nvim {:config (setup :numb {})}
   :nacro90/numb.nvim {}
 
   ;; cosmetic
   :akinsho/nvim-bufferline.lua {:config (req :bufferline)}
+  ; :karb94/neoscroll.nvim {:config (setup :neoscroll {:easing_function "quadratic"})}
+  :karb94/neoscroll.nvim {}
+  ; :sunjon/shade.nvim {:config (setup :shade {})}
+  :sunjon/shade.nvim {}
 
   ;; navigation
   :nvim-telescope/telescope.nvim {:config (req :telescope)}
@@ -52,6 +62,11 @@
                                     :run ":TSUpdate"}
   :nvim-treesitter/nvim-treesitter-textobjects {:branch "0.5-compat"}
   :p00f/nvim-ts-rainbow {}
+
+  ;; markdown
+  :vimwiki/vimwiki {}
+  :folke/zen-mode.nvim {}
+  :npxbr/glow.nvim {}
 
   ;; tpope
   :tpope/vim-commentary {}
