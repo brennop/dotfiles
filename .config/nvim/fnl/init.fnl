@@ -3,8 +3,7 @@
 ;; -========================-
 
 (module init
-  {autoload {a aniseed.core
-             utils utils}
+  {autoload {a aniseed.core}
    require-macros [macros]})
 
 (include :mappings)
@@ -61,4 +60,3 @@
 (set! :spelllang "pt_br")
 (cmd! "autocmd BufRead,BufNewFile *.md setlocal spell")
 (cmd! "autocmd FileType gitcommit setlocal spell")
-

@@ -61,6 +61,11 @@
   :nvim-treesitter/nvim-treesitter-textobjects {:branch "0.5-compat"}
   :p00f/nvim-ts-rainbow {}
 
+  ;; snippets
+  :rafamadriz/friendly-snippets {}
+  :hrsh7th/vim-vsnip {}
+  :hrsh7th/vim-vsnip-integ {}
+
   ;; markdown
   :vimwiki/vimwiki {}
   :folke/zen-mode.nvim {}

@@ -3,8 +3,7 @@
 ;;
 
 (module plugin.completion
-  {autoload {plugin compe
-             utils utils}
+  {autoload {plugin compe}
    require-macros [macros]})
 
 (set! :completeopt "menuone,noselect")
@@ -19,5 +18,6 @@
     :spell true
     :nvim_lsp true
     :nvim_lua true
+    :vsnip true
     :omni true
     :emoji true}})

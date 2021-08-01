@@ -3,14 +3,13 @@
 ;;
 
 (module plugin.bufferline
-  {autoload {plugin bufferline
-             utils utils}
+  {autoload {plugin bufferline}
    require-macros [macros]})
 
 ;; mappings
-(utils.map :n :gt ::BufferLineCycleNext<CR>)
-(utils.map :n :gT ::BufferLineCyclePrev<CR>)
-(utils.noremap! :q :Bdelete) ;; vim-bbye
+(map! :n :gt ":BufferLineCycleNext<CR>" {:silent true})
+(map! :n :gT ":BufferLineCyclePrev<CR>" {:silent true})
+(map! :n :<leader>q ":Bdelete<CR>" {:silent true}) ;; vim-bbye
 
 ;; config
 (plugin.setup {:options 

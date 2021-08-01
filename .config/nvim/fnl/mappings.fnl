@@ -2,33 +2,21 @@
   {autoload {a aniseed.core}
    require-macros [macros]})
 
-(def- opts { :noremap true :silent true })
-
-(defn map [mode lhs rhs]
-  (vim.api.nvim_set_keymap mode lhs rhs opts))
-
-(defn noremap! [lhs rhs] 
-  (vim.api.nvim_set_keymap
-    :n
-    (.. "<leader>" lhs)
-    (.. ":" rhs "<CR>")
-    opts))
-
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
 ;;  ⌨️ mappings
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
 
 (let! :mapleader " ")
-(let! :maplocalleader :\\\)
+(let! :maplocalleader :\\)
 
-(map :n :<Space> "")
+(map! :n :<Space> "" {})
 
-(noremap! "," "e ~/.config/nvim/fnl/init.fnl")  ; edit config file 
-(noremap! :p "lua vim.lsp.buf.formatting()")    ; try to format
-
-(noremap! :l :noh) ; Clear search
+(map! :n "<leader>," ":e ~/.config/nvim/fnl/init.fnl<cr>") ; edit config file 
+(map! :n :<leader>p ":lua vim.lsp.buf.formatting()<cr>")  ; try to format
+(map! :n :<leader>l ":noh<cr>") ; Clear search
 
 ;; navigating cmdline without arrow keys (cmdline-editing)
-(map :c :<C-a> :<Home>)
-(map :c :<C-f> :<Right>)
-(map :c :<C-b> :<Left>)
+
+(map! :c :<C-A> :<Home>)
+(map! :c :<C-F> :<Right>)
+(map! :c :<C-B> :<Left>)

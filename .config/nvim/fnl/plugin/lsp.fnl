@@ -3,8 +3,7 @@
 ;;
 
 (module plugin.lsp
-  {autoload {plugin lspconfig
-             utils utils}
+  {autoload {plugin lspconfig}
    require-macros [macros]})
 
 (defn- lsp-buf-map [bufnr map cmd]

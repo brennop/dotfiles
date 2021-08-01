@@ -3,13 +3,12 @@
 ;;
 
 (module plugin.tree
-  {autoload {plugin nvim-tree.lua
-             utils utils}
+  {autoload {plugin nvim-tree.lua}
    require-macros [macros]})
 
 ;; mappings
-(utils.map :n :<C-n> ::NvimTreeToggle<CR>)
-(utils.map :n :<leader>n ::NvimTreeFindFile<CR>)
+(map! :n :<C-n> ":NvimTreeToggle<CR>" {:silent true})
+(map! :n :<leader>n ":NvimTreeFindFile<CR>" {:silent true})
 
 ;; config
 (let! :nvim_tree_gitignore 1)

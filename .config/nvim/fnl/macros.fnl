@@ -18,4 +18,16 @@
       (vim.cmd (.. "augroup " ,(tostring name) "\nautocmd!"))
       ,...
       (vim.cmd "augroup END")
-      nil))}
+      nil))
+
+ :autocmd
+ (fn [cmd]
+   `(vim.cmd (.. "autocmd " ,cmd)))
+ 
+ :map!
+ (fn [mode lhs rhs opts]
+   `(vim.api.nvim_set_keymap
+      ,mode
+      ,lhs
+      ,rhs
+      ,(vim.tbl_extend :force {:noremap true} (or opts {}))))}
