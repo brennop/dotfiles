@@ -20,7 +20,7 @@
 (defn- setup [name config]
   (let [(ok? plugin) (pcall require name)] 
     (when ok?
-      (plugin.setup config))))
+      (plugin.setup (or config {})))))
 
 (use
   ;; required
@@ -39,12 +39,12 @@
 
   ;; utils
   :Olical/conjure {}
-  :nacro90/numb.nvim {:config (setup :numb {})}
+  :nacro90/numb.nvim {:config (setup :numb)}
+  :folke/trouble.nvim {:config (setup :trouble)}
 
   ;; cosmetic
   :akinsho/nvim-bufferline.lua {:config (req :bufferline)}
   :karb94/neoscroll.nvim {:config (setup :neoscroll {:easing_function "quadratic"})}
-  :sunjon/shade.nvim {:config (setup :shade {})}
 
   ;; navigation
   :nvim-telescope/telescope.nvim {:config (req :telescope)}
@@ -53,6 +53,7 @@
   ;; language tools
   :neovim/nvim-lspconfig {:config (req :lsp)}
   :hrsh7th/nvim-compe {:config (req :completion)}
+  :nvim-lua/lsp_extensions.nvim {}
 
   ;; 🌲 tree-sitter
   :nvim-treesitter/nvim-treesitter {:config (req :treesitter) 

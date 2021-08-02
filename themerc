@@ -1,0 +1,20 @@
+#
+# copy or symlink to ~/.themes/name/openbox-3/themerc
+#
+
+border.width: 0
+
+window.client.padding.width: 0
+window.client.padding.height: 0
+window.handle.width: 0
+
+padding.width: 4
+padding.height: 8
+
+border.color: #202020
+
+window.active.title.bg: focus: flat
+window.active.title.bg.color: #202020
+
+window.inactive.title.bg: flat
+window.inactive.title.bg.color: #202020

@@ -25,8 +25,7 @@
                 :<leader>p  :buf.formatting
                 :<leader>e  :diagnostic.show_line_diagnostics
                 "[d"        :diagnostic.goto_prev
-                "]d"        :diagnostic.goto_next
-                :<leader>q  :diagnostic.set_loclist})
+                "]d"        :diagnostic.goto_next})
 
 (defn- on-attach [_ bufnr] 
   "set default mappings on attach to buffer"

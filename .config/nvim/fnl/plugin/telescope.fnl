@@ -20,6 +20,7 @@
 (map :fb :buffers)
 (map :fh :oldfiles)
 (map :fc :lsp_code_actions)
+(map :fq :quickfix)
 (map :fz :spell_suggest)
 
 ;; spelling

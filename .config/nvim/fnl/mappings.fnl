@@ -7,7 +7,7 @@
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
 
 (let! :mapleader " ")
-(let! :maplocalleader :\\)
+(let! :maplocalleader :\\\)
 
 (map! :n :<Space> "" {})
 

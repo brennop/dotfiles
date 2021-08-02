@@ -8,6 +8,9 @@
 
 (set! :completeopt "menuone,noselect")
 
+(map! :i :<C-Space> "compe#complete()" {:silent true :noremap false :expr true}) 
+(map! :i :<CR> "compe#confirm(\'<CR>\')" {:silent true :noremap false :expr true})
+
 (plugin.setup 
   {:autocomplete true
    :min_length 2

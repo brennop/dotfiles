@@ -1,41 +1,17 @@
-call plug#begin('~/.vim/plugged')
+if exists('g:vscode')
+  call plug#begin('~/.vim/plugged')
 
-" Autocomplete / lint
-Plug 'ycm-core/YouCompleteMe'
-Plug 'dense-analysis/ale'
+  " tpope
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-unimpaired'
 
-" Javascript / Typescript / React
-Plug 'HerringtonDarkholme/yats.vim'
-
-" Files
-Plug 'scrooloose/nerdtree'
-Plug 'ryanoasis/vim-devicons'
-Plug 'junegunn/fzf.vim'
-
-" tpope
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-unimpaired'
-
-" tmux
-Plug 'christoomey/vim-tmux-navigator'
-
-" markdown
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-
-" misc
-Plug 'chriskempson/base16-vim'
-Plug 'psliwka/vim-smoothie'
-
-call plug#end()
+  call plug#end()
+endif
 
 filetype plugin indent on
 syntax on
-
-" Remap jj to esc
-inoremap jj <ESC>
 
 " mouse
 set mouse+=a
@@ -64,22 +40,8 @@ set incsearch
 set ignorecase
 set smartcase
 set showmatch
-map <leader><space> :let @/=''<cr> " clear search
+map <leader>l :let @/=''<cr> " clear search
 
-" ctrlp / fzf
-nmap <silent> <C-p> :Files<CR>
-
-" Fast saving
-nmap <leader>w :w!<cr>
-:command! W w
-
-" change cursor in insert mode (vim)
-
-let &t_SI = "\<Esc>[5 q"
-let &t_SR = "\<Esc>[4 q"
-let &t_EI = "\<Esc>[1 q"
-
-" live substitution
 " set inccommand=split
 
 " turn backup off (gonna regret this)
@@ -99,20 +61,3 @@ set noshiftround
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
-
-" NERDTree
-nmap <silent> <C-n> :NERDTreeToggle<CR>
-nmap <silent> <C-m> :NERDTreeFind<CR>
-let NERDTreeQuitOnOpen = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let g:NERDTreeIgnore = ['^node_modules$']
-
-" ALE
-let g:ale_fixers = {
-\   'javascript': ['eslint', 'prettier'],
-\}
-let g:ale_fix_on_save = 1
-
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-seti
