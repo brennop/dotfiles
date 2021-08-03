@@ -1,0 +1,7 @@
+set default-bg "{background}"
+set recolor-lightcolor "{background}"
+set recolor-darkcolor  "{foreground}"
+set recolor
+set selection-clipboard clipboard
+
+set guioptions none
