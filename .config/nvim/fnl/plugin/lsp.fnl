@@ -37,7 +37,7 @@
 ;;  defaults
 ;; ░▒▓▓▓▓▓▓▓▒░
 
-(each [_ server (ipairs [:hls])] 
+(each [_ server (ipairs [:clangd])] 
   (let [s (. plugin server)] 
     (s.setup {:on_attach on-attach})))
 
@@ -88,5 +88,7 @@
      :scss [prettier]
      :typescript [prettier eslint]
      :typescriptreact [prettier eslint]
-     :yaml [prettier]}}})
+     :yaml [prettier]}}
+   :filetypes [:css :html :javascript :javascript :javascriptreact :json
+               :markdown :scss :typescript :typescriptreact :yaml]})
 

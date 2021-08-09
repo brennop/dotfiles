@@ -40,10 +40,9 @@
   ;; utils
   :Olical/conjure {}
   :nacro90/numb.nvim {:config (setup :numb)}
-  :folke/trouble.nvim {:config (setup :trouble)}
+  :Raimondi/delimitMate {}
 
   ;; cosmetic
-  :akinsho/nvim-bufferline.lua {:config (req :bufferline)}
   :karb94/neoscroll.nvim {:config (setup :neoscroll {:easing_function "quadratic"})}
 
   ;; navigation
@@ -53,7 +52,6 @@
   ;; language tools
   :neovim/nvim-lspconfig {:config (req :lsp)}
   :hrsh7th/nvim-compe {:config (req :completion)}
-  :nvim-lua/lsp_extensions.nvim {}
 
   ;; 🌲 tree-sitter
   :nvim-treesitter/nvim-treesitter {:config (req :treesitter) 
@@ -62,15 +60,9 @@
   :nvim-treesitter/nvim-treesitter-textobjects {:branch "0.5-compat"}
   :p00f/nvim-ts-rainbow {}
 
-  ;; snippets
-  :rafamadriz/friendly-snippets {}
-  :hrsh7th/vim-vsnip {}
-  :hrsh7th/vim-vsnip-integ {}
-
   ;; markdown
-  :vimwiki/vimwiki {}
-  :folke/zen-mode.nvim {}
-  :npxbr/glow.nvim {}
+  :folke/zen-mode.nvim {:config (setup :zen-mode {:window 
+                                                  {:width 80}})}
 
   ;; tpope
   :tpope/vim-commentary {}

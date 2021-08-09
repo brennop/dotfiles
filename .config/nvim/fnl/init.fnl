@@ -44,7 +44,7 @@
 (set! :joinspaces false)        ; No double spaces with join after a dot
 (set! :shiftround true)         ; Round indent
 (set! :scrolloff 8)             ; Lines of context
-(set! :sidescrolloff 8)         ; Columns of context
+; (set! :sidescrolloff 8)         ; Columns of context
 
 (set! :clipboard "unnamedplus")
 (set! :mouse "a")
@@ -52,9 +52,9 @@
 (vim.opt.shortmess:append {:c true}) ; compe pare de mostrar coisa la em baixo
 (set! :foldlevelstart 99)
 
-;; vimwiki
-(let! :vimwiki_list [{:path "~/notes/unb" :syntax "markdown" :ext ".md"}])
-(let! :vimwiki_create_link 0)
+; ;; vimwiki
+; (let! :vimwiki_list [{:path "~/notes/unb" :syntax "markdown" :ext ".md"}])
+; (let! :vimwiki_create_link 0)
 
 ;; professor pasquale
 (set! :spelllang "pt_br")

@@ -29,4 +29,4 @@
 (plugin.setup {:defaults 
                {:mappings 
                 {:i 
-                 {:<ESC> actions.close}}}})
+                 {:<esc> actions.close}}}})
