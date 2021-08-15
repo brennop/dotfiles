@@ -1,7 +1,0 @@
-# android
-export PATH=$HOME/Android/Sdk/emulator:$PATH
-alias android="emulator @Pixel_3a_API_30_x86 -dns-server 8.8.8.8 -no-audio"
-
-# ytfzf
-YTFZF_EXTMENU=' rofi -dmenu -fuzzy -width 800'
-alias yt="ytfzf -D"

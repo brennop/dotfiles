@@ -1,4 +1,4 @@
-(module init
+(module mappings
   {autoload {a aniseed.core}
    require-macros [macros]})
 

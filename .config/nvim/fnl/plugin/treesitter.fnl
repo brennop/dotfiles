@@ -72,7 +72,7 @@
 
 (treesitter.setup
   {:highlight {:enable true}
-   :indent {:enable true}
+   ; :indent {:enable true}
    :incremental_selection incremental
    :rainbow rainbow
    :textobjects textobjects})

@@ -61,11 +61,11 @@
   :p00f/nvim-ts-rainbow {}
 
   ;; markdown
-  :folke/zen-mode.nvim {:config (setup :zen-mode {:window 
-                                                  {:width 80}})}
+  :folke/zen-mode.nvim {:config (setup :zen-mode {:window {:width 80}})}
 
   ;; tpope
   :tpope/vim-commentary {}
   :tpope/vim-surround {}
   :tpope/vim-repeat {}
-  :tpope/vim-fugitive {})
+  :tpope/vim-fugitive {}
+  :tpope/vim-unimpaired {})

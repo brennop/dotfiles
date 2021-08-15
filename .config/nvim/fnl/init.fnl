@@ -7,6 +7,7 @@
    require-macros [macros]})
 
 (include :mappings)
+(include :digraphs)
 (include :plugin)
 
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░

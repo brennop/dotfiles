@@ -44,41 +44,31 @@
   <theme>
     <name>box</name>
     <titleLayout/>
-    <!--
-      available characters are NDSLIMC, each can occur at most once.
-      N: window icon
-      L: window label (AKA title).
-      I: iconify
-      M: maximize
-      C: close
-      S: shade (roll up/down)
-      D: omnipresent (on all desktops).
-  -->
     <keepBorder>no</keepBorder>
     <animateIconify>no</animateIconify>
     <font place="ActiveWindow">
       <name>Sans</name>
       <size>8</size>
-      <weight/>
-      <slant/>
+      <weight></weight>
+      <slant></slant>
     </font>
     <font place="InactiveWindow">
       <name>Sans</name>
       <size>8</size>
-      <weight/>
-      <slant/>
+      <weight></weight>
+      <slant></slant>
     </font>
     <font place="MenuHeader">
       <name>Sans</name>
       <size>8</size>
-      <weight/>
-      <slant/>
+      <weight></weight>
+      <slant></slant>
     </font>
     <font place="MenuItem">
       <name>Sans</name>
       <size>8</size>
-      <weight/>
-      <slant/>
+      <weight></weight>
+      <slant></slant>
     </font>
     <font place="ActiveOnScreenDisplay">
       <name/>
@@ -86,8 +76,8 @@
     <font place="InactiveOnScreenDisplay">
       <name>Sans</name>
       <size>8</size>
-      <weight/>
-      <slant/>
+      <weight></weight>
+      <slant></slant>
     </font>
   </theme>
   <desktops>
@@ -363,9 +353,6 @@
       <mousebind button="Right" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
-        <action name="ShowMenu">
-          <menu>client-menu</menu>
-        </action>
       </mousebind>
     </context>
     <context name="Top">
@@ -398,9 +385,6 @@
       <mousebind button="Right" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
-        <action name="ShowMenu">
-          <menu>client-menu</menu>
-        </action>
       </mousebind>
     </context>
     <context name="TRCorner BRCorner TLCorner BLCorner">
@@ -432,16 +416,10 @@
         <action name="Focus"/>
         <action name="Raise"/>
         <action name="Unshade"/>
-        <action name="ShowMenu">
-          <menu>client-menu</menu>
-        </action>
       </mousebind>
       <mousebind button="Right" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
-        <action name="ShowMenu">
-          <menu>client-menu</menu>
-        </action>
       </mousebind>
     </context>
     <context name="AllDesktops">
@@ -550,19 +528,6 @@
       <mousebind button="Right" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
-      </mousebind>
-    </context>
-    <context name="Root">
-      <!-- Menus -->
-      <mousebind button="Middle" action="Press">
-        <action name="ShowMenu">
-          <menu>client-list-combined-menu</menu>
-        </action>
-      </mousebind>
-      <mousebind button="Right" action="Press">
-        <action name="ShowMenu">
-          <menu>root-menu</menu>
-        </action>
       </mousebind>
     </context>
     <context name="MoveResize">
@@ -684,9 +649,9 @@
 
   # end of the example
 -->
-  <application class="Firefox">
-    <decor>no</decor>
-  </application>
+    <application class="*">
+      <decor>no</decor>
+    </application>
   </applications>
   <resize>
     <drawContents>yes</drawContents>
