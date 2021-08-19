@@ -14,7 +14,7 @@
         (for [i 1 (a.count pkgs) 2]
           (let [name (. pkgs i)
                 opts (. pkgs (+ i 1))]
-            ; (-?> (. opts :mod) (req))
+            (-?> (. opts :mod) (req))
             (use (a.assoc opts 1 name))))))))
 
 (defn- setup [name config]
@@ -46,15 +46,16 @@
   :karb94/neoscroll.nvim {:config (setup :neoscroll {:easing_function "quadratic"})}
 
   ;; navigation
-  :nvim-telescope/telescope.nvim {:config (req :telescope)}
+  :nvim-telescope/telescope.nvim {:mod :telescope}
   :kyazdani42/nvim-tree.lua {:config (req :tree)}
+  :akinsho/nvim-bufferline.lua {:mod :bufferline}
 
   ;; language tools
-  :neovim/nvim-lspconfig {:config (req :lsp)}
-  :hrsh7th/nvim-compe {:config (req :completion)}
+  :neovim/nvim-lspconfig {:mod :lsp}
+  :hrsh7th/nvim-compe {:mod :completion}
 
   ;; 🌲 tree-sitter
-  :nvim-treesitter/nvim-treesitter {:config (req :treesitter) 
+  :nvim-treesitter/nvim-treesitter {:mod :treesitter 
                                     :branch "0.5-compat"
                                     :run ":TSUpdate"}
   :nvim-treesitter/nvim-treesitter-textobjects {:branch "0.5-compat"}

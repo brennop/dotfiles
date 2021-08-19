@@ -9,6 +9,7 @@
 (include :mappings)
 (include :digraphs)
 (include :plugin)
+(include :markdown)
 
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
 ;;  ⚙ Settings
@@ -45,7 +46,6 @@
 (set! :joinspaces false)        ; No double spaces with join after a dot
 (set! :shiftround true)         ; Round indent
 (set! :scrolloff 8)             ; Lines of context
-; (set! :sidescrolloff 8)         ; Columns of context
 
 (set! :clipboard "unnamedplus")
 (set! :mouse "a")
@@ -53,11 +53,13 @@
 (vim.opt.shortmess:append {:c true}) ; compe pare de mostrar coisa la em baixo
 (set! :foldlevelstart 99)
 
-; ;; vimwiki
-; (let! :vimwiki_list [{:path "~/notes/unb" :syntax "markdown" :ext ".md"}])
-; (let! :vimwiki_create_link 0)
-
 ;; professor pasquale
 (set! :spelllang "pt_br")
 (cmd! "autocmd BufRead,BufNewFile *.md setlocal spell")
 (cmd! "autocmd FileType gitcommit setlocal spell")
+
+;; bufferline colors
+(cmd! "hi BufferTabpageFill guibg=NONE")
+(cmd! "hi! BufferCurrent guibg=#212121 guifg=#F1F1F1")
+(cmd! "hi! link BufferCurrentIcon BufferCurrent")
+(cmd! "hi! link BufferCurrentSign BufferCurrent")

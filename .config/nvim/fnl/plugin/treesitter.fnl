@@ -61,9 +61,7 @@
 
 (def- incremental 
   {:enable true
-   :keymaps {:init_selection    "<C-i>"
-             :node_incremental  "."
-             :scope_incremental "s"
+   :keymaps {:node_incremental  "."
              :node_decremental  ","}})
 
 ;; ░▒▓▓▓▓▓▓▓▒░

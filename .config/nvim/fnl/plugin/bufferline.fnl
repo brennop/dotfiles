@@ -7,13 +7,20 @@
    require-macros [macros]})
 
 ;; mappings
-(map! :n :gt ":BufferLineCycleNext<CR>" {:silent true})
-(map! :n :gT ":BufferLineCyclePrev<CR>" {:silent true})
-(map! :n :<leader>q ":Bdelete<CR>" {:silent true}) ;; vim-bbye
+(map! :n "<A-.>" ":BufferLineCycleNext<CR>" {:silent true})
+(map! :n "<A-,>" ":BufferLineCyclePrev<CR>" {:silent true})
+(map! :n "<A-q>" ":Bdelete<CR>" {:silent true}) ;; vim-bbye
 
 ;; config
 (plugin.setup {:options 
                {:offsets [{ :filetype "NvimTree" }]
+                :show_buffer_icons false
                 :show_close_icon false
                 :show_buffer_close_icons false
-                :separator_style ["" ""]}})
+                :indicator_icon ""
+                :separator_style ["" ""]}
+               :highlights 
+               {:buffer_selected 
+                {:gui "bold"}}})
+
+; (cmd! "hi! BufferLineBufferSelected gui=bold")
