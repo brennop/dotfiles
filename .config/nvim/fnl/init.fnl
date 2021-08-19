@@ -58,8 +58,5 @@
 (cmd! "autocmd BufRead,BufNewFile *.md setlocal spell")
 (cmd! "autocmd FileType gitcommit setlocal spell")
 
-;; bufferline colors
-(cmd! "hi BufferTabpageFill guibg=NONE")
-(cmd! "hi! BufferCurrent guibg=#212121 guifg=#F1F1F1")
-(cmd! "hi! link BufferCurrentIcon BufferCurrent")
-(cmd! "hi! link BufferCurrentSign BufferCurrent")
+(set! :background "light")
+(cmd! "colorscheme rams")

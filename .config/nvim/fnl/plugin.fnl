@@ -15,6 +15,7 @@
           (let [name (. pkgs i)
                 opts (. pkgs (+ i 1))]
             (-?> (. opts :mod) (req))
+            (-?> (. opts :setup) (setup))
             (use (a.assoc opts 1 name))))))))
 
 (defn- setup [name config]
@@ -34,8 +35,8 @@
   :moll/vim-bbye {}
 
   ;; colorscheme
-  :andreypopp/vim-colors-plain {:config (vim.cmd "colorscheme plain")}
-  :folke/lsp-colors.nvim {}
+  :brennop/rams.vim {}
+  :lifepillar/vim-colortemplate {}
 
   ;; utils
   :Olical/conjure {}
