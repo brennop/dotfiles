@@ -60,3 +60,4 @@
 
 (set! :background "light")
 (cmd! "colorscheme rams")
+(cmd! "hi! EndOfBuffer guifg=bg")

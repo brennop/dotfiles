@@ -17,10 +17,20 @@
                 :show_buffer_icons false
                 :show_close_icon false
                 :show_buffer_close_icons false
-                :indicator_icon ""
+                :indicator_icon " "
                 :separator_style ["" ""]}
-               :highlights 
-               {:buffer_selected 
-                {:gui "bold"}}})
-
-; (cmd! "hi! BufferLineBufferSelected gui=bold")
+               :highlights
+               {:buffer_selected
+                {:gui "bold" :guibg "#d8d8d8"}
+                :indicator_selected
+                {:guibg "#d8d8d8"}
+                :modified_selected
+                {:guibg "#d8d8d8"}
+                :fill
+                {:guibg "NONE"}
+                :background
+                {:guibg "NONE"}
+                :modified
+                {:guibg "NONE"}
+                :modified_visible
+                {:guibg "NONE"}}})
