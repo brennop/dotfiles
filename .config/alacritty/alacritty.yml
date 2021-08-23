@@ -6,8 +6,8 @@ window:
     x: 32
     y: 32
   dimensions:
-    columns: 72
-    lines: 36
+    columns: 81
+    lines: 40
 
 font:
   normal:
