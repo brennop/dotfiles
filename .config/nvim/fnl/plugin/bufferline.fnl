@@ -21,11 +21,11 @@
                 :separator_style ["" ""]}
                :highlights
                {:buffer_selected
-                {:gui "bold" :guibg "#d8d8d8"}
+                {:gui "bold" :guibg "#e0e0e0"}
                 :indicator_selected
-                {:guibg "#d8d8d8"}
+                {:guibg "#e0e0e0"}
                 :modified_selected
-                {:guibg "#d8d8d8"}
+                {:guibg "#e0e0e0"}
                 :fill
                 {:guibg "NONE"}
                 :background

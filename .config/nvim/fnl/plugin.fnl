@@ -35,7 +35,7 @@
   :moll/vim-bbye {}
 
   ;; colorscheme
-  :brennop/rams.vim {}
+  :stefanvanburen/rams.vim {}
   :lifepillar/vim-colortemplate {}
 
   ;; utils
@@ -63,7 +63,7 @@
   :p00f/nvim-ts-rainbow {}
 
   ;; markdown
-  :folke/zen-mode.nvim {:config (setup :zen-mode {:window {:width 80}})}
+  :folke/zen-mode.nvim {:config (setup :zen-mode {:window {:width 81}})}
 
   ;; tpope
   :tpope/vim-commentary {}

@@ -54,7 +54,7 @@
 (set! :foldlevelstart 99)
 
 ;; professor pasquale
-(set! :spelllang "pt_br")
+(set! :spelllang "pt_br,en_us")
 (cmd! "autocmd BufRead,BufNewFile *.md setlocal spell")
 (cmd! "autocmd FileType gitcommit setlocal spell")
 
