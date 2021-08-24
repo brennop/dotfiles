@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  exit 1
+fi
+
+mv ~/$1 ~/dotfiles/$1/
+ln -s ~/dotfiles/$1/ ~/$1
+

@@ -1,0 +1,7 @@
+set default-bg "#EBEBEB"
+set recolor-lightcolor "#EBEBEB"
+set recolor-darkcolor  "#262B31"
+set recolor
+set selection-clipboard clipboard
+
+set guioptions none
