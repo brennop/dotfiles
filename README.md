@@ -1,2 +1,8 @@
 # dotfiles
-configuration files for my linux
+
+## autoconfig
+
+```
+cd dotfiles
+./bin/config bin
+```
