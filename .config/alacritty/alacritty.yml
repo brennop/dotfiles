@@ -3,15 +3,15 @@ env:
 
 window:
   padding:
-    x: 32
-    y: 32
+    x: 24
+    y: 24
   dimensions:
     columns: 81
-    lines: 40
+    lines: 32
 
 font:
   normal:
-    family: FiraCode Nerd Font
+    family: FiraMono Nerd Font
   size: 11.0
 
 mouse:

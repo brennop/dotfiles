@@ -1,7 +1,28 @@
 #!/bin/bash
 
+function link () {
+  ln -s ~/dotfiles/$1 ~/$1
+}
+
 if [ -z "$1" ]; then
-  exit 1
+  declare -a cfgs=(
+    "bin"
+    ".Xresources"
+    ".tmux.conf"
+    ".vimrc"
+    ".config/fish" 
+    ".config/awesome" 
+    ".config/alacritty"
+    ".config/zathura"
+    ".config/rofi"
+    ".config/picom.conf"
+  )
+
+  for val in ${cfgs[@]}
+  do
+    link $val
+  done
+else
+  link $1
 fi
 
-ln -s ~/dotfiles/$1 ~/$1

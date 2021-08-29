@@ -1,22 +1,46 @@
 # disable message
 set fish_greeting 
 
-# aliases
-alias query 'xbps-query -Rs'
-alias add 'sudo xbps-install'
-alias remove 'sudo xbps-remove'
+#=============#
+#   aliases   #
+#=============#
 
-# functions
-function enable
-    sudo ln -s "/etc/sv/$argv" /var/service/
-end
+# xbps
+alias query   "xbps-query -Rs"
+alias add     "sudo xbps-install"
+alias update  "sudo xbps-install -S"
+alias remove  "sudo xbps-remove"
 
-# abbr
-abbr -a -g att 'tmux a -t'
+# git
+abbr gti  "git"
+abbr ga   "git add"
+abbr gaa  "git add --all ."
+abbr gsw  "git switch"
 
-# env
+alias push  "git push -u origin HEAD"
+
+# docker
+abbr dcb "docker-compose build"
+abbr dcu "docker-compose up"
+abbr dcr "docker-compose run --rm"
+abbr dps "docker ps"
+abbr up   "dcu"
+
+# tmux
+alias mux tmuxinator
+abbr -g att  "tmux a -t"
+abbr -g t "tmux new -As"
+
+# misc
+abbr :q "exit"
+abbr chmox "chmod +x"
+
+#=========#
+#   env   #
+#=========#
+
 set -x EDITOR vim
 set -x VISUAL vim
 
-# asdf
-source ~/.asdf/asdf.fish
+# rbenv
+status --is-interactive; and rbenv init - fish | source

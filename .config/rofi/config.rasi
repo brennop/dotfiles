@@ -1,6 +1,6 @@
 configuration {
 	modi: "run,drun,file-browser,combi";
-	font: "FiraCode Nerd Font 12";
+	font: "Fira Mono 12";
 }
 
 @import "~/.config/rofi/colors-rofi-dark.rasi"

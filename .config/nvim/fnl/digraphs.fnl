@@ -19,3 +19,6 @@
 (cmd! "execute \"digraphs us \" . 0x1D64")
 (cmd! "execute \"digraphs vs \" . 0x1D65")
 (cmd! "execute \"digraphs xs \" . 0x2093")
+
+(cmd! "execute \"digraphs iS \" . 0x2071")
+(cmd! "execute \"digraphs nS \" . 0x207F")
