@@ -1,12 +1,13 @@
 #!/usr/bin/bash
 
 # get emojis
-emojis_url=https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json
-emojis_db=~/.cache/emojis.json
-emojis=$(cat $emojis_db || (curl -L $emojis_url > $emojis_db && cat $emojis_db))
+url=https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json
+db=~/.cache/emojis.json
+emojis=$(cat $db || (curl -L $url > $db && cat $db))
 
-emoji_list=$(echo $emojis | jq '.[] | .emoji, " ", .description, " (", (.tags | join(", ")), ")\n"' -j)
-emoji=$(echo "$emoji_list" | rofi -dmenu -matching fuzzy -sort -sorting-method fzf -p emoji | awk '{ print $1 }')
+list=$(echo $emojis | jq '.[] | .emoji + " ", .description + " ", if (.tags | length > 0) then "(" + (.tags | join(",")) + ")" else "" end,"\n"' -j )
+selection=$(echo "$list" | rofi -dmenu -matching fuzzy -sort -sorting-method fzf -p emoji)
+emoji=$(echo $selection | awk '{ print $1 }')
 
 echo -n $emoji | xclip -sel clip
 
