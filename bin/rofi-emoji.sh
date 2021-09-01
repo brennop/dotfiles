@@ -9,5 +9,6 @@ list=$(echo $emojis | jq '.[] | .emoji + " ", .description + " ", if (.tags | le
 selection=$(echo "$list" | rofi -dmenu -matching fuzzy -sort -sorting-method fzf -p emoji)
 emoji=$(echo $selection | awk '{ print $1 }')
 
-echo -n $emoji | xclip -sel clip
+# try to type, or copy otherwise
+xdotool type $emoji || (echo -n $emoji | xclip -sel clip)
 
