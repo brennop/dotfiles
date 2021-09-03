@@ -51,6 +51,7 @@
 (set! :mouse "a")
 
 (vim.opt.shortmess:append {:c true}) ; compe pare de mostrar coisa la em baixo
+
 (set! :foldlevelstart 99)
 
 ;; professor pasquale

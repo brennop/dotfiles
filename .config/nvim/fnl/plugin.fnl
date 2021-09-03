@@ -63,7 +63,7 @@
   :p00f/nvim-ts-rainbow {}
 
   ;; markdown
-  :folke/zen-mode.nvim {:config (setup :zen-mode {:window {:width 81}})}
+  :folke/zen-mode.nvim {:config (setup :zen-mode {:window {:width 82}})}
 
   ;; tpope
   :tpope/vim-commentary {}

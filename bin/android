@@ -1,3 +1,3 @@
 #!/bin/bash
 
-nohup emulator @default -dns-server 8.8.8.8 -no-audio >/dev/null 2>&1 &
+emulator @default -dns-server 8.8.8.8 -no-audio

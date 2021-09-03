@@ -37,7 +37,7 @@
 ;;  defaults
 ;; ░▒▓▓▓▓▓▓▓▒░
 
-(each [_ server (ipairs [:clangd :hls])] 
+(each [_ server (ipairs [:clangd :hls :metals])] 
   (let [s (. plugin server)] 
     (s.setup {:on_attach on-attach})))
 
