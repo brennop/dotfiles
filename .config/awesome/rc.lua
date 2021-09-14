@@ -115,7 +115,7 @@ awful.screen.connect_for_each_screen(function(s)
         },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
+            -- mykeyboardlayout,
         },
     }
 end)
@@ -173,9 +173,9 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey,           }, "d",      function () awful.spawn(menu) end,
+    awful.key({ modkey,           }, "d",      function () awful.spawn.with_shell(menu) end,
               {description = "open the application launcher", group = "launcher"}),
-    awful.key({ modkey,           }, ".",      function () awful.spawn("rofi-emoji.sh") end,
+    awful.key({ modkey,           }, ".",      function () awful.spawn.with_shell("rofi-emoji.sh") end,
               {description = "open the application launcher", group = "launcher"}),
 
     awful.key({ modkey, "Control" }, "r", awesome.restart,

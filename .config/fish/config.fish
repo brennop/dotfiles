@@ -1,5 +1,11 @@
-# disable message
-set fish_greeting 
+#=============#
+#   plugins   #
+#=============#
+
+if not functions -q fisher
+  eval (curl -sL https://git.io/fisher | source)
+  fisher update
+end
 
 #=============#
 #   aliases   #
@@ -16,8 +22,11 @@ abbr gti  "git"
 abbr ga   "git add"
 abbr gaa  "git add --all ."
 abbr gsw  "git switch"
+abbr pull "git pull"
+abbr push "git push -u origin HEAD"
 
-alias push  "git push -u origin HEAD"
+abbr recommit "git commit --amend --no-edit --no-verify"
+
 
 # docker
 abbr dcb "docker-compose build"
@@ -35,12 +44,27 @@ abbr -g t "tmux new -As"
 abbr :q "exit"
 abbr chmox "chmod +x"
 
+#===============#
+#   functions   #
+#===============#
+
+function enable
+  sudo ln -s "/etc/sv/$argv" /var/service/
+end
+
+function save
+  git add . && git commit -m (date -I) && git push
+end
+
 #=========#
 #   env   #
 #=========#
 
 set -x EDITOR vim
 set -x VISUAL vim
+
+# disable message
+set fish_greeting 
 
 # rbenv
 status --is-interactive; and rbenv init - fish | source

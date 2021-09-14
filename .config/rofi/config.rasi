@@ -1,5 +1,5 @@
 configuration {
-	modi: "run,drun,file-browser,combi";
+	modi: "run,drun,combi";
 	font: "Fira Mono 12";
 }
 
