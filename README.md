@@ -3,6 +3,5 @@
 ## autoconfig
 
 ```
-cd dotfiles
-./bin/config bin
+dotfiles/bin/config bin
 ```
