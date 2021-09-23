@@ -56,6 +56,10 @@ function save
   git add . && git commit -m (date -I) && git push
 end
 
+function todo
+  git commit --allow-empty -m "TODO: $argv"
+end
+
 #=========#
 #   env   #
 #=========#
