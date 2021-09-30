@@ -12,7 +12,7 @@
 (include :markdown)
 
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
-;;  ⚙ Settings
+;;   Settings
 ;; ░▒▓▓▓▓▓▓▓▓▓▒░
 
 (cmd! "syntax enable")
@@ -59,6 +59,6 @@
 (cmd! "autocmd BufRead,BufNewFile *.md setlocal spell")
 (cmd! "autocmd FileType gitcommit setlocal spell")
 
-(set! :background "light")
-(cmd! "colorscheme rams")
+; (set! :background "dark")
+(cmd! "colorscheme zenflesh")
 (cmd! "hi! EndOfBuffer guifg=bg")

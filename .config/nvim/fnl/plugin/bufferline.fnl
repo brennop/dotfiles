@@ -18,19 +18,4 @@
                 :show_close_icon false
                 :show_buffer_close_icons false
                 :indicator_icon " "
-                :separator_style ["" ""]}
-               :highlights
-               {:buffer_selected
-                {:gui "bold" :guibg "#e0e0e0"}
-                :indicator_selected
-                {:guibg "#e0e0e0"}
-                :modified_selected
-                {:guibg "#e0e0e0"}
-                :fill
-                {:guibg "NONE"}
-                :background
-                {:guibg "NONE"}
-                :modified
-                {:guibg "NONE"}
-                :modified_visible
-                {:guibg "NONE"}}})
+                :separator_style ["" ""]}})

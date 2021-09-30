@@ -35,7 +35,7 @@
   :moll/vim-bbye {}
 
   ;; colorscheme
-  :stefanvanburen/rams.vim {}
+  :mcchrish/zenbones.nvim {}
   :lifepillar/vim-colortemplate {}
 
   ;; utils
@@ -52,18 +52,17 @@
   :akinsho/nvim-bufferline.lua {:mod :bufferline}
 
   ;; language tools
-  :neovim/nvim-lspconfig {:mod :lsp}
-  :hrsh7th/nvim-compe {:mod :completion}
+  :neovim/nvim-lspconfig  {:mod :lsp}
+  ; :hrsh7th/cmp-nvim-lsp   {}
+  ; :hrsh7th/nvim-cmp       {:mod :completion}
 
   ;; 🌲 tree-sitter
-  :nvim-treesitter/nvim-treesitter {:mod :treesitter 
-                                    :branch "0.5-compat"
-                                    :run ":TSUpdate"}
+  :nvim-treesitter/nvim-treesitter {:mod :treesitter :branch "0.5-compat" :run ":TSUpdate"}
   :nvim-treesitter/nvim-treesitter-textobjects {:branch "0.5-compat"}
   :p00f/nvim-ts-rainbow {}
 
   ;; markdown
-  :folke/zen-mode.nvim {:config (setup :zen-mode {:window {:width 82}})}
+  :folke/zen-mode.nvim {:config (setup :zen-mode {:window {:width 82 }})}
 
   ;; tpope
   :tpope/vim-commentary {}

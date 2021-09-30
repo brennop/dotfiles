@@ -6,13 +6,12 @@
   {autoload {plugin lspconfig}
    require-macros [macros]})
 
-(defn- lsp-buf-map [bufnr map cmd]
+(defn- buf-set-keymap [buffer map cmd]
   (vim.api.nvim_buf_set_keymap 
-    bufnr 
-    :n 
-    map 
-    (.. "<cmd>lua vim.lsp." cmd "()<CR>")
-    {:noremap true :silent true}))
+    buffer :n map (.. "<cmd>lua vim.lsp." cmd "()<CR>") {:noremap true :silent true}))
+
+(defn- buf-set-option [buffer name value]
+  (vim.api.nvim_buf_set_option buffer name value))
 
 (def- mappings {:gD         :buf.declaration
                 :gd         :buf.definition
@@ -30,14 +29,15 @@
 (defn- on-attach [_ bufnr] 
   "set default mappings on attach to buffer"
   (do 
+    (buf-set-option bufnr :omnifunc "v:lua.vim.lsp.omnifunc")
     (each [map cmd (pairs mappings)] 
-      (lsp-buf-map bufnr map cmd))))
+      (buf-set-keymap bufnr map cmd))))
 
 ;; ░▒▓▓▓▓▓▓▓▒░
 ;;  defaults
 ;; ░▒▓▓▓▓▓▓▓▒░
 
-(each [_ server (ipairs [:clangd :hls :metals])] 
+(each [_ server (ipairs [:clangd :hls :metals :pyright])] 
   (let [s (. plugin server)] 
     (s.setup {:on_attach on-attach})))
 

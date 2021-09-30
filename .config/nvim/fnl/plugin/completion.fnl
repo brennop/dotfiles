@@ -1,20 +1,18 @@
 ;;
-;; https://github.com/hrsh7th/nvim-compe
+;; https://old.reddit.com/r/neovim/comments/mn8ipa/lsp_add_missing_imports_on_complete_using_the/
 ;;
 
 (module plugin.completion
-  {autoload {plugin compe}
+  {autoload {cmp cmp}
    require-macros [macros]})
 
-(set! :completeopt "menuone,noselect")
+(set! :completeopt "menu,menuone,noselect")
 
-(map! :i :<C-n> "compe#complete()" {:silent true :expr true})
-(map! :i :<C-y> "compe#confirm()" {:silent true :expr true}) 
-
-(plugin.setup 
+(cmp.setup 
   {:autocomplete true
-   :source {
-    :path true
-    :nvim_lsp true
-    :nvim_lua true
-    :emoji true}})
+   :mapping {:<C-d>     (cmp.mapping.scroll_docs -4)
+             :<C-f>     (cmp.mapping.scroll_docs 4)
+             :<C-Space> (cmp.mapping.complete)
+             :<C-e>     (cmp.mapping.close)
+             :<C-y>     (cmp.mapping.confirm { :select true })}
+   :sources [{:name :nvim_lsp}]})

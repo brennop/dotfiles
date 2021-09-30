@@ -3,7 +3,7 @@
 ;;
 
 (module plugin.tree
-  {autoload {plugin nvim-tree.lua}
+  {autoload {plugin nvim-tree}
    require-macros [macros]})
 
 ;; mappings
@@ -12,6 +12,7 @@
 
 ;; config
 (let! :nvim_tree_gitignore 1)
-(let! :nvim_tree_tab_open 1)
 (let! :nvim_tree_quit_on_open 1)
 (let! :nvim_tree_indent_markers 1)
+
+(plugin.setup {})
