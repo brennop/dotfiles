@@ -10,6 +10,7 @@ require "paq" {
   -- dependencies
   { "savq/paq-nvim" };
   { "kyazdani42/nvim-web-devicons" };
+  { "nvim-lua/plenary.nvim" };
 
   -- 💄 cosmetic
   { "mcchrish/zenbones.nvim" };
@@ -20,13 +21,13 @@ require "paq" {
   { "akinsho/nvim-bufferline.lua" };
   { "junegunn/fzf", run = vim.fn["fzf#install"] };
   { "junegunn/fzf.vim" };
+  { "moll/vim-bbye" };
 
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" };
   { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd "TSUpdate" end };
   { "nvim-treesitter/nvim-treesitter-textobjects", branch = "0.5-compat" };
-  { "hrsh7th/cmp-nvim-lsp" };
-  { "hrsh7th/nvim-cmp" };
+  { "jose-elias-alvarez/null-ls.nvim" };
 
   -- 🧰 utils
   { "cohama/lexima.vim" };
@@ -119,7 +120,7 @@ map('n', "<leader>n", ":NvimTreeFindFile<CR>", opts)
 -- bufferline
 map('n', "<A-.>", ":BufferLineCycleNext<CR>", opts)
 map('n', "<A-,>", ":BufferLineCyclePrev<CR>", opts)
-map('n', "<leader>c", ":bdelete<CR>", opts)
+map('n', "<A-q>", ":Bdelete<CR>", opts)
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 --  🔌 Plugins
@@ -180,46 +181,26 @@ require "nvim-treesitter.configs".setup {
   }
 }
 
-local cmp = require'cmp'
+local null_ls = require("null-ls")
 
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      local line_num, col = unpack(vim.api.nvim_win_get_cursor(0))
-      local line_text = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, true)[1]
-      local indent = string.match(line_text, '^%s*')
-      local replace = vim.split(args.body, '\n', true)
-      local surround = string.match(line_text, '%S.*') or ''
-      local surround_end = surround:sub(col)
-
-      replace[1] = surround:sub(0, col - 1)..replace[1]
-      replace[#replace] = replace[#replace]..(#surround_end > 1 and ' ' or '')..surround_end
-      if indent ~= '' then
-        for i, line in ipairs(replace) do
-          replace[i] = indent..line
-        end
-      end
-
-      vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, true, replace)
-    end,
-  },
-  mapping = {
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  },
-  sources = {
-    { name = 'nvim_lsp' },
+null_ls.config({
+  sources = { 
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.diagnostics.eslint_d,
   }
 })
 
-local nvim_lsp = require('lspconfig')
+local nvim_lsp = require("lspconfig")
 
 local on_attach = function (client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- let prettier format
+  if client.name == "tsserver" then
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+  end
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -241,11 +222,10 @@ local on_attach = function (client, bufnr)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-for _, lsp in ipairs({"tsserver", "solargraph", "metals", "pyright"}) do
+for _, lsp in ipairs({"tsserver", "solargraph", "metals", "pyright", "null-ls"}) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   }
 end
 
