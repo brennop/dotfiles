@@ -13,22 +13,22 @@ local theme = {}
 
 theme.font          = "Go Mono 10"
 
-theme.bg_normal     = "#ebebeb"
-theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = "#ff0000"
+theme.bg_normal     = "#1d1f21"
+theme.bg_focus      = "#c5c8c6"
+theme.bg_urgent     = "#cc6666"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#262b31"
+theme.fg_normal     = "#c5c8c6"
 theme.fg_focus      = "#000000"
 theme.fg_urgent     = "#000000"
 theme.fg_minimize   = "#000000"
 
 theme.useless_gap   = dpi(2)
 theme.border_width  = dpi(2)
-theme.border_normal = "#262b31"
-theme.border_focus  = "#262b31"
-theme.border_marked = "#262b31"
+theme.border_normal = "#282a2e"
+theme.border_focus  = "#282a2e"
+theme.border_marked = "#282a2e"
 
 -- There are other variable sets
 -- overriding the default one when

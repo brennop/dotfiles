@@ -8,40 +8,40 @@ end
 
 require "paq" {
   -- dependencies
-  { "savq/paq-nvim" };
-  { "kyazdani42/nvim-web-devicons" };
-  { "nvim-lua/plenary.nvim" };
+  { "savq/paq-nvim" },
+  { "kyazdani42/nvim-web-devicons" },
+  { "nvim-lua/plenary.nvim" },
 
   -- 💄 cosmetic
-  { "mcchrish/zenbones.nvim" };
-  { "karb94/neoscroll.nvim" };
+  { "mcchrish/zenbones.nvim" },
+  { "rktjmp/lush.nvim" },
+  { "karb94/neoscroll.nvim" },
 
   -- 🗺 navigation
-  { "kyazdani42/nvim-tree.lua" };
-  { "akinsho/nvim-bufferline.lua" };
+  { "kyazdani42/nvim-tree.lua" },
+  { "akinsho/nvim-bufferline.lua" },
   { "junegunn/fzf", run = vim.fn["fzf#install"] };
   { "junegunn/fzf.vim" };
-  { "moll/vim-bbye" };
+  { "moll/vim-bbye" },
 
   -- 🔠 language tools
-  { "neovim/nvim-lspconfig" };
-  { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd "TSUpdate" end };
-  { "nvim-treesitter/nvim-treesitter-textobjects", branch = "0.5-compat" };
-  { "jose-elias-alvarez/null-ls.nvim" };
+  { "neovim/nvim-lspconfig" },
+  { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd "TSUpdate" end },
+  { "nvim-treesitter/nvim-treesitter-textobjects", branch = "0.5-compat" },
+  { "jose-elias-alvarez/null-ls.nvim" },
 
   -- 🧰 utils
-  { "cohama/lexima.vim" };
-  { "tpope/vim-commentary" };
-  { "tpope/vim-surround" };
-  { "tpope/vim-repeat" };
-  { "tpope/vim-fugitive" };
+  { "tpope/vim-commentary" },
+  { "tpope/vim-surround" },
+  { "tpope/vim-repeat" },
+  { "tpope/vim-fugitive" },
 }
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 --  ⚙ Settings
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
-cmd "colorscheme zenflesh"
+cmd "colorscheme zenbones"
 cmd "syntax enable"
 cmd "syntax on"
 
@@ -192,6 +192,17 @@ null_ls.config({
 
 local nvim_lsp = require("lspconfig")
 
+-- fzf
+g.fzf_layout = {
+  window = {
+    width = 1,
+    height = 0.6,
+    relative = true,
+    yoffset = 1.0,
+    border = 'sharp'
+  } 
+}
+
 local on_attach = function (client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -222,7 +233,7 @@ local on_attach = function (client, bufnr)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-for _, lsp in ipairs({"tsserver", "solargraph", "metals", "pyright", "null-ls"}) do
+for _, lsp in ipairs { "tsserver", "solargraph", "metals", "pyright", "null-ls" } do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
