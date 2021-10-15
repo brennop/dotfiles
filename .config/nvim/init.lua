@@ -1,4 +1,6 @@
 local fn, cmd, opt, g, api = vim.fn, vim.cmd, vim.opt, vim.g, vim.api
+local map = api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
 
 local install_path = fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
 
@@ -14,20 +16,16 @@ require "paq" {
 
   -- 💄 cosmetic
   { "mcchrish/zenbones.nvim" },
-  { "rktjmp/lush.nvim" },
   { "karb94/neoscroll.nvim" },
 
   -- 🗺 navigation
-  { "kyazdani42/nvim-tree.lua" },
-  { "akinsho/nvim-bufferline.lua" },
   { "junegunn/fzf", run = vim.fn["fzf#install"] };
   { "junegunn/fzf.vim" };
-  { "moll/vim-bbye" },
+  -- { "moll/vim-bbye" },
 
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd "TSUpdate" end },
-  { "nvim-treesitter/nvim-treesitter-textobjects", branch = "0.5-compat" },
   { "jose-elias-alvarez/null-ls.nvim" },
 
   -- 🧰 utils
@@ -41,6 +39,7 @@ require "paq" {
 --  ⚙ Settings
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
+g.zenbones_compat = 1
 cmd "colorscheme zenbones"
 cmd "syntax enable"
 cmd "syntax on"
@@ -89,60 +88,10 @@ cmd "autocmd FileType gitcommit setlocal spell"
 -- end config
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
---  ⌨️ mappings
--- ░▒▓▓▓▓▓▓▓▓▓▒░
-
-local map = api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-
-g.mapleader = " "
-g.maplocalleader = "\\"
-
-map('n', "<Space>", "", {})
-
-map('n', "<leader>,", ":e ~/.config/nvim/init.lua<cr>", opts)
-map('n', "<leader>p", ":lua vim.lsp.buf.formatting()<cr>", opts) 
-map('n', "<leader>l", ":noh<cr>", opts)
-
--- emacs in command
-map('c', "<C-A>", "<Home>", opts)
-map('c', "<C-F>", "<Right>", opts)
-map('c', "<C-B>", "<Left>", opts)
-
--- fzf
-map('n', "<C-p>", ":Files<CR>", opts)
-map('n', "<C-f>", ":Rg<CR>", opts)
-
--- tree
-map('n', "<C-n>", ":NvimTreeToggle<CR>", opts)
-map('n', "<leader>n", ":NvimTreeFindFile<CR>", opts)
-
--- bufferline
-map('n', "<A-.>", ":BufferLineCycleNext<CR>", opts)
-map('n', "<A-,>", ":BufferLineCyclePrev<CR>", opts)
-map('n', "<A-q>", ":Bdelete<CR>", opts)
-
--- ░▒▓▓▓▓▓▓▓▓▓▒░
 --  🔌 Plugins
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
 require "neoscroll".setup { easing_function = "quadratic" }
-
-require "bufferline".setup {
-  options = {
-    offsets = {{ filetype = "NvimTree" }},
-    show_buffer_icons = false,
-    show_close_icon = false,
-    show_buffer_close_icons = false,
-    indicator_icon = " ",
-    separator_style = { "", "" }
-  }
-}
-
-g.nvim_tree_gitignore = 1
-g.nvim_tree_quit_on_open = 1
-g.nvim_tree_indent_markers = 1
-require "nvim-tree".setup {}
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
@@ -154,31 +103,6 @@ require "nvim-treesitter.configs".setup {
       node_decremental = ","
     }
   },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = { ["<leader>a"] = "@parameter.inner" },
-      swap_previous = { ["<leader>A"] = "@parameter.inner" },
-    },
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = { ["]m"] = "@function.outer" },
-      goto_next_end = { ["]M"] = "@function.outer" },
-      goto_previous_start = { ["[m"] = "@function.outer" },
-      goto_previous_end = { ["[M"] = "@function.outer" },
-    }
-  }
 }
 
 local null_ls = require("null-ls")
@@ -217,19 +141,15 @@ local on_attach = function (client, bufnr)
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
@@ -239,4 +159,26 @@ for _, lsp in ipairs { "tsserver", "solargraph", "metals", "pyright", "null-ls" 
     flags = { debounce_text_changes = 150 },
   }
 end
+
+-- ░▒▓▓▓▓▓▓▓▓▓▒░
+--  ⌨️ mappings
+-- ░▒▓▓▓▓▓▓▓▓▓▒░
+
+g.mapleader = " "
+g.maplocalleader = "\\"
+
+map('n', "<Space>", "", {})
+
+map('n', "<leader>,", ":e ~/.config/nvim/init.lua<cr>", opts)
+map('n', "<leader>p", ":lua vim.lsp.buf.formatting()<cr>", opts) 
+map('n', "<leader>l", ":noh<cr>", opts)
+
+-- fzf
+map('n', "<C-p>", ":Files<CR>", opts)
+map('n', "<C-f>", ":Rg<CR>", { silent = true })
+map('n', "<C-b>", ":Buffers<CR>", { silent = true })
+
+-- tree
+map('n', "<C-n>", ":NvimTreeToggle<CR>", opts)
+map('n', "<leader>n", ":NvimTreeFindFile<CR>", opts)
 
