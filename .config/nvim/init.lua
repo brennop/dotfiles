@@ -19,9 +19,11 @@ require "paq" {
   { "karb94/neoscroll.nvim" },
 
   -- 🗺 navigation
-  { "junegunn/fzf", run = vim.fn["fzf#install"] };
-  { "junegunn/fzf.vim" };
-  -- { "moll/vim-bbye" },
+  { "junegunn/fzf", run = vim.fn["fzf#install"] },
+  { "junegunn/fzf.vim" },
+  { "akinsho/nvim-bufferline.lua" },
+  { "moll/vim-bbye" },
+  { "numToStr/Navigator.nvim" },
 
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
@@ -33,6 +35,7 @@ require "paq" {
   { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
   { "tpope/vim-fugitive" },
+  -- { "tpope/vim-endwise" }, -- incompatible with treesitter
 }
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
@@ -92,10 +95,22 @@ cmd "autocmd FileType gitcommit setlocal spell"
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
 require "neoscroll".setup { easing_function = "quadratic" }
+require "Navigator".setup {}
+
+require "bufferline".setup {
+  options = {
+    offsets = {{ filetype = "NvimTree" }},
+    show_buffer_icons = false,
+    show_close_icon = false,
+    show_buffer_close_icons = false,
+    indicator_icon = " ",
+    separator_style = { "", "" }
+  }
+}
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
-  indent = { enable = true },
+  indent = { enable = false },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -182,3 +197,14 @@ map('n', "<C-b>", ":Buffers<CR>", { silent = true })
 map('n', "<C-n>", ":NvimTreeToggle<CR>", opts)
 map('n', "<leader>n", ":NvimTreeFindFile<CR>", opts)
 
+-- bufferline
+map('n', "<A-.>", ":BufferLineCycleNext<CR>", opts)
+map('n', "<A-,>", ":BufferLineCyclePrev<CR>", opts)
+map('n', "<A-q>", ":Bdelete<CR>", opts)
+
+-- Navigator (tmux)
+map('n', "<A-h>", "<CMD>lua require('Navigator').left()<CR>", opts)
+map('n', "<A-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
+map('n', "<A-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
+map('n', "<A-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
+map('n', "<A-p>", "<CMD>lua require('Navigator').previous()<CR>", opts)
