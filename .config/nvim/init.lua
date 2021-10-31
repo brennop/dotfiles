@@ -24,18 +24,24 @@ require "paq" {
   { "akinsho/nvim-bufferline.lua" },
   { "moll/vim-bbye" },
   { "numToStr/Navigator.nvim" },
+  { "kyazdani42/nvim-tree.lua" },
 
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd "TSUpdate" end },
   { "jose-elias-alvarez/null-ls.nvim" },
 
+  { "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/nvim-cmp" },
+  { 'hrsh7th/cmp-vsnip' },
+  { 'hrsh7th/vim-vsnip' },
+
   -- 🧰 utils
+  { "tpope/vim-fugitive" },
   { "tpope/vim-commentary" },
   { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
   { "tpope/vim-fugitive" },
-  -- { "tpope/vim-endwise" }, -- incompatible with treesitter
 }
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
@@ -97,6 +103,11 @@ cmd "autocmd FileType gitcommit setlocal spell"
 require "neoscroll".setup { easing_function = "quadratic" }
 require "Navigator".setup {}
 
+g.nvim_tree_gitignore = 1
+g.nvim_tree_quit_on_open = 1
+g.nvim_tree_indent_markers = 1
+require'nvim-tree'.setup {}
+
 require "bufferline".setup {
   options = {
     offsets = {{ filetype = "NvimTree" }},
@@ -120,7 +131,7 @@ require "nvim-treesitter.configs".setup {
   },
 }
 
-local null_ls = require("null-ls")
+local null_ls = require "null-ls"
 
 null_ls.config({
   sources = { 
@@ -128,8 +139,6 @@ null_ls.config({
     null_ls.builtins.diagnostics.eslint_d,
   }
 })
-
-local nvim_lsp = require("lspconfig")
 
 -- fzf
 g.fzf_layout = {
@@ -141,6 +150,26 @@ g.fzf_layout = {
     border = 'sharp'
   } 
 }
+
+--
+-- completion
+--
+
+local cmp = require'cmp'
+
+cmp.setup({
+  snippet = {
+    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },
+  })
+})
+
+-- lsp
+
+local nvim_lsp = require "lspconfig"
 
 local on_attach = function (client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -168,10 +197,13 @@ local on_attach = function (client, bufnr)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-for _, lsp in ipairs { "tsserver", "solargraph", "metals", "pyright", "null-ls" } do
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+for _, lsp in ipairs { "tsserver", "solargraph", "metals", "pyright", "null-ls", "rust_analyzer", "tailwindcss" } do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
+    capabilities = capabilities,
   }
 end
 
@@ -184,23 +216,30 @@ g.maplocalleader = "\\"
 
 map('n', "<Space>", "", {})
 
+-- beginning and end
+map('n', "H", "^", opts)
+map('n', "L", "$", opts)
+
+-- macros
+map('n', "Q", "@i", opts)
+map('v', "Q", ":norm @i<cr>", opts)
+
 map('n', "<leader>,", ":e ~/.config/nvim/init.lua<cr>", opts)
-map('n', "<leader>p", ":lua vim.lsp.buf.formatting()<cr>", opts) 
 map('n', "<leader>l", ":noh<cr>", opts)
+
+map('n', "<C-n>", ":NvimTreeToggle<cr>", opts)
+map('n', "<leader>n", ":NvimTreeFindFile<cr>", opts)
 
 -- fzf
 map('n', "<C-p>", ":Files<CR>", opts)
 map('n', "<C-f>", ":Rg<CR>", { silent = true })
 map('n', "<C-b>", ":Buffers<CR>", { silent = true })
 
--- tree
-map('n', "<C-n>", ":NvimTreeToggle<CR>", opts)
-map('n', "<leader>n", ":NvimTreeFindFile<CR>", opts)
-
 -- bufferline
 map('n', "<A-.>", ":BufferLineCycleNext<CR>", opts)
 map('n', "<A-,>", ":BufferLineCyclePrev<CR>", opts)
 map('n', "<A-q>", ":Bdelete<CR>", opts)
+map('n', "<tab>", "<C-^>", opts)
 
 -- Navigator (tmux)
 map('n', "<A-h>", "<CMD>lua require('Navigator').left()<CR>", opts)
