@@ -15,7 +15,7 @@ require "paq" {
   { "nvim-lua/plenary.nvim" },
 
   -- 💄 cosmetic
-  { "mcchrish/zenbones.nvim" },
+  { "stefanvanburen/rams.vim" },
   { "karb94/neoscroll.nvim" },
 
   -- 🗺 navigation
@@ -30,6 +30,7 @@ require "paq" {
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd "TSUpdate" end },
   { "jose-elias-alvarez/null-ls.nvim" },
+  { "p00f/nvim-ts-rainbow" },
 
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/nvim-cmp" },
@@ -37,6 +38,7 @@ require "paq" {
   { 'hrsh7th/vim-vsnip' },
 
   -- 🧰 utils
+  { "windwp/nvim-autopairs" },
   { "tpope/vim-fugitive" },
   { "tpope/vim-commentary" },
   { "tpope/vim-surround" },
@@ -48,8 +50,6 @@ require "paq" {
 --  ⚙ Settings
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
-g.zenbones_compat = 1
-cmd "colorscheme zenbones"
 cmd "syntax enable"
 cmd "syntax on"
 
@@ -94,6 +94,9 @@ opt.spelllang = "pt_br,en_us"
 cmd "autocmd BufRead,BufNewFile *.md setlocal spell"
 cmd "autocmd FileType gitcommit setlocal spell"
 
+opt.background = "light"
+cmd "colorscheme rams"
+
 -- end config
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
@@ -119,27 +122,6 @@ require "bufferline".setup {
   }
 }
 
-require "nvim-treesitter.configs".setup {
-  highlight = { enable = true },
-  indent = { enable = false },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      node_incremental = ".",
-      node_decremental = ","
-    }
-  },
-}
-
-local null_ls = require "null-ls"
-
-null_ls.config({
-  sources = { 
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.diagnostics.eslint_d,
-  }
-})
-
 -- fzf
 g.fzf_layout = {
   window = {
@@ -150,6 +132,44 @@ g.fzf_layout = {
     border = 'sharp'
   } 
 }
+
+local parsers = require("nvim-treesitter.parsers")
+
+require "nvim-treesitter.configs".setup {
+  highlight = { enable = true },
+  indent = { enable = false },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      node_incremental = ".",
+      node_decremental = ","
+    }
+  },
+  rainbow = {
+    enable = true,
+    disable = vim.tbl_filter(function(p) 
+      return p ~= "clojure" and p ~= "commonlisp" and p ~= "fennel" and p ~= "query"
+    end, parsers.available_parsers())
+  },
+}
+
+require "nvim-autopairs".setup {
+  check_ts = true,
+  ts_config = {
+    lua = {'string'},-- it will not add a pair on that treesitter node
+    javascript = {'template_string'},
+    java = false,-- don't check treesitter on java
+  }
+}
+
+local null_ls = require "null-ls"
+
+null_ls.config({
+  sources = { 
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.diagnostics.eslint_d,
+  }
+})
 
 --
 -- completion
