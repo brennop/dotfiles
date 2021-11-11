@@ -28,7 +28,7 @@ require "paq" {
 
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
-  { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd "TSUpdate" end },
+  { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd("TSUpdate") end },
   { "jose-elias-alvarez/null-ls.nvim" },
   { "p00f/nvim-ts-rainbow" },
 
@@ -94,7 +94,7 @@ opt.spelllang = "pt_br,en_us"
 cmd "autocmd BufRead,BufNewFile *.md setlocal spell"
 cmd "autocmd FileType gitcommit setlocal spell"
 
-opt.background = "light"
+opt.background = "dark"
 cmd "colorscheme rams"
 
 -- end config
@@ -137,7 +137,7 @@ local parsers = require("nvim-treesitter.parsers")
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
-  indent = { enable = false },
+  indent = { enable = true },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -149,17 +149,23 @@ require "nvim-treesitter.configs".setup {
     enable = true,
     disable = vim.tbl_filter(function(p) 
       return p ~= "clojure" and p ~= "commonlisp" and p ~= "fennel" and p ~= "query"
-    end, parsers.available_parsers())
+    end, parsers.available_parsers()),
+    colors = {
+      "#f2777a",
+      "#f99157",
+      "#ffcc66",
+      "#99cc99",
+      "#66cccc",
+      "#6699cc",
+      "#cc99cc",
+    }
   },
 }
 
 require "nvim-autopairs".setup {
   check_ts = true,
-  ts_config = {
-    lua = {'string'},-- it will not add a pair on that treesitter node
-    javascript = {'template_string'},
-    java = false,-- don't check treesitter on java
-  }
+  enable_check_bracket_line = false,
+  ignored_next_char = "[%w%.]",
 }
 
 local null_ls = require "null-ls"
