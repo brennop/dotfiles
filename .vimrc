@@ -1,17 +1,21 @@
-if exists('g:vscode')
-  call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugged')
 
-  " tpope
-  Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-unimpaired'
+" tpope
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-endwise'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'chriskempson/base16-vim'
 
-  call plug#end()
-endif
+call plug#end()
 
 filetype plugin indent on
 syntax on
+
+let mapleader = " "
 
 " mouse
 set mouse+=a
@@ -28,6 +32,8 @@ set hid
 " cliboard
 set clipboard=unnamedplus
 
+set number
+
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
 set guioptions-=R
@@ -40,7 +46,7 @@ set incsearch
 set ignorecase
 set smartcase
 set showmatch
-map <leader>l :let @/=''<cr> " clear search
+map <silent><leader>l :let @/=''<cr> " clear search
 
 " set inccommand=split
 
@@ -49,7 +55,7 @@ set nobackup
 set nowb
 set noswapfile
 
-set updatetime=300
+set updatetime=100
 
 " tabs
 set tabstop=2
@@ -61,3 +67,11 @@ set noshiftround
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
+
+" fzf
+nnoremap <silent> <C-p> :Files<CR>
+nnoremap <silent> <C-f> :Rg<CR>
+nnoremap <silent> <C-b> :Buffers<CR>
+
+set termguicolors
+colors base16-seti

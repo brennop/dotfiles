@@ -60,6 +60,12 @@ function todo
   git commit --allow-empty -m "TODO: $argv"
 end
 
+function proj
+  tmux new -As "$argv" -c ~/projects/"$argv" 
+end
+
+complete -c proj -x -a "(ls ~/projects)"
+
 #=========#
 #   env   #
 #=========#
@@ -75,3 +81,6 @@ set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-messages --glob "!
 
 # rbenv
 # status --is-interactive; and rbenv init - fish | source
+
+# luarocks
+# eval (luarocks path)

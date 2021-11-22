@@ -250,6 +250,9 @@ map('n', "L", "$", opts)
 map('n', "Q", "@i", opts)
 map('v', "Q", ":norm @i<cr>", opts)
 
+-- make/compile
+map('n', "<leader>r", ":make<cr>", opts)
+
 map('n', "<leader>,", ":e ~/.config/nvim/init.lua<cr>", opts)
 map('n', "<leader>l", ":noh<cr>", opts)
 
