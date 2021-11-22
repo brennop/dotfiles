@@ -4,7 +4,7 @@
 
 if not functions -q fisher
   eval (curl -sL https://git.io/fisher | source)
-  fisher update
+  echo "run 'fisher update'"
 end
 
 #=============#
@@ -74,4 +74,4 @@ set fish_greeting
 set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-messages --glob "!.git/"'
 
 # rbenv
-status --is-interactive; and rbenv init - fish | source
+# status --is-interactive; and rbenv init - fish | source
