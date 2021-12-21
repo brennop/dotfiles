@@ -14,33 +14,24 @@ require "paq" {
   { "kyazdani42/nvim-web-devicons" },
   { "nvim-lua/plenary.nvim" },
 
+  { "echasnovski/mini.nvim" },
+
   -- 💄 cosmetic
-  { "stefanvanburen/rams.vim" },
+  { "catppuccin/nvim" },
   { "karb94/neoscroll.nvim" },
 
   -- 🗺 navigation
   { "junegunn/fzf", run = vim.fn["fzf#install"] },
   { "junegunn/fzf.vim" },
-  { "akinsho/nvim-bufferline.lua" },
-  { "moll/vim-bbye" },
   { "numToStr/Navigator.nvim" },
   { "kyazdani42/nvim-tree.lua" },
 
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
-  { "nvim-treesitter/nvim-treesitter", branch = "0.5-compat", run = function() vim.cmd("TSUpdate") end },
-  { "jose-elias-alvarez/null-ls.nvim" },
-  { "p00f/nvim-ts-rainbow" },
-
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/nvim-cmp" },
-  { 'hrsh7th/cmp-vsnip' },
-  { 'hrsh7th/vim-vsnip' },
+  { "nvim-treesitter/nvim-treesitter", run = function() vim.cmd 'TSUpdate' end },
 
   -- 🧰 utils
-  { "windwp/nvim-autopairs" },
   { "tpope/vim-fugitive" },
-  { "tpope/vim-commentary" },
   { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
   { "tpope/vim-fugitive" },
@@ -60,7 +51,7 @@ opt.tabstop = 2               -- Number of spaces tabs count for
 opt.expandtab = true          -- Use spaces instead of tabs
 opt.smartindent = true        -- Insert indents automatically
 opt.textwidth = 80
-opt.number = false
+opt.number = true
 
 opt.signcolumn = "no"         -- no sign column
 opt.laststatus = 0            -- statusline (2 = show, 0 = hidden)
@@ -75,8 +66,8 @@ opt.swapfile = false          -- playing on hard mode
 opt.ignorecase = true         -- Ignore case
 opt.smartcase = true          -- Don't ignore case with capitals
 opt.hlsearch = true
-opt.incsearch = true          -- live search
-opt.inccommand = "split"      -- live substitution
+-- opt.incsearch = true          -- live search
+-- opt.inccommand = "split"      -- live substitution
 
 opt.joinspaces = false        -- No double spaces with join after a dot
 opt.shiftround = true         -- Round indent
@@ -88,14 +79,8 @@ opt.mouse = "a"
 opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true } -- remove info de completion
 
-opt.foldlevelstart = 99
-
-opt.spelllang = "pt_br,en_us"
-cmd "autocmd BufRead,BufNewFile *.md setlocal spell"
-cmd "autocmd FileType gitcommit setlocal spell"
-
 opt.background = "dark"
-cmd "colorscheme rams"
+cmd "colorscheme catppuccin"
 
 -- end config
 
@@ -106,32 +91,9 @@ cmd "colorscheme rams"
 require "neoscroll".setup { easing_function = "quadratic" }
 require "Navigator".setup {}
 
-g.nvim_tree_gitignore = 1
 g.nvim_tree_quit_on_open = 1
 g.nvim_tree_indent_markers = 1
 require'nvim-tree'.setup {}
-
-require "bufferline".setup {
-  options = {
-    offsets = {{ filetype = "NvimTree" }},
-    show_buffer_icons = false,
-    show_close_icon = false,
-    show_buffer_close_icons = false,
-    indicator_icon = " ",
-    separator_style = { "", "" }
-  }
-}
-
--- fzf
-g.fzf_layout = {
-  window = {
-    width = 1,
-    height = 0.6,
-    relative = true,
-    yoffset = 1.0,
-    border = 'sharp'
-  } 
-}
 
 local parsers = require("nvim-treesitter.parsers")
 
@@ -145,53 +107,37 @@ require "nvim-treesitter.configs".setup {
       node_decremental = ","
     }
   },
-  rainbow = {
-    enable = true,
-    disable = vim.tbl_filter(function(p) 
-      return p ~= "clojure" and p ~= "commonlisp" and p ~= "fennel" and p ~= "query"
-    end, parsers.available_parsers()),
-    colors = {
-      "#f2777a",
-      "#f99157",
-      "#ffcc66",
-      "#99cc99",
-      "#66cccc",
-      "#6699cc",
-      "#cc99cc",
-    }
-  },
 }
 
-require "nvim-autopairs".setup {
-  check_ts = true,
-  enable_check_bracket_line = false,
-  ignored_next_char = "[%w%.]",
-}
+-- mini
 
-local null_ls = require "null-ls"
+require "mini.bufremove".setup {}
+require "mini.completion".setup {}
+require "mini.pairs".setup {}
+require "mini.tabline".setup {}
+require "mini.comment".setup()
 
-null_ls.config({
-  sources = { 
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.diagnostics.eslint_d,
+require "mini.statusline".setup {
+  content = {
+    active = function() 
+      local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 80 })
+      local git           = MiniStatusline.section_git({ trunc_width = 75 })
+      local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+      local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+      local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+      local location      = MiniStatusline.section_location({ trunc_width = 140 })
+      return MiniStatusline.combine_groups({
+        { hl = mode_hl,                  strings = { mode } },
+        { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics } },
+        '%<', -- Mark general truncate point
+        { hl = 'MiniStatuslineFilename', strings = { filename } },
+        '%=', -- End left alignment
+        { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+        { hl = mode_hl,                  strings = { location } },
+      })
+    end
   }
-})
-
---
--- completion
---
-
-local cmp = require'cmp'
-
-cmp.setup({
-  snippet = {
-    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-  })
-})
+}
 
 -- lsp
 
@@ -201,16 +147,8 @@ local on_attach = function (client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  -- let prettier format
-  if client.name == "tsserver" then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
-  end
-
-  -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
@@ -223,13 +161,18 @@ local on_attach = function (client, bufnr)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-for _, lsp in ipairs { "tsserver", "solargraph", "metals", "pyright", "null-ls", "rust_analyzer", "tailwindcss" } do
+for _, lsp in ipairs { 
+  "tsserver",
+  "solargraph",
+  "metals",
+  "pyright",
+  "rust_analyzer",
+  "tailwindcss",
+  "clangd"
+} do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
-    capabilities = capabilities,
   }
 end
 
@@ -264,11 +207,10 @@ map('n', "<C-p>", ":Files<CR>", opts)
 map('n', "<C-f>", ":Rg<CR>", { silent = true })
 map('n', "<C-b>", ":Buffers<CR>", { silent = true })
 
--- bufferline
-map('n', "<A-.>", ":BufferLineCycleNext<CR>", opts)
-map('n', "<A-,>", ":BufferLineCyclePrev<CR>", opts)
-map('n', "<A-q>", ":Bdelete<CR>", opts)
-map('n', "<tab>", "<C-^>", opts)
+-- tabline
+map('n', "<A-,>", ":bprev<CR>", opts)
+map('n', "<A-.>", ":bnext<CR>", opts)
+map('n', "<A-q>", ":lua MiniBufremove.delete()<CR>", opts)
 
 -- Navigator (tmux)
 map('n', "<A-h>", "<CMD>lua require('Navigator').left()<CR>", opts)
