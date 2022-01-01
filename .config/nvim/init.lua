@@ -66,8 +66,7 @@ opt.swapfile = false          -- playing on hard mode
 opt.ignorecase = true         -- Ignore case
 opt.smartcase = true          -- Don't ignore case with capitals
 opt.hlsearch = true
--- opt.incsearch = true          -- live search
--- opt.inccommand = "split"      -- live substitution
+opt.incsearch = true          -- live search
 
 opt.joinspaces = false        -- No double spaces with join after a dot
 opt.shiftround = true         -- Round indent
@@ -167,7 +166,6 @@ for _, lsp in ipairs {
   "metals",
   "pyright",
   "rust_analyzer",
-  "tailwindcss",
   "clangd"
 } do
   nvim_lsp[lsp].setup {
