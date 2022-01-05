@@ -11,6 +11,7 @@ if [ -z "$1" ]; then
     ".tmux.conf"
     ".vimrc"
     ".config/fish" 
+    ".config/nvim" 
     ".config/awesome" 
     ".config/alacritty"
     ".config/zathura"

@@ -19,28 +19,40 @@ font:
 mouse:
   hide_when_typing: true
 
+# Catppuccin!
 colors:
   # Default colors
   primary:
-    background: '#F0EDEC'
-    foreground: '#2C363C'
+    background: '0x1E1E28'
+    foreground: '0xD7DAE0'
+
+  # Colors the cursor will use if `custom_cursor_colors` is true
+  cursor:
+    text: '0x1E1E28'
+    cursor: '0xB3E1A3'
+
   # Normal colors
   normal:
-    black:   '#F0EDEC'
-    red:     '#A8334C'
-    green:   '#4F6C31'
-    yellow:  '#944927'
-    blue:    '#286486'
-    magenta: '#88507D'
-    cyan:    '#3B8992'
-    white:   '#2C363C'
+    black:   '0x6E6C7C'
+    red:     '0xE28C8C'
+    green:   '0xB3E1A3'
+    yellow:  '0xEADDA0'
+    blue:    '0xA4B9EF'
+    magenta: '0xC6AAE8'
+    cyan:    '0xF0AFE1'
+    white:   '0xD7DAE0'
+
   # Bright colors
   bright:
-    black:   '#CFC1BA'
-    red:     '#94253E'
-    green:   '#3F5A22'
-    yellow:  '#803D1C'
-    blue:    '#1D5573'
-    magenta: '#7B3B70'
-    cyan:    '#2B747C'
-    white:   '#4F5E68'
+    black:   '0x6E6C7C'
+    red:     '0xE28C8C'
+    green:   '0xB3E1A3'
+    yellow:  '0xEADDA0'
+    blue:    '0xA4B9EF'
+    magenta: '0xC6AAE8'
+    cyan:    '0xF0AFE1'
+    white:   '0xD7DAE0'
+
+  indexed_colors:
+    - { index: 16, color: '0xECBFBD' }
+    - { index: 17, color: '0x3E4058' }

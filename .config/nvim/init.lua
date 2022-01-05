@@ -114,7 +114,7 @@ require "mini.bufremove".setup {}
 require "mini.completion".setup {}
 require "mini.pairs".setup {}
 require "mini.tabline".setup {}
-require "mini.comment".setup()
+require "mini.comment".setup {}
 
 require "mini.statusline".setup {
   content = {
