@@ -1,17 +1,3 @@
-call plug#begin('~/.vim/plugged')
-
-" tpope
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-endwise'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'chriskempson/base16-vim'
-
-call plug#end()
-
 filetype plugin indent on
 syntax on
 
@@ -48,8 +34,6 @@ set smartcase
 set showmatch
 map <silent><leader>l :let @/=''<cr> " clear search
 
-" set inccommand=split
-
 " turn backup off (gonna regret this)
 set nobackup
 set nowb
@@ -67,11 +51,3 @@ set noshiftround
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
-
-" fzf
-nnoremap <silent> <C-p> :Files<CR>
-nnoremap <silent> <C-f> :Rg<CR>
-nnoremap <silent> <C-b> :Buffers<CR>
-
-set termguicolors
-colors base16-seti
