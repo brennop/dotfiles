@@ -1,4 +1,5 @@
 .config/nvim/plugin
 .config/nvim/spell
 .config/fish/completions
+.config/fish/functions
 .config/fish/conf.d
