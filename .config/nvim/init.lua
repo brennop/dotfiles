@@ -17,12 +17,13 @@ require "paq" {
   { "echasnovski/mini.nvim" },
 
   -- 💄 cosmetic
-  { "catppuccin/nvim" },
+  { "RRethy/nvim-base16" },
   { "karb94/neoscroll.nvim" },
+  { "lukas-reineke/indent-blankline.nvim" },
 
   -- 🗺 navigation
-  { "junegunn/fzf", run = vim.fn["fzf#install"] },
   { "junegunn/fzf.vim" },
+  { "nvim-telescope/telescope.nvim" },
   { "numToStr/Navigator.nvim" },
   { "kyazdani42/nvim-tree.lua" },
 
@@ -30,8 +31,15 @@ require "paq" {
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter", run = function() vim.cmd 'TSUpdate' end },
 
+  -- completion
+  { "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/nvim-cmp" },
+  { "hrsh7th/cmp-vsnip" },
+  { "hrsh7th/vim-vsnip" },
+
   -- 🧰 utils
   { "tpope/vim-fugitive" },
+  { "tpope/vim-commentary" },
   { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
   { "tpope/vim-fugitive" },
@@ -51,10 +59,10 @@ opt.tabstop = 2               -- Number of spaces tabs count for
 opt.expandtab = true          -- Use spaces instead of tabs
 opt.smartindent = true        -- Insert indents automatically
 opt.textwidth = 80
-opt.number = true
+opt.number = false
 
 opt.signcolumn = "no"         -- no sign column
-opt.laststatus = 0            -- statusline (2 = show, 0 = hidden)
+opt.laststatus = 2            -- statusline (2 = show, 0 = hidden)
 opt.showmode = false          -- Insert, Replace or Visual
 opt.showcmd = false           -- last key typed
 opt.rulerformat = "%=%l,%v"   -- right align, then row, virtual column
@@ -79,7 +87,7 @@ opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true } -- remove info de completion
 
 opt.background = "dark"
-cmd "colorscheme catppuccin"
+cmd "colorscheme base16-tomorrow-night"
 
 -- end config
 
@@ -111,36 +119,32 @@ require "nvim-treesitter.configs".setup {
 -- mini
 
 require "mini.bufremove".setup {}
-require "mini.completion".setup {}
 require "mini.pairs".setup {}
 require "mini.tabline".setup {}
-require "mini.comment".setup {}
 
-require "mini.statusline".setup {
-  content = {
-    active = function() 
-      local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 80 })
-      local git           = MiniStatusline.section_git({ trunc_width = 75 })
-      local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
-      local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
-      local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
-      local location      = MiniStatusline.section_location({ trunc_width = 140 })
-      return MiniStatusline.combine_groups({
-        { hl = mode_hl,                  strings = { mode } },
-        { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics } },
-        '%<', -- Mark general truncate point
-        { hl = 'MiniStatuslineFilename', strings = { filename } },
-        '%=', -- End left alignment
-        { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-        { hl = mode_hl,                  strings = { location } },
-      })
-    end
+-- cmp
+local cmp = require "cmp"
+
+cmp.setup {
+  snippet = {
+    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
+  },
+  -- mapping = {}
+  sources = cmp.config.sources {
+    { name = "nvim_lsp" },
+    { name = "vsnip" },
   }
 }
 
 -- lsp
 
 local nvim_lsp = require "lspconfig"
+
+vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
 local on_attach = function (client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -154,28 +158,27 @@ local on_attach = function (client, bufnr)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 for _, lsp in ipairs { 
   "tsserver",
   "solargraph",
-  "metals",
   "pyright",
-  "rust_analyzer",
-  "clangd"
+  "clangd",
+  "dartls",
+  "tailwindcss",
 } do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
+    capabilities = require "cmp_nvim_lsp".update_capabilities(
+      vim.lsp.protocol.make_client_capabilities()
+    )
   }
 end
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
---  ⌨️ mappings
+--  ⌨️  mappings
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
 g.mapleader = " "
@@ -201,9 +204,8 @@ map('n', "<C-n>", ":NvimTreeToggle<cr>", opts)
 map('n', "<leader>n", ":NvimTreeFindFile<cr>", opts)
 
 -- fzf
-map('n', "<C-p>", ":Files<CR>", opts)
-map('n', "<C-f>", ":Rg<CR>", { silent = true })
-map('n', "<C-b>", ":Buffers<CR>", { silent = true })
+map('n', "<C-p>", ":Telescope find_files<CR>", opts)
+map('n', "<C-f>", ":Telescope live_grep<CR>", { silent = true })
 
 -- tabline
 map('n', "<A-,>", ":bprev<CR>", opts)

@@ -46,6 +46,7 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/theme.lua")
+os.setlocale(os.getenv("pt_BR.UTF-8"))
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"

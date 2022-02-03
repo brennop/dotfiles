@@ -6,5 +6,5 @@ Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 Xft.dpi: 92
 
-*.background: "#ebebeb"
-*.foreground: "#262b31"
+/* *.background: "#ebebeb" */
+/* *.foreground: "#262b31" */

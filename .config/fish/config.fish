@@ -52,6 +52,8 @@ function enable
   sudo ln -s "/etc/sv/$argv" /var/service/
 end
 
+complete -c enable -x -a "(ls /etc/sv)"
+
 function save
   git add . && git commit -m (date -I) && git push
 end
@@ -61,7 +63,7 @@ function todo
 end
 
 function proj
-  tmux new -As "$argv" -c ~/projects/"$argv" 
+  cd ~/projects/"$argv" && tmux new -As "$argv"
 end
 
 complete -c proj -x -a "(ls ~/projects)"
@@ -77,7 +79,7 @@ set -x VISUAL vim
 set fish_greeting 
 
 # fzf
-set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-messages --glob "!.git/"'
+# set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-messages --glob "!.git/"'
 
 # rbenv
 # status --is-interactive; and rbenv init - fish | source
