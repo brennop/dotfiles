@@ -1,6 +1,0 @@
-configuration {
-	modi: "run,drun,combi";
-	font: "JetBrains Mono Nerd Font 11";
-}
-
-@import "~/.config/rofi/colors-rofi-dark.rasi"

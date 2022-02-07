@@ -1,5 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export --path XDG_DATA_DIRS:/home/brn/\x2elocal/share/flatpak/exports/share\x1e/var/lib/flatpak/exports/share\x1e/usr/local/share\x1e/usr/share
 SETUVAR ZO_CMD:zo
 SETUVAR Z_CMD:z
 SETUVAR Z_DATA:/home/brn/\x2elocal/share/z/data
@@ -54,6 +55,6 @@ SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
-SETUVAR fish_user_paths:/home/brn/\x2eemacs\x2ed/bin\x1e/home/brn/\x2efly/bin\x1e/home/brn/Android/Sdk/cmdline\x2dtools/latest/bin\x1e/home/brn/Android/Sdk/emulator\x1e/home/brn/Android/Sdk/tools/bin\x1e/home/brn/Android/Sdk/platform\x2dtools\x1e/home/brn/clone/flutter/bin\x1e/home/brn/\x2eyarn/bin\x1e/home/brn/\x2elocal/bin\x1e/home/brn/bin
+SETUVAR fish_user_paths:/home/brn/\x2espicetify\x1e/home/brn/\x2eemacs\x2ed/bin\x1e/home/brn/\x2efly/bin\x1e/home/brn/Android/Sdk/cmdline\x2dtools/latest/bin\x1e/home/brn/Android/Sdk/emulator\x1e/home/brn/Android/Sdk/tools/bin\x1e/home/brn/Android/Sdk/platform\x2dtools\x1e/home/brn/clone/flutter/bin\x1e/home/brn/\x2eyarn/bin\x1e/home/brn/\x2elocal/bin\x1e/home/brn/bin
 SETUVAR nvm_data:/home/brn/\x2elocal/share/nvm
 SETUVAR nvm_mirror:https\x3a//nodejs\x2eorg/dist
