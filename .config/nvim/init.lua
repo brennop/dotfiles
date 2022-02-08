@@ -17,13 +17,12 @@ require "paq" {
   { "echasnovski/mini.nvim" },
 
   -- 💄 cosmetic
-  { "RRethy/nvim-base16" },
+  { "rebelot/kanagawa.nvim" },
   { "karb94/neoscroll.nvim" },
   { "lukas-reineke/indent-blankline.nvim" },
 
   -- 🗺 navigation
   { "junegunn/fzf.vim" },
-  { "nvim-telescope/telescope.nvim" },
   { "numToStr/Navigator.nvim" },
   { "kyazdani42/nvim-tree.lua" },
 
@@ -87,7 +86,7 @@ opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true } -- remove info de completion
 
 opt.background = "dark"
-cmd "colorscheme base16-tomorrow-night"
+cmd "colorscheme kanagawa"
 
 -- end config
 
@@ -167,6 +166,7 @@ for _, lsp in ipairs {
   "clangd",
   "dartls",
   "tailwindcss",
+  "eslint",
 } do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -204,8 +204,8 @@ map('n', "<C-n>", ":NvimTreeToggle<cr>", opts)
 map('n', "<leader>n", ":NvimTreeFindFile<cr>", opts)
 
 -- fzf
-map('n', "<C-p>", ":Telescope find_files<CR>", opts)
-map('n', "<C-f>", ":Telescope live_grep<CR>", { silent = true })
+map('n', "<C-p>", ":Files<CR>", opts)
+map('n', "<C-f>", ":Ag<CR>", { silent = true })
 
 -- tabline
 map('n', "<A-,>", ":bprev<CR>", opts)
