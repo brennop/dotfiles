@@ -67,6 +67,7 @@ input type:touchpad {
 
 input type:keyboard {
   xkb_layout us,br
+  xkb_variant altgr-intl,
   xkb_options ctrl:nocaps,grp:alt_shift_toggle
 }
 

@@ -61,7 +61,7 @@ opt.textwidth = 80
 opt.number = false
 
 opt.signcolumn = "no"         -- no sign column
-opt.laststatus = 2            -- statusline (2 = show, 0 = hidden)
+opt.laststatus = 0            -- statusline (2 = show, 0 = hidden)
 opt.showmode = false          -- Insert, Replace or Visual
 opt.showcmd = false           -- last key typed
 opt.rulerformat = "%=%l,%v"   -- right align, then row, virtual column
@@ -120,6 +120,7 @@ require "nvim-treesitter.configs".setup {
 require "mini.bufremove".setup {}
 require "mini.pairs".setup {}
 require "mini.tabline".setup {}
+require "mini.statusline".setup {}
 
 -- cmp
 local cmp = require "cmp"
