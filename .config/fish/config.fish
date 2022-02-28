@@ -100,7 +100,7 @@ set -x VISUAL vim
 set fish_greeting 
 
 # fzf
-# set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-messages --glob "!.git/"'
+set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --no-messages --glob "!.git/"'
 
 # rbenv
 # status --is-interactive; and rbenv init - fish | source

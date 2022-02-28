@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+declare -A radios=(
+  ["chillwave"]="https://www.youtube.com/watch?v=xxgxkjV70Vc"
+  ["lofi girl"]="https://www.youtube.com/watch?v=5qap5aO4i9A"
+  ["darksynth"]="https://www.youtube.com/watch?v=hNmWvk_mUVE" 
+)
+
+selection=$(printf "%s\n" "${!radios[@]}" | rofi -dmenu -matching fuzzy -sort -sorting-method fzf -p radio)
+
+if [[ -z "$selection" ]]
+then
+  exit
+fi
+
+mpv ${radios[$selection]}
