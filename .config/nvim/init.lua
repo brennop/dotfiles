@@ -22,6 +22,7 @@ require "paq" {
   { "lukas-reineke/indent-blankline.nvim" },
 
   -- 🗺 navigation
+  { "junegunn/fzf" },
   { "junegunn/fzf.vim" },
   { "numToStr/Navigator.nvim" },
   { "kyazdani42/nvim-tree.lua" },
@@ -29,7 +30,7 @@ require "paq" {
 
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
-  { "nvim-treesitter/nvim-treesitter", run = function() vim.cmd 'TSUpdate' end },
+  { "nvim-treesitter/nvim-treesitter" }, -- run TSUpdate
 
   -- completion
   { "hrsh7th/cmp-nvim-lsp" },
@@ -98,9 +99,11 @@ cmd "colorscheme kanagawa"
 require "neoscroll".setup { easing_function = "quadratic" }
 require "Navigator".setup {}
 
-g.nvim_tree_quit_on_open = 1
 g.nvim_tree_indent_markers = 1
-require'nvim-tree'.setup {}
+require'nvim-tree'.setup {
+  view = { side = "right" },
+  actions = { open_file = { quit_on_open = true } },
+}
 
 local parsers = require("nvim-treesitter.parsers")
 
@@ -208,7 +211,7 @@ map('n', "<leader>n", ":NvimTreeFindFile<cr>", opts)
 
 -- fzf
 map('n', "<C-p>", ":GFiles --exclude-standard --cached --others<CR>", opts)
-map('n', "<C-f>", ":Ag<CR>", { silent = true })
+map('n', "<C-f>", ":Rg<CR>", { silent = true })
 
 -- tabline
 map('n', "<A-,>", ":bprev<CR>", opts)
@@ -221,3 +224,9 @@ map('n', "<A-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
 map('n', "<A-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 map('n', "<A-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 map('n', "<A-p>", "<CMD>lua require('Navigator').previous()<CR>", opts)
+
+-- vsnip
+map('i', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
+map('s', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
+map('i', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
+map('s', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
