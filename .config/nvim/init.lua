@@ -14,16 +14,11 @@ require "paq" {
   { "kyazdani42/nvim-web-devicons" },
   { "nvim-lua/plenary.nvim" },
 
-  { "echasnovski/mini.nvim" },
-
   -- 💄 cosmetic
   { "rebelot/kanagawa.nvim" },
   { "karb94/neoscroll.nvim" },
-  { "lukas-reineke/indent-blankline.nvim" },
 
   -- 🗺 navigation
-  { "junegunn/fzf" },
-  { "junegunn/fzf.vim" },
   { "numToStr/Navigator.nvim" },
   { "kyazdani42/nvim-tree.lua" },
   { "nvim-telescope/telescope.nvim" },
@@ -32,22 +27,16 @@ require "paq" {
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter" }, -- run TSUpdate
 
-  -- completion
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/cmp-vsnip" },
-  { "hrsh7th/vim-vsnip" },
+  { "echasnovski/mini.nvim" },
 
   -- 🧰 utils
   { "tpope/vim-fugitive" },
-  { "tpope/vim-commentary" },
-  { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
   { "tpope/vim-fugitive" },
 }
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
---  ⚙ Settings
+--  ⚙  Settings
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
 cmd "syntax enable"
@@ -60,10 +49,10 @@ opt.tabstop = 2               -- Number of spaces tabs count for
 opt.expandtab = true          -- Use spaces instead of tabs
 opt.smartindent = true        -- Insert indents automatically
 opt.textwidth = 80
-opt.number = false
+opt.number = true
 
 opt.signcolumn = "no"         -- no sign column
-opt.laststatus = 0            -- statusline (2 = show, 0 = hidden)
+opt.laststatus = 3            -- statusline (2 = show, 0 = hidden)
 opt.showmode = false          -- Insert, Replace or Visual
 opt.showcmd = false           -- last key typed
 opt.rulerformat = "%=%l,%v"   -- right align, then row, virtual column
@@ -87,8 +76,7 @@ opt.mouse = "a"
 opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true } -- remove info de completion
 
-opt.background = "dark"
-cmd "colorscheme kanagawa"
+cmd [[colorscheme kanagawa]]
 
 -- end config
 
@@ -99,13 +87,20 @@ cmd "colorscheme kanagawa"
 require "neoscroll".setup { easing_function = "quadratic" }
 require "Navigator".setup {}
 
-g.nvim_tree_indent_markers = 1
-require'nvim-tree'.setup {
-  view = { side = "right" },
+require "nvim-tree".setup {
   actions = { open_file = { quit_on_open = true } },
 }
 
-local parsers = require("nvim-treesitter.parsers")
+require "telescope".setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-u>"] = false,
+        ["<esc>"] = require "telescope.actions".close
+      },
+    },
+  },
+}
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
@@ -119,30 +114,13 @@ require "nvim-treesitter.configs".setup {
   },
 }
 
--- mini
-
-require "mini.bufremove".setup {}
+require "mini.comment".setup {}
+require "mini.completion".setup {}
 require "mini.pairs".setup {}
-require "mini.tabline".setup {}
-require "mini.statusline".setup {}
-
--- cmp
-local cmp = require "cmp"
-
-cmp.setup {
-  snippet = {
-    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-  },
-  -- mapping = {}
-  sources = cmp.config.sources {
-    { name = "nvim_lsp" },
-    { name = "vsnip" },
-  }
-}
+require "mini.surround".setup {}
+require "mini.jump".setup {}
 
 -- lsp
-
-local nvim_lsp = require "lspconfig"
 
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -167,19 +145,16 @@ end
 
 for _, lsp in ipairs { 
   "tsserver",
-  "solargraph",
   "pyright",
   "clangd",
   "dartls",
   "tailwindcss",
   "eslint",
 } do
-  nvim_lsp[lsp].setup {
+  (require "lspconfig")[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
-    capabilities = require "cmp_nvim_lsp".update_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
+    capabilities = vim.lsp.protocol.make_client_capabilities()
   }
 end
 
@@ -192,31 +167,20 @@ g.maplocalleader = "\\"
 
 map('n', "<Space>", "", {})
 
--- beginning and end
 map('n', "H", "^", opts)
 map('n', "L", "$", opts)
 
--- macros
 map('n', "Q", "@i", opts)
 map('v', "Q", ":norm @i<cr>", opts)
 
--- make/compile
 map('n', "<leader>r", ":make<cr>", opts)
 
 map('n', "<leader>,", ":e ~/.config/nvim/init.lua<cr>", opts)
 map('n', "<leader>l", ":noh<cr>", opts)
 
 map('n', "<C-n>", ":NvimTreeToggle<cr>", opts)
-map('n', "<leader>n", ":NvimTreeFindFile<cr>", opts)
-
--- fzf
-map('n', "<C-p>", ":GFiles --exclude-standard --cached --others<CR>", opts)
-map('n', "<C-f>", ":Rg<CR>", { silent = true })
-
--- tabline
-map('n', "<A-,>", ":bprev<CR>", opts)
-map('n', "<A-.>", ":bnext<CR>", opts)
-map('n', "<A-q>", ":lua MiniBufremove.delete()<CR>", opts)
+map('n', "<C-p>", ":Telescope find_files<cr>", opts)
+map('n', "<C-f>", ":Telescope live_grep<cr>", { silent = true })
 
 -- Navigator (tmux)
 map('n', "<A-h>", "<CMD>lua require('Navigator').left()<CR>", opts)
@@ -224,9 +188,3 @@ map('n', "<A-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
 map('n', "<A-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 map('n', "<A-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 map('n', "<A-p>", "<CMD>lua require('Navigator').previous()<CR>", opts)
-
--- vsnip
-map('i', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-map('s', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-map('i', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
-map('s', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
