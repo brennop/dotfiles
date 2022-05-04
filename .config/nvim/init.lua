@@ -17,7 +17,6 @@ require "paq" {
   -- 💄 cosmetic
   { "rebelot/kanagawa.nvim" },
   { "karb94/neoscroll.nvim" },
-  { "lukas-reineke/indent-blankline.nvim" },
 
   -- 🗺 navigation
   { "numToStr/Navigator.nvim" },
@@ -28,19 +27,19 @@ require "paq" {
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter" }, -- run TSUpdate
 
+  { "echasnovski/mini.nvim" },
+
   -- 🧰 utils
   { "nvim-telescope/telescope-ui-select.nvim" },
   { "echasnovski/mini.nvim", branch = "completion-additionalTextEdits" },
 
   { "tpope/vim-fugitive" },
-  { "tpope/vim-commentary" },
-  { "tpope/vim-surround" },
   { "tpope/vim-repeat" },
   { "tpope/vim-fugitive" },
 }
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
---  ⚙ Settings
+--  ⚙  Settings
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
 cmd "syntax enable"
@@ -81,6 +80,7 @@ opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true } -- remove info de completion
 
 cmd [[colorscheme kanagawa]]
+<<<<<<< HEAD
 
 -- neovide
 
@@ -125,16 +125,13 @@ require "nvim-treesitter.configs".setup {
   },
 }
 
--- mini
-
-require "mini.bufremove".setup {}
+require "mini.comment".setup {}
+require "mini.completion".setup {}
 require "mini.pairs".setup {}
 require "mini.tabline".setup {}
 require "mini.completion".setup {}
 
 -- lsp
-
-local nvim_lsp = require "lspconfig"
 
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -158,7 +155,6 @@ end
 
 for _, lsp in ipairs { 
   "tsserver",
-  "solargraph",
   "pyright",
   "clangd",
   "dartls",
@@ -166,7 +162,7 @@ for _, lsp in ipairs {
   "eslint",
   "volar",
 } do
-  nvim_lsp[lsp].setup {
+  (require "lspconfig")[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
   }
@@ -208,9 +204,3 @@ map('n', "<A-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
 map('n', "<A-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 map('n', "<A-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 map('n', "<A-p>", "<CMD>lua require('Navigator').previous()<CR>", opts)
-
--- vsnip
-map('i', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-map('s', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-map('i', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
-map('s', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
