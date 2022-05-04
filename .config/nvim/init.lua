@@ -17,6 +17,7 @@ require "paq" {
   -- 💄 cosmetic
   { "rebelot/kanagawa.nvim" },
   { "karb94/neoscroll.nvim" },
+  { "lukas-reineke/indent-blankline.nvim" },
 
   -- 🗺 navigation
   { "numToStr/Navigator.nvim" },
@@ -27,13 +28,10 @@ require "paq" {
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter" }, -- run TSUpdate
 
-  -- completion
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/cmp-vsnip" },
-  { "hrsh7th/vim-vsnip" },
-
   -- 🧰 utils
+  { "nvim-telescope/telescope-ui-select.nvim" },
+  { "echasnovski/mini.nvim", branch = "completion-additionalTextEdits" },
+
   { "tpope/vim-fugitive" },
   { "tpope/vim-commentary" },
   { "tpope/vim-surround" },
@@ -84,13 +82,18 @@ opt.shortmess:append { c = true } -- remove info de completion
 
 cmd [[colorscheme kanagawa]]
 
+-- neovide
+
+opt.guifont = "FiraCode Nerd Font:10"
+vim.g.neovide_transparency = 0.98
+vim.g.neovide_cursor_animation_length = 0.01
+
 -- end config
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 --  🔌 Plugins
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 
-require "neoscroll".setup { easing_function = "quadratic" }
 require "Navigator".setup {}
 
 require "nvim-tree".setup {
@@ -107,6 +110,8 @@ require "telescope".setup {
     },
   },
 }
+
+require("telescope").load_extension("ui-select")
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
@@ -125,21 +130,7 @@ require "nvim-treesitter.configs".setup {
 require "mini.bufremove".setup {}
 require "mini.pairs".setup {}
 require "mini.tabline".setup {}
-require "mini.statusline".setup {}
-
--- cmp
-local cmp = require "cmp"
-
-cmp.setup {
-  snippet = {
-    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-  },
-  -- mapping = {}
-  sources = cmp.config.sources {
-    { name = "nvim_lsp" },
-    { name = "vsnip" },
-  }
-}
+require "mini.completion".setup {}
 
 -- lsp
 
@@ -163,7 +154,6 @@ local on_attach = function (client, bufnr)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '<leader>.', '<cmd>Telescope lsp_code_actions<CR>', opts)
 end
 
 for _, lsp in ipairs { 
@@ -174,13 +164,11 @@ for _, lsp in ipairs {
   "dartls",
   "tailwindcss",
   "eslint",
+  "volar",
 } do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
-    capabilities = require "cmp_nvim_lsp".update_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
   }
 end
 
@@ -206,7 +194,13 @@ map('n', "<leader>l", ":noh<cr>", opts)
 
 map('n', "<C-n>", ":NvimTreeToggle<cr>", opts)
 map('n', "<C-p>", ":Telescope find_files<cr>", opts)
-map('n', "<C-f>", ":Telescope live_grep<cr>", { silent = true })
+map('n', "<C-f>", ":Telescope live_grep<cr>", opts)
+map('n', "<leader>p", ":Telescope command_history<cr>", opts)
+
+-- tabline
+map('n', "<A-,>", ":bprev<CR>", opts)
+map('n', "<A-.>", ":bnext<CR>", opts)
+map('n', "<A-q>", ":lua MiniBufremove.delete()<CR>", opts)
 
 -- Navigator (tmux)
 map('n', "<A-h>", "<CMD>lua require('Navigator').left()<CR>", opts)
