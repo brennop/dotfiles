@@ -80,7 +80,6 @@ opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true } -- remove info de completion
 
 cmd [[colorscheme kanagawa]]
-<<<<<<< HEAD
 
 -- neovide
 
