@@ -18,7 +18,7 @@ require "paq" {
   { "rebelot/kanagawa.nvim" },
   { "karb94/neoscroll.nvim" },
 
-  -- 🗺 navigation
+  -- 🗺  navigatin
   { "numToStr/Navigator.nvim" },
   { "kyazdani42/nvim-tree.lua" },
   { "nvim-telescope/telescope.nvim" },
@@ -26,16 +26,22 @@ require "paq" {
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter" }, -- run TSUpdate
+  { "github/copilot.vim" },
 
-  { "echasnovski/mini.nvim" },
+  -- completion
+  { "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/nvim-cmp" },
+  { "hrsh7th/cmp-vsnip" },
+  { "hrsh7th/vim-vsnip" },
 
   -- 🧰 utils
   { "nvim-telescope/telescope-ui-select.nvim" },
-  { "echasnovski/mini.nvim", branch = "completion-additionalTextEdits" },
+  { "echasnovski/mini.nvim" },
 
   { "tpope/vim-fugitive" },
   { "tpope/vim-repeat" },
-  { "tpope/vim-fugitive" },
+  { "tpope/vim-commentary" },
+  { "tpope/vim-surround" },
 }
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
@@ -124,11 +130,23 @@ require "nvim-treesitter.configs".setup {
   },
 }
 
-require "mini.comment".setup {}
-require "mini.completion".setup {}
+require "mini.bufremove".setup {}
 require "mini.pairs".setup {}
 require "mini.tabline".setup {}
-require "mini.completion".setup {}
+
+-- cmp
+local cmp = require "cmp"
+
+cmp.setup {
+  snippet = {
+    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
+  },
+  mapping = cmp.mapping.preset.insert({ }),
+  sources = cmp.config.sources {
+    { name = "nvim_lsp" },
+    { name = "vsnip" },
+  }
+}
 
 -- lsp
 
@@ -144,8 +162,8 @@ local on_attach = function (client, bufnr)
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
@@ -160,10 +178,14 @@ for _, lsp in ipairs {
   "tailwindcss",
   "eslint",
   "volar",
+  "svelte",
 } do
   (require "lspconfig")[lsp].setup {
     on_attach = on_attach,
     flags = { debounce_text_changes = 150 },
+    capabilities = require "cmp_nvim_lsp".update_capabilities(
+      vim.lsp.protocol.make_client_capabilities()
+    )
   }
 end
 
@@ -203,3 +225,9 @@ map('n', "<A-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
 map('n', "<A-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 map('n', "<A-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 map('n', "<A-p>", "<CMD>lua require('Navigator').previous()<CR>", opts)
+
+-- vsnip
+map('i', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
+map('s', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
+map('i', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
+map('s', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
