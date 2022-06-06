@@ -19,10 +19,10 @@ set $term foot
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 set $menu rofi -show "drun" | xargs swaymsg exec --
-set $shot grim -g "$(slurp)" - | wl-copy
+# set $shot grim -g "$(slurp)" - | wl-copy
 
 default_border none
-gaps inner 36
+gaps inner 12
 # gaps outer 24
 
 exec --no-startup-id pipewire
@@ -31,7 +31,7 @@ exec --no-startup-id pipewire-pulse
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/wal/wallhaven-wq59xx.jpg fill
+# output * bg ~/wal/wallhaven-wq59xx.jpg fill
 
 #
 # Example configuration:
@@ -63,6 +63,10 @@ input type:touchpad {
   tap enabled
   natural_scroll enabled
   middle_emulation enabled
+}
+
+input type:touch {
+  events disabled
 }
 
 input type:keyboard {
@@ -229,7 +233,7 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%l:%M %p'; do sleep 1; done
+    status_command ~/bin/bar.sh
 
     colors {
         statusline #ffffff
