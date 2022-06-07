@@ -74,7 +74,7 @@ set -x VISUAL vim
 set fish_greeting 
 
 # rbenv
-# status --is-interactive; and rbenv init - fish | source
+status --is-interactive; and rbenv init - fish | source
 
 # luarocks
 # eval (luarocks path)
