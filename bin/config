@@ -12,11 +12,8 @@ if [ -z "$1" ]; then
     ".vimrc"
     ".config/fish" 
     ".config/nvim" 
-    ".config/awesome" 
-    ".config/alacritty"
-    ".config/zathura"
-    ".config/rofi"
-    ".config/picom.conf"
+    ".config/foot" 
+    ".config/sway" 
   )
 
   for val in ${cfgs[@]}

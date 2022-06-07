@@ -11,6 +11,6 @@ battery() {
 }
 
 while true; do
-  echo "%{c}$(clock)"
+  echo "$(clock) - $(battery)"
   sleep 1
 done
