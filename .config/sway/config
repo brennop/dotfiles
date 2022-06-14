@@ -22,16 +22,19 @@ set $menu rofi -show "drun" | xargs swaymsg exec --
 # set $shot grim -g "$(slurp)" - | wl-copy
 
 default_border none
-gaps inner 12
+gaps inner 16
 # gaps outer 24
 
 exec --no-startup-id pipewire
 exec --no-startup-id pipewire-pulse
 
+set $opacity 0.95
+for_window [app_id="foot"] opacity $opacity
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg ~/wal/wallhaven-wq59xx.jpg fill
+output * bg ~/wal/marin3.jpg fill
 
 #
 # Example configuration:
