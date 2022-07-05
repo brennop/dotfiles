@@ -27,3 +27,6 @@ set smarttab
 set noshiftround
 set autoindent
 set smartindent
+
+" plugins
+runtime! ftplugin/man.vim
