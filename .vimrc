@@ -1,32 +1,6 @@
 filetype plugin indent on
-syntax on
-
-" basic config
-set number
-set wildmenu
-set showcmd
-
-set mouse+=a
-set scrolloff=7
-set backspace=indent,eol,start
-set clipboard=unnamedplus
-
-" searching
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-
-" tabs
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set smarttab
-set noshiftround
-set autoindent
-set smartindent
-
-" plugins
-runtime! ftplugin/man.vim
+syn on
+set nu wmnu sc mouse+=a so=7 bs=indent,eol,start cb=unnamedplus hls is ic scs sm ts=2 sw=2 sts=2 et sta sr ai si
+colo slate
+set makeprg=g++\ %
+nn <silent> <leader>r :!./a.out<CR>
