@@ -26,13 +26,14 @@ require "paq" {
   -- 🔠 language tools
   { "neovim/nvim-lspconfig" },
   { "nvim-treesitter/nvim-treesitter" }, -- run TSUpdate
-  { "github/copilot.vim" },
 
   -- completion
   { "hrsh7th/cmp-nvim-lsp" },
   { "hrsh7th/nvim-cmp" },
   { "hrsh7th/cmp-vsnip" },
   { "hrsh7th/vim-vsnip" },
+
+  { "github/copilot.vim" },
 
   -- 🧰 utils
   { "nvim-telescope/telescope-ui-select.nvim" },
@@ -154,7 +155,7 @@ vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<C
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 
 local on_attach = function (client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
