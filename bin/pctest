@@ -26,13 +26,13 @@ if __name__ == "__main__":
 
         teststr = match.group(1)
 
-        regex = re.compile(r"input(.*?)copy", re.IGNORECASE | re.DOTALL)
+        regex = re.compile(r"input([\s\S]*?)copy", re.IGNORECASE | re.DOTALL | re.MULTILINE)
         _, *tests = re.split(regex, teststr)
 
-        tests = [t for t in tests if t != ""]
+        tests = [t for t in tests if t.strip() != ""]
 
     for i, test in enumerate(tests):
-        regex = re.compile(r"output(.*?)copy", re.IGNORECASE | re.DOTALL)
+        regex = re.compile(r"output([\s\S]*?)copy", re.IGNORECASE | re.DOTALL | re.MULTILINE)
         _input, _, _output = map(str.strip, re.split(regex, test))
 
         print("running test {}".format(i))
