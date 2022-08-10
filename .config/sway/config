@@ -1,63 +1,25 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
 set $mod Mod4
-# Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
-# Your preferred terminal emulator
 set $term foot
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
 set $menu rofi -show "drun" | xargs swaymsg exec --
-# set $shot grim -g "$(slurp)" - | wl-copy
 
-default_border none
-gaps inner 12
-# gaps outer 24
+default_border pixel
+gaps inner 16
 
 exec --no-startup-id pipewire
 exec --no-startup-id pipewire-pulse
 
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg ~/wal/wallhaven-wq59xx.jpg fill
+set $opacity 0.92
+for_window [app_id="foot"] opacity $opacity
+for_window [class="qutebrowser"] opacity $opacity
 
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+font Fixedsys Excelsior
 
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+output * bg ~/wal/marin3.jpg fill
 
-### Input configuration
-#
-# Example configuration:
-#
-#
 input type:touchpad {
   dwt enabled
   tap enabled
@@ -79,9 +41,6 @@ input type:pointer {
   accel_profile "flat"
 }
 
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
 
 ### Key bindings
 #
@@ -100,10 +59,6 @@ input type:pointer {
     bindsym $mod+Shift+s exec $shot
 
     # Drag floating windows by holding down $mod and left mouse button.
-    # Resize them with right mouse button + $mod.
-    # Despite the name, also works for non-floating windows.
-    # Change normal to inverse to use left mouse button for resizing and right
-    # mouse button for dragging.
     floating_modifier $mod normal
 
     # Reload the configuration file
@@ -111,6 +66,14 @@ input type:pointer {
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+    # increse brightness
+    bindsym XF86MonBrightnessUp exec light -A 10
+
+    # decrease brightness
+    bindsym XF86MonBrightnessDown exec light -U 10
+
+
 #
 # Moving around:
 #
@@ -119,22 +82,12 @@ input type:pointer {
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
-    # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left
     bindsym $mod+Shift+$down move down
     bindsym $mod+Shift+$up move up
     bindsym $mod+Shift+$right move right
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
 #
 # Workspaces:
 #
@@ -187,6 +140,8 @@ input type:pointer {
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
+
 #
 # Scratchpad:
 #
