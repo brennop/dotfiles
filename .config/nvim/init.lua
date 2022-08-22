@@ -15,7 +15,8 @@ require "paq" {
   { "nvim-lua/plenary.nvim" },
 
   -- 💄 cosmetic
-  { "rebelot/kanagawa.nvim" },
+  { "rktjmp/lush.nvim" },
+  { "mcchrish/zenbones.nvim" },
   { "karb94/neoscroll.nvim" },
   { "Pocco81/true-zen.nvim" },
   { "lukas-reineke/indent-blankline.nvim" },
@@ -62,7 +63,7 @@ opt.number = true
 
 opt.signcolumn = "no"         -- no sign column
 opt.laststatus = 3            -- statusline (2 = show, 0 = hidden)
-opt.cmdheight = 0             -- no cmdline
+opt.cmdheight = 0
 opt.showmode = false          -- Insert, Replace or Visual
 opt.showcmd = false           -- last key typed
 opt.rulerformat = "%=%l,%v"   -- right align, then row, virtual column
@@ -162,12 +163,8 @@ map('n', "<leader>l", ":noh<cr>", opts)
 map('n', "<C-n>", ":NvimTreeToggle<cr>", opts)
 map('n', "<C-p>", ":Telescope find_files<cr>", opts)
 map('n', "<C-f>", ":Telescope live_grep<cr>", opts)
+map('n', "<C-b>", ":Telescope buffers<cr>", opts)
 map('n', "<leader>p", ":Telescope command_history<cr>", opts)
-
--- tabline
-map('n', "<A-,>", ":bprev<CR>", opts)
-map('n', "<A-.>", ":bnext<CR>", opts)
-map('n', "<A-q>", ":lua MiniBufremove.delete()<CR>", opts)
 
 -- Navigator (tmux)
 map('n', "<A-h>", "<CMD>lua require('Navigator').left()<CR>", opts)
@@ -175,6 +172,14 @@ map('n', "<A-k>", "<CMD>lua require('Navigator').up()<CR>", opts)
 map('n', "<A-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 map('n', "<A-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 map('n', "<A-p>", "<CMD>lua require('Navigator').previous()<CR>", opts)
+
+map('n', "j", "gj", {})
+map('n', "k", "gk", {})
+
+-- tabline
+map('n', "<A-,>", ":bprev<CR>", opts)
+map('n', "<A-.>", ":bnext<CR>", opts)
+map('n', "<A-q>", ":lua MiniBufremove.delete()<CR>", opts)
 
 vim.cmd "source ~/.config/nvim/coc.vim"
 
