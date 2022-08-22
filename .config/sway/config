@@ -6,19 +6,19 @@ set $right l
 set $term foot
 set $menu rofi -show "drun" | xargs swaymsg exec --
 
-default_border pixel
+default_border none
 gaps inner 16
 
 exec --no-startup-id pipewire
 exec --no-startup-id pipewire-pulse
 
-set $opacity 0.92
-for_window [app_id="foot"] opacity $opacity
-for_window [class="qutebrowser"] opacity $opacity
+set $opacity 0.95
+# for_window [app_id="foot"] opacity $opacity
+# for_window [class="qutebrowser"] opacity $opacity
 
 font Fixedsys Excelsior
 
-output * bg ~/wal/marin3.jpg fill
+output * bg ~/wal/moon.png fill
 
 input type:touchpad {
   dwt enabled

@@ -17,6 +17,8 @@ require "paq" {
   -- 💄 cosmetic
   { "rebelot/kanagawa.nvim" },
   { "karb94/neoscroll.nvim" },
+  { "Pocco81/true-zen.nvim" },
+  { "lukas-reineke/indent-blankline.nvim" },
 
   -- 🗺  navigatin
   { "numToStr/Navigator.nvim" },
@@ -28,12 +30,9 @@ require "paq" {
   { "nvim-treesitter/nvim-treesitter" }, -- run TSUpdate
 
   -- completion
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/nvim-cmp" },
-  { "hrsh7th/cmp-vsnip" },
-  { "hrsh7th/vim-vsnip" },
-
-  { "github/copilot.vim" },
+  { "neoclide/coc.nvim", branch = "release" },
+  { "fannheyward/telescope-coc.nvim" },
+  -- { "github/copilot.vim" },
 
   -- 🧰 utils
   { "nvim-telescope/telescope-ui-select.nvim" },
@@ -63,6 +62,7 @@ opt.number = true
 
 opt.signcolumn = "no"         -- no sign column
 opt.laststatus = 3            -- statusline (2 = show, 0 = hidden)
+opt.cmdheight = 0             -- no cmdline
 opt.showmode = false          -- Insert, Replace or Visual
 opt.showcmd = false           -- last key typed
 opt.rulerformat = "%=%l,%v"   -- right align, then row, virtual column
@@ -118,6 +118,7 @@ require "telescope".setup {
 }
 
 require("telescope").load_extension("ui-select")
+require("telescope").load_extension("coc")
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
@@ -135,60 +136,8 @@ require "mini.bufremove".setup {}
 require "mini.pairs".setup {}
 require "mini.tabline".setup {}
 
--- cmp
-local cmp = require "cmp"
-
-cmp.setup {
-  snippet = {
-    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-  },
-  mapping = cmp.mapping.preset.insert({ }),
-  sources = cmp.config.sources {
-    { name = "nvim_lsp" },
-    { name = "vsnip" },
-  }
-}
-
--- lsp
-
-vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
-
-local on_attach = function (client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-end
-
-for _, lsp in ipairs { 
-  "tsserver",
-  "pyright",
-  "clangd",
-  "dartls",
-  "tailwindcss",
-  "eslint",
-  "volar",
-  "svelte",
-} do
-  (require "lspconfig")[lsp].setup {
-    on_attach = on_attach,
-    flags = { debounce_text_changes = 150 },
-    capabilities = require "cmp_nvim_lsp".update_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
-  }
-end
+require "indent_blankline".setup {}
+require "neoscroll".setup { easing_function = "cubic" }
 
 -- ░▒▓▓▓▓▓▓▓▓▓▒░
 --  ⌨️  mappings
@@ -205,7 +154,7 @@ map('n', "L", "$", opts)
 map('n', "Q", "@i", opts)
 map('v', "Q", ":norm @i<cr>", opts)
 
-map('n', "<leader>r", ":make<cr>", opts)
+map('n', "<leader>m", ":make<cr>", opts)
 
 map('n', "<leader>,", ":e ~/.config/nvim/init.lua<cr>", opts)
 map('n', "<leader>l", ":noh<cr>", opts)
@@ -227,8 +176,5 @@ map('n', "<A-l>", "<CMD>lua require('Navigator').right()<CR>", opts)
 map('n', "<A-j>", "<CMD>lua require('Navigator').down()<CR>", opts)
 map('n', "<A-p>", "<CMD>lua require('Navigator').previous()<CR>", opts)
 
--- vsnip
-map('i', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-map('s', "<Tab>",   "vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { expr = true })
-map('i', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
-map('s', "<S-Tab>", "vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<Tab>'", { expr = true })
+vim.cmd "source ~/.config/nvim/coc.vim"
+
