@@ -16,9 +16,9 @@ set $opacity 0.95
 # for_window [app_id="foot"] opacity $opacity
 # for_window [class="qutebrowser"] opacity $opacity
 
-font Fixedsys Excelsior
+font Go Mono
 
-output * bg ~/wal/moon.png fill
+output * bg ~/wal/water.jpg fill
 
 input type:touchpad {
   dwt enabled

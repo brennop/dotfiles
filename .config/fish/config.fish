@@ -12,10 +12,10 @@ end
 #=============#
 
 # xbps
-alias query   "xbps-query -Rs"
-alias add     "sudo xbps-install"
-alias update  "sudo xbps-install -S"
-alias remove  "sudo xbps-remove"
+alias query   "dnf search"
+alias add     "sudo dnf install -y"
+alias update  "sudo dnf check-update"
+alias remove  "sudo dnf remove"
 
 # git
 abbr gti  "git"
