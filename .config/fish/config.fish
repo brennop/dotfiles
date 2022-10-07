@@ -12,15 +12,16 @@ end
 #=============#
 
 # xbps
-alias query   "dnf search"
-alias add     "sudo dnf install -y"
-alias update  "sudo dnf check-update"
-alias remove  "sudo dnf remove"
+alias query   "xbps-query -Rs"
+alias add     "sudo xbps-install"
+alias update  "sudo xbps-install -S"
+alias remove  "sudo xbps-remove"
 
 # git
 abbr gti  "git"
 abbr ga   "git add"
 abbr gaa  "git add --all ."
+abbr comm "git commit"
 abbr gsw  "git switch"
 abbr pull "git pull"
 abbr push "git push -u origin HEAD"

@@ -12,13 +12,9 @@ gaps inner 16
 exec --no-startup-id pipewire
 exec --no-startup-id pipewire-pulse
 
-set $opacity 0.95
-# for_window [app_id="foot"] opacity $opacity
-# for_window [class="qutebrowser"] opacity $opacity
-
 font Go Mono
 
-output * bg ~/wal/water.jpg fill
+#output * bg ~/wal/water.jpg fill
 
 input type:touchpad {
   dwt enabled
