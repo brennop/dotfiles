@@ -12,9 +12,9 @@ gaps inner 16
 exec --no-startup-id pipewire
 exec --no-startup-id pipewire-pulse
 
-font Go Mono
+font Go Mono 10
 
-#output * bg ~/wal/water.jpg fill
+output * bg ~/wal/water.jpg fill
 
 input type:touchpad {
   dwt enabled
@@ -181,6 +181,8 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
+
+    workspace_buttons no
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
