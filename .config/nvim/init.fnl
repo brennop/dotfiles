@@ -1,5 +1,6 @@
 (local {: opt : cmd : keymap : g} vim)
 (local opts {:silent true :noremap true})
+(local enable true)
 
 (macro setup [plugin config]
   `((. (require ,plugin) :setup) ,config))
@@ -31,50 +32,49 @@
 (set! :completeopt "menuone,noselect")
 
 (set! :background :light)
-(cmd "colorscheme zenbones")
+(cmd.colorscheme :zenbones)
 
 (let [paq (require :paq)]
   (paq [:savq/paq-nvim
         :udayvir-singh/tangerine.nvim
+        :nvim-lua/plenary.nvim
         :kyazdani42/nvim-web-devicons
         :rktjmp/lush.nvim
-        :cideM/yui
-        :stefanvanburen/rams
         :mcchrish/zenbones.nvim
+        :nyoom-engineering/oxocarbon.nvim
         :lukas-reineke/indent-blankline.nvim
         :junegunn/fzf
         :junegunn/fzf.vim
         :numToStr/Navigator.nvim
         :nvim-tree/nvim-tree.lua
+        :MunifTanjim/nui.nvim
         :neovim/nvim-lspconfig
         :nvim-treesitter/nvim-treesitter
+        :nvim-treesitter/nvim-treesitter-textobjects
         :p00f/nvim-ts-rainbow
         :echasnovski/mini.nvim
         :github/copilot.vim
+        :Olical/conjure
         :tpope/vim-fugitive
         :tpope/vim-repeat
         :tpope/vim-commentary
         :tpope/vim-surround]))
 
+(local colorstring "#d43e36#f89623#eec100#839b00#4ba8af#5286bc#9c71b7")
+(local colors (icollect [c (string.gmatch colorstring "(.......)")] c))
+
 (setup :nvim-treesitter.configs
-       {:highlight {:enable true}
-        :indent {:enable true}
-        :rainbow {:enable true
-                  :colors ["#d43e36"
-                           "#f89623"
-                           "#eec100"
-                           "#839b00"
-                           "#4ba8af"
-                           "#5286bc"
-                           "#9c71b7"]}
-        :incremental_selection {:enable true
+       {:highlight {: enable}
+        :indent {: enable}
+        ; :rainbow {: enable : colors}
+        :textobjects {:select {: enable}}
+        :incremental_selection {: enable
                                 :keymaps {:node_incremental "."
                                           :node_decremental ","}}})
 
+(setup :nvim-tree {})
 (setup :Navigator {})
 (setup :indent_blankline {:char "."})
-(setup :nvim-tree {:actions {:open_file {:quit_on_open true}}})
-
 (setup :mini.pairs {})
 
 (nmap :<space>e vim.diagnostic.open_float)
@@ -94,10 +94,11 @@
       (keymap.set :n :<space>f #(vim.lsp.buf.format {:async true}) bufopts))))
 
 (let [lsp (require :lspconfig)]
-  (each [_ server (ipairs [:clangd :tsserver :dartls])]
+  (each [_ server (ipairs [:clangd :tsserver :dartls :hls :tailwindcss :pyright])]
     ((. lsp server :setup) {: on_attach})))
 
 (tset g :mapleader " ")
+(tset g :maplocalleader ",")
 (keymap.set :n :<Space> "" {})
 
 (nmap "<leader>," ":e ~/.config/nvim/init.fnl<cr>")
@@ -105,11 +106,11 @@
 (nmap :H "^")
 (nmap :L "$")
 (nmap :<C-n> ":NvimTreeToggle<cr>")
-(nmap :<C-p> ":Files<cr>")
+(nmap :<C-p> ":GFiles --cached --others --exclude-standard<cr>")
 (nmap :<C-f> ":Rg<cr>")
 
 (keymap.set :n :j :gj)
-(keymap.set :v :k :gk)
+(keymap.set :n :k :gk)
 (keymap.set :n :Q "@i" opts)
 (keymap.set :v :Q ":norm @i<cr>" opts)
 

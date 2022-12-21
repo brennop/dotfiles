@@ -69,7 +69,7 @@ complete -c proj -x -a "(ls ~/projects)"
 #=========#
 
 set -x EDITOR nvim
-set -x VISUAL vim
+set -x VISUAL nvim
 
 # disable message
 set fish_greeting 

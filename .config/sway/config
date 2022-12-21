@@ -17,7 +17,7 @@ font Go Mono 10
 output * bg ~/wal/water.jpg fill
 
 input type:touchpad {
-  dwt enabled
+  dwt disabled
   tap enabled
   natural_scroll enabled
   middle_emulation enabled
