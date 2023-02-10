@@ -11,6 +11,32 @@
 (macro nmap [lhs rhs]
   `(keymap.set :n ,lhs ,rhs opts))
 
+(let [paq (require :paq)]
+  (paq [:savq/paq-nvim
+        :udayvir-singh/tangerine.nvim
+        :nvim-lua/plenary.nvim
+        :kyazdani42/nvim-web-devicons
+        :rktjmp/lush.nvim
+        :mcchrish/zenbones.nvim
+        :rebelot/kanagawa.nvim
+        :nyoom-engineering/oxocarbon.nvim
+        :lukas-reineke/indent-blankline.nvim
+        :junegunn/fzf
+        :junegunn/fzf.vim
+        :numToStr/Navigator.nvim
+        :nvim-tree/nvim-tree.lua
+        :MunifTanjim/nui.nvim
+        :neovim/nvim-lspconfig
+        :nvim-treesitter/nvim-treesitter
+        :nvim-treesitter/nvim-treesitter-textobjects
+        :echasnovski/mini.nvim
+        :github/copilot.vim
+        :Olical/conjure
+        :tpope/vim-fugitive
+        :tpope/vim-repeat
+        :tpope/vim-commentary
+        :tpope/vim-surround]))
+
 (set! :termguicolors true)
 (set! :shiftwidth 2)
 (set! :tabstop 2)
@@ -31,42 +57,12 @@
 (set! :clipboard :unnamedplus)
 (set! :completeopt "menuone,noselect")
 
-(set! :background :light)
-(cmd.colorscheme :zenbones)
-
-(let [paq (require :paq)]
-  (paq [:savq/paq-nvim
-        :udayvir-singh/tangerine.nvim
-        :nvim-lua/plenary.nvim
-        :kyazdani42/nvim-web-devicons
-        :rktjmp/lush.nvim
-        :mcchrish/zenbones.nvim
-        :nyoom-engineering/oxocarbon.nvim
-        :lukas-reineke/indent-blankline.nvim
-        :junegunn/fzf
-        :junegunn/fzf.vim
-        :numToStr/Navigator.nvim
-        :nvim-tree/nvim-tree.lua
-        :MunifTanjim/nui.nvim
-        :neovim/nvim-lspconfig
-        :nvim-treesitter/nvim-treesitter
-        :nvim-treesitter/nvim-treesitter-textobjects
-        :p00f/nvim-ts-rainbow
-        :echasnovski/mini.nvim
-        :github/copilot.vim
-        :Olical/conjure
-        :tpope/vim-fugitive
-        :tpope/vim-repeat
-        :tpope/vim-commentary
-        :tpope/vim-surround]))
-
-(local colorstring "#d43e36#f89623#eec100#839b00#4ba8af#5286bc#9c71b7")
-(local colors (icollect [c (string.gmatch colorstring "(.......)")] c))
+(set! :background :dark)
+(cmd.colorscheme :kanagawa)
 
 (setup :nvim-treesitter.configs
        {:highlight {: enable}
         :indent {: enable}
-        ; :rainbow {: enable : colors}
         :textobjects {:select {: enable}}
         :incremental_selection {: enable
                                 :keymaps {:node_incremental "."
@@ -94,7 +90,7 @@
       (keymap.set :n :<space>f #(vim.lsp.buf.format {:async true}) bufopts))))
 
 (let [lsp (require :lspconfig)]
-  (each [_ server (ipairs [:clangd :tsserver :dartls :hls :tailwindcss :pyright])]
+  (each [_ server (ipairs [:clangd :tsserver :dartls :hls :tailwindcss])]
     ((. lsp server :setup) {: on_attach})))
 
 (tset g :mapleader " ")

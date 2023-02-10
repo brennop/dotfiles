@@ -7,14 +7,14 @@ set $term foot
 set $menu rofi -show "drun" | xargs swaymsg exec --
 
 default_border none
-gaps inner 16
+gaps inner 24
 
 exec --no-startup-id pipewire
 exec --no-startup-id pipewire-pulse
 
 font Go Mono 10
 
-output * bg ~/wal/water.jpg fill
+output * bg ~/wal/landscape.jpg fill
 
 input type:touchpad {
   dwt disabled

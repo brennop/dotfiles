@@ -1,6 +1,7 @@
 .config/nvim/plugin
 .config/nvim/spell
 .config/nvim/lua
+.config/nvim/lazy-lock.json
 .config/fish/completions
 .config/fish/functions
 .config/fish/conf.d
