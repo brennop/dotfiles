@@ -1,13 +1,4 @@
 #=============#
-#   plugins   #
-#=============#
-
-if not functions -q fisher
-  eval (curl -sL https://git.io/fisher | source)
-  echo "run 'fisher update'"
-end
-
-#=============#
 #   aliases   #
 #=============#
 
