@@ -147,6 +147,9 @@ clientkeys = gears.table.join(
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),
+    awful.key({ modkey,           }, "g", function (c)
+        awful.placement.centered(c,{honor_workarea=true})
+    end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized = not c.maximized

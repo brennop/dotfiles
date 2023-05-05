@@ -70,3 +70,5 @@ set fish_greeting
 
 # luarocks
 # eval (luarocks path)
+
+# cat ~/.cache/wal/sequences

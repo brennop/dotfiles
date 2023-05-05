@@ -3,12 +3,8 @@ local cmd, opt, g, api, keymap = vim.cmd, vim.opt, vim.g, vim.api, vim.keymap
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
+    "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", 
+    "--branch=stable", lazypath,
   }
 end
 vim.opt.rtp:prepend(lazypath)
@@ -16,16 +12,15 @@ vim.g.mapleader = " "
 
 require "lazy".setup {
   { "rebelot/kanagawa.nvim", config = function() cmd.colorscheme "kanagawa" end},
-  { "lukas-reineke/indent-blankline.nvim", opts = { char = "." }, },
   { "kyazdani42/nvim-web-devicons", },
   { "junegunn/fzf.vim", dependencies = { "junegunn/fzf", },
     keys = {
       { "<C-p>", ":GFiles --cached --others --exclude-standard<cr>", },
-      { "<C-f<", ":Rg<cr>", },
+      { "<C-f>", ":Rg<cr>", },
     },
   },
   { "nvim-tree/nvim-tree.lua",
-    opts = {},
+    config = true,
     keys = {
       { "<C-n>", ":NvimTreeToggle<cr>" },
     },
@@ -46,7 +41,6 @@ require "lazy".setup {
     },
     config = function(_, opts) require("nvim-treesitter.configs").setup(opts) end,
   },
-  { "echasnovski/mini.nvim", },
   { "github/copilot.vim", },
   { "tpope/vim-fugitive", },
   { "tpope/vim-repeat", },
@@ -77,13 +71,10 @@ local opts = { noremap=true, silent=true }
 keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-
 local function on_attach(client, buffer)
   local opts = { noremap = true, silent = true, buffer = buffer }
   local function map(lhs, api) keymap.set("n", lhs, vim.lsp.buf[api], opts) end
-
   vim.api.nvim_buf_set_option(buffer, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   map("K", "hover")
   map("gd", "definition")
   map("gr", "references")
@@ -95,9 +86,15 @@ local function on_attach(client, buffer)
 end
 
 local lspconfig = require "lspconfig"
-
 for _, lsp in ipairs {
-  "tsserver", "tailwindcss",
-} do
-  lspconfig[lsp].setup { on_attach = on_attach, }
-end
+   "tsserver", "tailwindcss", "hls", "dartls", "pyright",
+} do lspconfig[lsp].setup { on_attach = on_attach, } end
+
+-- fix for clang offset-encoding
+lspconfig.clangd.setup {
+  on_attach = on_attach,
+  cmd = { "clangd", "--offset-encoding=utf-16" },
+}
+
+keymap.set("n", "<leader>,", ":e ~/.config/nvim/init.lua<cr>")
+keymap.set("n", "<leader>r", ":make<cr>")
