@@ -8,14 +8,12 @@ end
 
 require "paq" {
   "savq/paq-nvim",
-  "rktjmp/lush.nvim",
   "mcchrish/zenbones.nvim",
   "junegunn/fzf.vim", 
   "junegunn/fzf",
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
   "github/copilot.vim",
-  "tpope/vim-fugitive",
   "tpope/vim-repeat",
   "tpope/vim-commentary",
   "tpope/vim-surround",
@@ -37,6 +35,7 @@ opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true }
 opt.background = "light"
 opt.termguicolors = true
+g.zenbones_compat = 1
 cmd.colorscheme "zenbones"
 
 require "nvim-treesitter.configs".setup {
@@ -59,9 +58,7 @@ local function on_attach(client, buffer)
   local opts = { noremap = true, silent = true, buffer = buffer }
   local function map(lhs, api) keymap.set("n", lhs, vim.lsp.buf[api], opts) end
   vim.api.nvim_buf_set_option(buffer, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  map("K", "hover")
-  map("gd", "definition")
-  map("gr", "references")
+  map("K", "hover") -- will be default in the future
   map("<space>rn", "rename")
   map("<space>ca", "code_action")
   map("<space>D", "type_definition")
@@ -71,7 +68,7 @@ end
 
 local lspconfig = require "lspconfig"
 for _, lsp in ipairs {
-  "tsserver", "tailwindcss", "hls", "dartls", "pyright",
+  "tsserver", "tailwindcss", "pyright", "clangd",
 } do lspconfig[lsp].setup { on_attach = on_attach, } end
 
 -- fix for clang offset-encoding
