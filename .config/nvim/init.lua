@@ -1,7 +1,6 @@
 local cmd, opt, g, api, keymap = vim.cmd, vim.opt, vim.g, vim.api, vim.keymap
 
 local install_path = vim.fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
-
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
 end
@@ -29,56 +28,41 @@ opt.cmdheight = 0
 opt.swapfile = false          -- playing on hard mode
 opt.ignorecase = true         -- Ignore case
 opt.smartcase = true          -- Don't ignore case with capitals
-opt.scrolloff = 8             -- Lines of context
+opt.scrolloff = 10             -- Lines of context
 opt.clipboard = "unnamedplus"
 opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true }
 opt.background = "light"
 opt.termguicolors = true
+
 g.zenbones_compat = 1
 cmd.colorscheme "zenbones"
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
   indent = { enable = true },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      node_incremental = ".",
-      node_decremental = ","
-    }
-  },
+  incremental_selection = { enable = true },
 }
 
-local opts = { noremap=true, silent=true }
 keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 local function on_attach(client, buffer)
   local opts = { noremap = true, silent = true, buffer = buffer }
-  local function map(lhs, api) keymap.set("n", lhs, vim.lsp.buf[api], opts) end
-  vim.api.nvim_buf_set_option(buffer, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  map("K", "hover") -- will be default in the future
-  map("<space>rn", "rename")
-  map("<space>ca", "code_action")
-  map("<space>D", "type_definition")
-  map("<C-k>", "signature_help")
+  keymap.set("n", "K", vim.lsp.buf.hover, opts)
+  keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+  keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
+  keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
   keymap.set("n", "<space>f", function() vim.lsp.buf.format { async = true } end, opts)
 end
 
-local lspconfig = require "lspconfig"
-for _, lsp in ipairs {
-  "tsserver", "tailwindcss", "pyright", "clangd",
-} do lspconfig[lsp].setup { on_attach = on_attach, } end
+for _, lsp in ipairs { "tsserver", "tailwindcss", "pyright", } 
+  do require "lspconfig" [lsp].setup { on_attach = on_attach, } end
 
--- fix for clang offset-encoding
-lspconfig.clangd.setup {
+require "lspconfig".clangd.setup {
  on_attach = on_attach,
  cmd = { "clangd", "--offset-encoding=utf-16" },
 }
-
-g.mapleader = " "
-g.maplocalleader = "\\"
 
 keymap.set("n", "<leader>,", ":e ~/.config/nvim/init.lua<cr>")
 keymap.set("n", "<leader>r", ":make<cr>")
