@@ -3,10 +3,10 @@
 #=============#
 
 # xbps
-alias query   "xbps-query -Rs"
-alias add     "sudo xbps-install"
-alias update  "sudo xbps-install -S"
-alias remove  "sudo xbps-remove"
+alias query   "apt search"
+alias add     "sudo apt install"
+alias update  "sudo apt update"
+alias remove  "sudo apt remove"
 
 # git
 abbr gti  "git"
@@ -65,10 +65,8 @@ set -x VISUAL nvim
 # disable message
 set fish_greeting 
 
-# rbenv
-# status --is-interactive; and rbenv init - fish | source
-
 # luarocks
 # eval (luarocks path)
 
 # cat ~/.cache/wal/sequences
+status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source

@@ -7,7 +7,6 @@ function link () {
 if [ -z "$1" ]; then
   declare -a cfgs=(
     "bin"
-    ".Xresources"
     ".tmux.conf"
     ".vimrc"
     ".config/fish" 
