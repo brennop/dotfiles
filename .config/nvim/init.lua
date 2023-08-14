@@ -13,8 +13,10 @@ require "paq" {
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
   "github/copilot.vim",
+  "nvim-tree/nvim-tree.lua",
   "tpope/vim-repeat",
   "tpope/vim-commentary",
+  "tpope/vim-fugitive",
   "tpope/vim-surround",
 }
 
@@ -32,11 +34,13 @@ opt.scrolloff = 10             -- Lines of context
 opt.clipboard = "unnamedplus"
 opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true }
+
 opt.background = "light"
 opt.termguicolors = true
-
 g.zenbones_compat = 1
 cmd.colorscheme "zenbones"
+
+require "nvim-tree".setup {}
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
@@ -56,7 +60,7 @@ local function on_attach(client, buffer)
   keymap.set("n", "<space>f", function() vim.lsp.buf.format { async = true } end, opts)
 end
 
-for _, lsp in ipairs { "tsserver", "tailwindcss", "pyright", } 
+for _, lsp in ipairs { "tsserver", "tailwindcss", "pyright", "solargraph", } 
   do require "lspconfig" [lsp].setup { on_attach = on_attach, } end
 
 require "lspconfig".clangd.setup {
@@ -68,3 +72,4 @@ keymap.set("n", "<leader>,", ":e ~/.config/nvim/init.lua<cr>")
 keymap.set("n", "<leader>r", ":make<cr>")
 keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
+keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
