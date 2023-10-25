@@ -34,6 +34,7 @@ opt.scrolloff = 10             -- Lines of context
 opt.clipboard = "unnamedplus"
 opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true }
+opt.number = true
 
 opt.background = "light"
 opt.termguicolors = true
