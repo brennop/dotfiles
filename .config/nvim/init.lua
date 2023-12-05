@@ -7,7 +7,7 @@ end
 
 require "paq" {
   "savq/paq-nvim",
-  "mcchrish/zenbones.nvim",
+  "rebelot/kanagawa.nvim",
   "junegunn/fzf.vim", 
   "junegunn/fzf",
   "neovim/nvim-lspconfig",
@@ -18,6 +18,8 @@ require "paq" {
   "tpope/vim-commentary",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
+
+  "gleam-lang/gleam.vim",
 }
 
 opt.shiftwidth = 2            -- Size of an indent
@@ -36,10 +38,8 @@ opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true }
 opt.number = true
 
-opt.background = "light"
 opt.termguicolors = true
-g.zenbones_compat = 1
-cmd.colorscheme "zenbones"
+cmd.colorscheme "kanagawa"
 
 require "nvim-tree".setup {}
 
@@ -61,7 +61,7 @@ local function on_attach(client, buffer)
   keymap.set("n", "<space>f", function() vim.lsp.buf.format { async = true } end, opts)
 end
 
-for _, lsp in ipairs { "tsserver", "tailwindcss", "pyright", "solargraph", } 
+for _, lsp in ipairs { "tsserver", "tailwindcss", "pyright", "solargraph", "ocamllsp", "gleam" } 
   do require "lspconfig" [lsp].setup { on_attach = on_attach, } end
 
 require "lspconfig".clangd.setup {

@@ -11,36 +11,45 @@ window:
 
 font:
   normal:
-    family: Fira Code Nerd Font
+    family: MonaspiceNe NF
+  italic:
+    family: MonaspiceRn NF
   size: 12.0
   offset:
-    y: 2
+    y: 1
 
 mouse:
   hide_when_typing: true
 
 colors:
   primary:
-    foreground: '#2C363C'
-    background: '#F0EDEC'
-  cursor:
-    cursor: '#2C363C'
-    text: '#F0EDEC'
+    background: '0x1f1f28'
+    foreground: '0xdcd7ba'
+
   normal:
-    black:   '#F0EDEC'
-    red:     '#A8334C'
-    green:   '#4F6C31'
-    yellow:  '#944927'
-    blue:    '#286486'
-    magenta: '#88507D'
-    cyan:    '#3B8992'
-    white:   '#2C363C'
+    black:   '0x090618'
+    red:     '0xc34043'
+    green:   '0x76946a'
+    yellow:  '0xc0a36e'
+    blue:    '0x7e9cd8'
+    magenta: '0x957fb8'
+    cyan:    '0x6a9589'
+    white:   '0xc8c093'
+
   bright:
-    black:   '#CFC1BA'
-    red:     '#94253E'
-    green:   '#3F5A22'
-    yellow:  '#803D1C'
-    blue:    '#1D5573'
-    magenta: '#7B3B70'
-    cyan:    '#2B747C'
-    white:   '#4F5E68'
+    black:   '0x727169'
+    red:     '0xe82424'
+    green:   '0x98bb6c'
+    yellow:  '0xe6c384'
+    blue:    '0x7fb4ca'
+    magenta: '0x938aa9'
+    cyan:    '0x7aa89f'
+    white:   '0xdcd7ba'
+
+  selection:
+    background: '0x2d4f67'
+    foreground: '0xc8c093'
+
+  indexed_colors:
+    - { index: 16, color: '0xffa066' }
+    - { index: 17, color: '0xff5d62' }
