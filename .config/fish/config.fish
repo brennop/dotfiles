@@ -66,7 +66,7 @@ set -x VISUAL nvim
 set fish_greeting 
 
 # luarocks
-# eval (luarocks path)
+eval (luarocks path)
 
 # cat ~/.cache/wal/sequences
-status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
+# status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
