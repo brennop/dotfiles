@@ -75,36 +75,20 @@ keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
 keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
 
--- devdocs
--- vim.cmd [[
---   function! s:showInPreview(line)
---       let l:command = "silent! pedit! devdocs"
-
---       exe l:command
-
---       let l:nr = bufnr("devdocs")
---       let l:lines = systemlist("dedoc open -h ~/.dedoc/docsets/" . a:line)
---       call nvim_buf_set_lines(l:nr, 0, -1, 0, l:lines)
---   endfunction
+-- disable line numbers on terminal
+vim.cmd [[ autocmd TermOpen * setlocal nonumber norelativenumber ]]
 
 vim.cmd [[
-    function! s:showInPreview(name)
-        let l:command = "silent! pedit! +setlocal\\ " .
-                      \ "buftype=nofile\\ nobuflisted\\ " .
-                      \ "noswapfile\\ nonumber\\ " .
-                      \ "filetype=" . "markdown" . " " . a:name
+  function! s:dedoc_open(name)
+      let l:command = "split | term dedoc open -h ~/.dedoc/docsets/" . a:name . " | glow"
 
-        exe l:command
-
-        let l:bufNr = bufnr(a:name)
-        let l:lines = systemlist("dedoc open -h ~/.dedoc/docsets/" . a:name)
-        call nvim_buf_set_lines(l:bufNr, 0, -1, 0, l:lines)
-    endfunction
+      exec l:command
+  endfunction
 
   command! -bang -nargs=? -complete=dir DevDocs
  \  call fzf#vim#files(
  \   '~/.dedoc/docsets', 
  \   { 'options': ['--preview', 'dedoc open -h {}'], 
- \   'sink': function('s:showInPreview') },
+ \   'sink': function('s:dedoc_open') },
   \   <bang>0)
   ]]
