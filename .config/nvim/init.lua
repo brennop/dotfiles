@@ -8,18 +8,18 @@ end
 require "paq" {
   "savq/paq-nvim",
   "rebelot/kanagawa.nvim",
+  "rose-pine/neovim",
   "junegunn/fzf.vim", 
   "junegunn/fzf",
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
   "github/copilot.vim",
   "nvim-tree/nvim-tree.lua",
+
   "tpope/vim-repeat",
   "tpope/vim-commentary",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
-
-  "gleam-lang/gleam.vim",
 }
 
 opt.shiftwidth = 2            -- Size of an indent
@@ -39,7 +39,7 @@ opt.shortmess:append { c = true }
 opt.number = true
 
 opt.termguicolors = true
-cmd.colorscheme "kanagawa"
+cmd.colorscheme "rose-pine"
 
 require "nvim-tree".setup {}
 
@@ -74,3 +74,37 @@ keymap.set("n", "<leader>r", ":make<cr>")
 keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
 keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
+
+-- devdocs
+-- vim.cmd [[
+--   function! s:showInPreview(line)
+--       let l:command = "silent! pedit! devdocs"
+
+--       exe l:command
+
+--       let l:nr = bufnr("devdocs")
+--       let l:lines = systemlist("dedoc open -h ~/.dedoc/docsets/" . a:line)
+--       call nvim_buf_set_lines(l:nr, 0, -1, 0, l:lines)
+--   endfunction
+
+vim.cmd [[
+    function! s:showInPreview(name)
+        let l:command = "silent! pedit! +setlocal\\ " .
+                      \ "buftype=nofile\\ nobuflisted\\ " .
+                      \ "noswapfile\\ nonumber\\ " .
+                      \ "filetype=" . "markdown" . " " . a:name
+
+        exe l:command
+
+        let l:bufNr = bufnr(a:name)
+        let l:lines = systemlist("dedoc open -h ~/.dedoc/docsets/" . a:name)
+        call nvim_buf_set_lines(l:bufNr, 0, -1, 0, l:lines)
+    endfunction
+
+  command! -bang -nargs=? -complete=dir DevDocs
+ \  call fzf#vim#files(
+ \   '~/.dedoc/docsets', 
+ \   { 'options': ['--preview', 'dedoc open -h {}'], 
+ \   'sink': function('s:showInPreview') },
+  \   <bang>0)
+  ]]
