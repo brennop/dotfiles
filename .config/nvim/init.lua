@@ -8,16 +8,19 @@ end
 require "paq" {
   "savq/paq-nvim",
   "mcchrish/zenbones.nvim",
+  'echasnovski/mini.nvim',
   "junegunn/fzf.vim", 
   "junegunn/fzf",
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
   "github/copilot.vim",
   "nvim-tree/nvim-tree.lua",
+  'nvim-tree/nvim-web-devicons',
   "tpope/vim-repeat",
   "tpope/vim-commentary",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
+  "tpope/vim-unimpaired",
 }
 
 opt.shiftwidth = 2            -- Size of an indent
@@ -69,8 +72,15 @@ require "lspconfig".clangd.setup {
  cmd = { "clangd", "--offset-encoding=utf-16" },
 }
 
+require "mini.tabline".setup {}
+require "mini.bufremove".setup {}
+
+g.mapleader = " "
+
 keymap.set("n", "<leader>,", ":e ~/.config/nvim/init.lua<cr>")
 keymap.set("n", "<leader>r", ":make<cr>")
 keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
 keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
+
+keymap.set("n", "<leader>c", function() MiniBufremove.delete(0) end)
