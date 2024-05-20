@@ -72,9 +72,6 @@ require "lspconfig".clangd.setup {
  cmd = { "clangd", "--offset-encoding=utf-16" },
 }
 
-require "mini.tabline".setup {}
-require "mini.bufremove".setup {}
-
 g.mapleader = " "
 
 keymap.set("n", "<leader>,", ":e ~/.config/nvim/init.lua<cr>")
@@ -82,5 +79,3 @@ keymap.set("n", "<leader>r", ":make<cr>")
 keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
 keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
-
-keymap.set("n", "<leader>c", function() MiniBufremove.delete(0) end)
