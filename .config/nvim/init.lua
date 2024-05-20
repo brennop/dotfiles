@@ -17,7 +17,6 @@ require "paq" {
   "nvim-tree/nvim-tree.lua",
   'nvim-tree/nvim-web-devicons',
   "tpope/vim-repeat",
-  "tpope/vim-commentary",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
   "tpope/vim-unimpaired",
@@ -38,7 +37,6 @@ opt.clipboard = "unnamedplus"
 opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true }
 opt.number = true
-
 opt.background = "light"
 opt.termguicolors = true
 g.zenbones_compat = 1
@@ -53,13 +51,9 @@ require "nvim-treesitter.configs".setup {
 }
 
 keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+
 local function on_attach(client, buffer)
   local opts = { noremap = true, silent = true, buffer = buffer }
-  keymap.set("n", "K", vim.lsp.buf.hover, opts)
-  keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
-  keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
   keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
   keymap.set("n", "<space>f", function() vim.lsp.buf.format { async = true } end, opts)
 end
