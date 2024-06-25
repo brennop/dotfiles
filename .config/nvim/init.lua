@@ -13,7 +13,6 @@ require "paq" {
   "junegunn/fzf",
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
-  "github/copilot.vim",
   "nvim-tree/nvim-tree.lua",
   'nvim-tree/nvim-web-devicons',
   "tpope/vim-repeat",
@@ -37,7 +36,6 @@ opt.clipboard = "unnamedplus"
 opt.completeopt = "menu,menuone,noselect"
 opt.shortmess:append { c = true }
 opt.number = true
-opt.background = "light"
 opt.termguicolors = true
 g.zenbones_compat = 1
 cmd.colorscheme "zenbones"
@@ -56,9 +54,11 @@ local function on_attach(client, buffer)
   local opts = { noremap = true, silent = true, buffer = buffer }
   keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
   keymap.set("n", "<space>f", function() vim.lsp.buf.format { async = true } end, opts)
+
+  vim.lsp.completion.enable(true, client.id, buffer, { autotrigger = true })
 end
 
-for _, lsp in ipairs { "tsserver", "tailwindcss", "pyright", "solargraph", } 
+for _, lsp in ipairs { "tsserver", "solargraph", "emmet_language_server" } 
   do require "lspconfig" [lsp].setup { on_attach = on_attach, } end
 
 require "lspconfig".clangd.setup {

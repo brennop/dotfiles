@@ -70,3 +70,21 @@ set fish_greeting
 
 # cat ~/.cache/wal/sequences
 status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
+
+# pnpm
+set -gx PNPM_HOME "/home/brenno/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
+
+function dark -d "Set dark theme"
+  set -xU theme "dark"
+  kitty @ set-colors -a "~/.local/share/nvim/site/pack/paqs/start/zenbones.nvim/extras/kitty/zenbones_dark.conf"
+end
+
+# set dark scheme if system is in dark mode
+set scheme (gsettings get org.gnome.desktop.interface color-scheme)
+if [ $scheme = "'prefer-dark'" ]
+  dark
+end
