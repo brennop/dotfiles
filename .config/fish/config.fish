@@ -78,6 +78,7 @@ if not string match -q -- $PNPM_HOME $PATH
 end
 # pnpm end
 
+# https://evantravers.com/articles/2022/02/08/light-dark-toggle-for-neovim-fish-and-kitty/
 function dark -d "Set dark theme"
   set -xU theme "dark"
   kitty @ set-colors -a "~/.local/share/nvim/site/pack/paqs/start/zenbones.nvim/extras/kitty/zenbones_dark.conf"
@@ -85,6 +86,6 @@ end
 
 # set dark scheme if system is in dark mode
 set scheme (gsettings get org.gnome.desktop.interface color-scheme)
-if [ $scheme = "'prefer-dark'" ]
+if [ $scheme = "'prefer-dark'" ] && [ -z $TMUX ]
   dark
 end
