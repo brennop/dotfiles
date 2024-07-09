@@ -8,17 +8,18 @@ end
 require "paq" {
   "savq/paq-nvim",
   "mcchrish/zenbones.nvim",
-  'echasnovski/mini.nvim',
   "junegunn/fzf.vim", 
   "junegunn/fzf",
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
   "nvim-tree/nvim-tree.lua",
-  'nvim-tree/nvim-web-devicons',
+  "nvim-tree/nvim-web-devicons",
+  "folke/trouble.nvim",
   "tpope/vim-repeat",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
   "tpope/vim-unimpaired",
+  "tpope/vim-rails",
 }
 
 opt.shiftwidth = 2            -- Size of an indent
@@ -40,11 +41,14 @@ opt.termguicolors = true
 g.zenbones_compat = 1
 cmd.colorscheme "zenbones"
 
+if os.getenv "SCHEME" == "'prefer-light'" then opt.background = 'light' end
+
 require "nvim-tree".setup {}
+require "trouble".setup {}
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
-  indent = { enable = true },
+  indent = { enable = false },
   incremental_selection = { enable = true },
 }
 
@@ -69,7 +73,17 @@ require "lspconfig".clangd.setup {
 g.mapleader = " "
 
 keymap.set("n", "<leader>,", ":e ~/.config/nvim/init.lua<cr>")
-keymap.set("n", "<leader>r", ":make<cr>")
+keymap.set("n", "<leader>r", ":Rails<cr>")
+keymap.set("n", "<leader>gr", ":.Rails<cr>")
 keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
 keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
+
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+  callback = function()
+    vim.schedule(function()
+      vim.cmd([[cclose]])
+      vim.cmd([[Trouble qflist open]])
+    end)
+  end,
+})

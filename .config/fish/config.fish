@@ -85,7 +85,7 @@ function dark -d "Set dark theme"
 end
 
 # set dark scheme if system is in dark mode
-set scheme (gsettings get org.gnome.desktop.interface color-scheme)
-if [ $scheme = "'prefer-dark'" ] && [ -z $TMUX ]
+set -x SCHEME (gsettings get org.gnome.desktop.interface color-scheme)
+if [ $SCHEME = "'prefer-dark'" ] && [ -z $TMUX ]
   dark
 end
