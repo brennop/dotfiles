@@ -14,7 +14,8 @@ require "paq" {
   "nvim-treesitter/nvim-treesitter",
   "nvim-tree/nvim-tree.lua",
   "nvim-tree/nvim-web-devicons",
-  "folke/trouble.nvim",
+  "nvim-telescope/telescope.nvim",
+  "nvim-lua/plenary.nvim",
   "tpope/vim-repeat",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
@@ -44,7 +45,6 @@ cmd.colorscheme "zenbones"
 if os.getenv "SCHEME" == "'prefer-light'" then opt.background = 'light' end
 
 require "nvim-tree".setup {}
-require "trouble".setup {}
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
@@ -79,11 +79,6 @@ keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
 keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
 
-vim.api.nvim_create_autocmd("QuickFixCmdPost", {
-  callback = function()
-    vim.schedule(function()
-      vim.cmd([[cclose]])
-      vim.cmd([[Trouble qflist open]])
-    end)
-  end,
-})
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, {})
