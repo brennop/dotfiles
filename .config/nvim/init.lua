@@ -1,26 +1,29 @@
 local cmd, opt, g, api, keymap = vim.cmd, vim.opt, vim.g, vim.api, vim.keymap
 
-local install_path = vim.fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
+local path = vim.fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
+local is_installed = vim.fn.empty(vim.fn.glob(path)) == 0
+if not is_installed then
+  vim.fn.system { "git", "clone", "--depth=1", "https://github.com/savq/paq-nvim.git", path }
+  return true
 end
 
 require "paq" {
-  "savq/paq-nvim",
-  "mcchrish/zenbones.nvim",
-  "junegunn/fzf.vim", 
-  "junegunn/fzf",
-  "neovim/nvim-lspconfig",
-  "nvim-treesitter/nvim-treesitter",
-  "nvim-tree/nvim-tree.lua",
-  "nvim-tree/nvim-web-devicons",
-  "nvim-telescope/telescope.nvim",
-  "nvim-lua/plenary.nvim",
-  "tpope/vim-repeat",
-  "tpope/vim-fugitive",
-  "tpope/vim-surround",
-  "tpope/vim-unimpaired",
-  "tpope/vim-rails",
+  { "savq/paq-nvim" },
+  { "nvim-lua/plenary.nvim" },
+  { "mcchrish/zenbones.nvim" },
+  { "junegunn/fzf.vim" }, 
+  { "junegunn/fzf", build = ":call fzf#install()" },
+  { "neovim/nvim-lspconfig" },
+  { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate' },
+  { "nvim-tree/nvim-tree.lua" },
+  { "nvim-tree/nvim-web-devicons" },
+  { "nvim-telescope/telescope.nvim" },
+  { "echasnovski/mini.nvim" },
+  { "tpope/vim-repeat" },
+  { "tpope/vim-fugitive" },
+  { "tpope/vim-surround" },
+  { "tpope/vim-unimpaired" },
+  { "tpope/vim-rails" },
 }
 
 opt.shiftwidth = 2            -- Size of an indent
@@ -35,7 +38,7 @@ opt.ignorecase = true         -- Ignore case
 opt.smartcase = true          -- Don't ignore case with capitals
 opt.scrolloff = 10             -- Lines of context
 opt.clipboard = "unnamedplus"
-opt.completeopt = "menu,menuone,noselect"
+opt.completeopt = "menu,menuone,noselect,fuzzy"
 opt.shortmess:append { c = true }
 opt.number = true
 opt.termguicolors = true
@@ -45,6 +48,7 @@ cmd.colorscheme "zenbones"
 if os.getenv "SCHEME" == "'prefer-light'" then opt.background = 'light' end
 
 require "nvim-tree".setup {}
+require "mini.tabline".setup {}
 
 require "nvim-treesitter.configs".setup {
   highlight = { enable = true },
@@ -79,6 +83,12 @@ keymap.set("n", "<C-p>", ":GFiles --cached --others --exclude-standard<cr>")
 keymap.set("n", "<C-f>", ":Rg<cr>")
 keymap.set("n", "<C-n>", ":NvimTreeFindFileToggle<cr>")
 
+keymap.set("n", "<A-q>", function() require "mini.bufremove".delete() end, {})
+keymap.set("n", "<A-.>", ":bnext<cr>", {})
+keymap.set("n", "<A-,>", ":bprev<cr>", {})
+
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>ff', builtin.current_buffer_fuzzy_find, {})
 vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.oldfiles, {})
