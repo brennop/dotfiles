@@ -15,10 +15,13 @@ require "paq" {
   "nvim-treesitter/nvim-treesitter",
   "nvim-tree/nvim-tree.lua",
   'nvim-tree/nvim-web-devicons',
+
   "tpope/vim-repeat",
   "tpope/vim-fugitive",
   "tpope/vim-surround",
   "tpope/vim-unimpaired",
+
+  "tpope/vim-rails",
 }
 
 opt.shiftwidth = 2            -- Size of an indent
@@ -31,9 +34,11 @@ opt.cmdheight = 0
 opt.swapfile = false          -- playing on hard mode
 opt.ignorecase = true         -- Ignore case
 opt.smartcase = true          -- Don't ignore case with capitals
+opt.inccommand = "split"      -- Show a live preview of :substitute in split
 opt.scrolloff = 10             -- Lines of context
 opt.clipboard = "unnamedplus"
-opt.completeopt = "menu,menuone,noselect"
+opt.completeopt = "menu,menuone,noinsert,popup,fuzzy"
+opt.pumheight = 5
 opt.shortmess:append { c = true }
 opt.number = true
 opt.termguicolors = true
@@ -58,7 +63,7 @@ local function on_attach(client, buffer)
   vim.lsp.completion.enable(true, client.id, buffer, { autotrigger = true })
 end
 
-for _, lsp in ipairs { "tsserver", "solargraph", "emmet_language_server" } 
+for _, lsp in ipairs { "tsserver", "solargraph", "emmet_language_server", "gopls" } 
   do require "lspconfig" [lsp].setup { on_attach = on_attach, } end
 
 require "lspconfig".clangd.setup {

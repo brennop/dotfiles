@@ -68,9 +68,6 @@ set fish_greeting
 # luarocks
 # eval (luarocks path)
 
-# cat ~/.cache/wal/sequences
-status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
-
 # pnpm
 set -gx PNPM_HOME "/home/brenno/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
@@ -89,3 +86,4 @@ set scheme (gsettings get org.gnome.desktop.interface color-scheme)
 if [ $scheme = "'prefer-dark'" ] && [ -z $TMUX ]
   dark
 end
+/home/brn/.local/bin/mise activate fish | source
