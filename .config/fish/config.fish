@@ -55,6 +55,12 @@ end
 
 complete -c proj -x -a "(ls ~/projects)"
 
+function flac
+  for file in *.wav
+    ffmpeg -i "$file" (basename "$file" .wav).flac && rm "$file"
+  end
+end
+
 #=========#
 #   env   #
 #=========#
@@ -86,4 +92,6 @@ set -x SCHEME (gsettings get org.gnome.desktop.interface color-scheme)
 if [ $SCHEME = "'prefer-dark'" ] && [ -z $TMUX ]
   dark
 end
+
+# mise
 /home/brn/.local/bin/mise activate fish | source
