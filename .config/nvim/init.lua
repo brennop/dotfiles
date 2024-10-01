@@ -24,6 +24,12 @@ require "paq" {
   { "tpope/vim-surround" },
   { "tpope/vim-unimpaired" },
   { "tpope/vim-rails" },
+
+  -- AI
+  { "stevearc/dressing.nvim" },
+  { "MunifTanjim/nui.nvim" },
+  { "yetone/avante.nvim", build = 'make' },
+  { "MeanderingProgrammer/render-markdown.nvim" },
 }
 
 opt.shiftwidth = 2            -- Size of an indent
@@ -94,3 +100,18 @@ vim.keymap.set('n', '<leader>ff', builtin.current_buffer_fuzzy_find, {})
 vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.oldfiles, {})
+
+-- AI
+require('render-markdown').setup { file_types = { "markdown", "Avante" } }
+require('avante_lib').load()
+require('avante').setup { }
+
+require("dressing").setup({
+  input = {
+    get_config = function()
+      if vim.api.nvim_buf_get_option(0, "filetype") == "NvimTree" then
+        return { enabled = false }
+      end
+    end,
+  },
+})
