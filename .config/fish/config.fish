@@ -8,6 +8,8 @@ alias add     "sudo apt install"
 alias update  "sudo apt update"
 alias remove  "sudo apt remove"
 
+alias love "/Applications/love.app/Contents/MacOS/love"
+
 # git
 abbr gti  "git"
 abbr ga   "git add"
@@ -55,6 +57,25 @@ end
 
 complete -c proj -x -a "(ls ~/projects)"
 
+function notes
+  cd ~/notes/"$argv" && tmux new -As "$argv"
+end
+
+complete -c notes -x -a "(ls ~/notes)"
+
+function mp3
+  for f in *.wav *.m4a
+    if test -f "$f"
+      set output (string replace -r '\.(wav|m4a)$' '.mp3' $f)
+      ffmpeg -i "$f" -b:a 320k "$output" && rm "$f"
+    end
+  end
+end
+
+function download
+    yt-dlp -x --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata $argv
+end
+
 #=========#
 #   env   #
 #=========#
@@ -67,23 +88,7 @@ set fish_greeting
 
 # luarocks
 # eval (luarocks path)
+eval (luarocks --lua-version 5.1 path)
 
-# pnpm
-set -gx PNPM_HOME "/home/brenno/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
-
-# https://evantravers.com/articles/2022/02/08/light-dark-toggle-for-neovim-fish-and-kitty/
-function dark -d "Set dark theme"
-  set -xU theme "dark"
-  kitty @ set-colors -a "~/.local/share/nvim/site/pack/paqs/start/zenbones.nvim/extras/kitty/zenbones_dark.conf"
-end
-
-# set dark scheme if system is in dark mode
-set -x SCHEME (gsettings get org.gnome.desktop.interface color-scheme)
-if [ $SCHEME = "'prefer-dark'" ] && [ -z $TMUX ]
-  dark
-end
-/home/brn/.local/bin/mise activate fish | source
+# opencode
+fish_add_path /Users/brennop/.opencode/bin
